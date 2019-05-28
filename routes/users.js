@@ -6,7 +6,6 @@ var geoffrey = require('../geoffrey')
 var passwordHasher = require('password-hash')
 var uuidv4 = require('uuid/v4')
 
-/* GET users listing. */
 router.post('/register', function (req, res) {
   var result = validateEmailAndPass(req)
   if (result) {
@@ -140,12 +139,8 @@ module.exports.auth = function (req, res, next) {
           })
         } else {
           // attach the user's mongo ID for easy access
-          req.objectId = matchedSession.userId
-
-          res.json({
-            result: 'success',
-            objId: matchedSession.userId
-          })
+          req.userId = matchedSession.userId
+          next()
         }
       })
   } else {

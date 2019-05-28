@@ -9,6 +9,7 @@ var appSettings = require('./appSettings.json')
 
 var indexRouter = require('./routes/index')
 var users = require('./routes/users')
+var lists = require('./routes/lists')
 
 var app = express()
 
@@ -27,7 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use('/users', users.router)
-app.use('/secureEndpoint', users.auth)
+app.use('/list', users.auth)
+app.use('/list', lists)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

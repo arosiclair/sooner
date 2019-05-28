@@ -7,6 +7,7 @@ const dbName = 'geoffrey'
 var geoffrey
 var usersCollection
 var sessionsCollection
+var listsCollection
 
 mongoClient.connect(url, function (err, client) {
   if (err) {
@@ -18,6 +19,7 @@ mongoClient.connect(url, function (err, client) {
   geoffrey = client.db(dbName)
   usersCollection = geoffrey.collection('users')
   sessionsCollection = geoffrey.collection('sessions')
+  listsCollection = geoffrey.collection('lists')
 })
 
 module.exports.getUsers = function () {
@@ -26,4 +28,8 @@ module.exports.getUsers = function () {
 
 module.exports.getSessions = function () {
   return sessionsCollection
+}
+
+module.exports.getLists = function () {
+  return listsCollection
 }

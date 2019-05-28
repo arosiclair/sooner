@@ -3,6 +3,13 @@ var router = express.Router()
 
 var geoffrey = require('../geoffrey')
 
+/*
+  Endpoint for adding a link to a user's list
+  Creates a document in the list collection for the user if they do not already have one
+  Expects the following params:
+  linkName: string
+  link: string
+*/
 router.post('/add', async function (req, res) {
   if (!req.userId) {
     console.error('list request received without userId')
@@ -35,6 +42,10 @@ router.post('/add', async function (req, res) {
 
 module.exports = router
 
+/*
+  Gets the Mongo ObjectID for the user's list or creates one for the user
+  if they do not have one
+*/
 async function getListId (userId) {
   var user = await geoffrey.getUsers().findOne({ '_id': userId })
   if (user) {

@@ -28,7 +28,9 @@ router.post('/add', async function (req, res) {
   }
 
   var listId = await getListId(req.userId)
+
   var newLink = {
+    _id: geoffrey.getNewObjectId(),
     name: req.body.linkName,
     link: req.body.link
   }

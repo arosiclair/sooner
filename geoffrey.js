@@ -1,6 +1,7 @@
 // Data access for ReadItNow
 
 var mongoClient = require('mongodb').MongoClient
+var bson = require('bson')
 var url = 'mongodb://localhost:27017/geoffrey'
 const dbName = 'geoffrey'
 
@@ -32,4 +33,8 @@ module.exports.getSessions = function () {
 
 module.exports.getLists = function () {
   return listsCollection
+}
+
+module.exports.getNewObjectId = function () {
+  return new bson.ObjectID()
 }

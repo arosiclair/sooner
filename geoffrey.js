@@ -35,6 +35,10 @@ module.exports.getLists = function () {
   return listsCollection
 }
 
-module.exports.getNewObjectId = function () {
-  return new bson.ObjectID()
+module.exports.getObjectId = function (id = null) {
+  if (id) {
+    return new bson.ObjectID(id)
+  } else {
+    return new bson.ObjectID()
+  }
 }

@@ -11,17 +11,8 @@ var geoffrey = require('../geoffrey')
   link: string
 */
 router.post('/add', async function (req, res) {
-  if (!req.userId) {
-    console.error('list request received without userId')
-
-    res.json({
-      result: 'error',
-      reason: 'invalid login'
-    })
-    return
-  }
-
-  var error = validateLink(req)
+  var error = validateUserId(req)
+  error = validateLink(req)
   if (error) {
     res.json(error)
     return
@@ -30,12 +21,38 @@ router.post('/add', async function (req, res) {
   var listId = await getListId(req.userId)
 
   var newLink = {
-    _id: geoffrey.getNewObjectId(),
+    _id: geoffrey.getObjectId(),
     name: req.body.linkName,
     link: req.body.link
   }
 
   geoffrey.getLists().updateOne({ _id: listId }, { '$push': { 'links': newLink } })
+
+  res.json({
+    result: 'success',
+    linkId: newLink._id
+  })
+})
+
+router.post('/remove', async function (req, res) {
+  var error = validateUserId(req)
+  if (error) {
+    res.json(error)
+    return
+  }
+
+  if (!req.body.linkId) {
+    res.json({
+      result: 'error',
+      reason: 'bad link id'
+    })
+    return
+  }
+
+  var listId = await getListId(req.userId)
+
+  var linkId = geoffrey.getObjectId(req.body.linkId)
+  geoffrey.getLists().updateOne({ '_id': listId }, { '$pull': { 'links': { '_id': linkId } } })
 
   res.json({
     result: 'success'
@@ -70,6 +87,17 @@ async function createListForUser (userId) {
   var result = await geoffrey.getLists().insertOne(newList)
   geoffrey.getUsers().updateOne({ _id: userId }, { '$set': { 'listId': result.insertedId } })
   return result.insertedId
+}
+
+function validateUserId(req) {  
+  if (!req.userId) {
+    console.error('list request received without userId')
+
+    return {
+      result: 'error',
+      reason: 'invalid login'
+    }
+  }
 }
 
 function validateLink (req) {

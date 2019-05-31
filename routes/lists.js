@@ -59,6 +59,29 @@ router.post('/remove', async function (req, res) {
   })
 })
 
+router.get('/', async function (req, res) {
+  var error = validateUserId(req)
+  if (error) {
+    res.json(error)
+    return
+  }
+
+  var listId = await getListId(req.userId)
+  var listDoc = await geoffrey.getLists().findOne({ '_id': listId })
+
+  if (listDoc) {
+    res.json({
+      result: 'success',
+      list: listDoc.links
+    })
+  } else {
+    res.json({
+      result: 'error',
+      reason: 'no list data found'
+    })
+  }
+})
+
 module.exports = router
 
 /*
@@ -89,7 +112,7 @@ async function createListForUser (userId) {
   return result.insertedId
 }
 
-function validateUserId(req) {  
+function validateUserId (req) {
   if (!req.userId) {
     console.error('list request received without userId')
 

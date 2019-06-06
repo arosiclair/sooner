@@ -22,7 +22,10 @@ router.post('/register', function (req, res) {
 
   var newUser = {
     email: req.body.email,
-    password: passwordHasher.generate(req.body.password, { algorithm: 'SHA256' })
+    password: passwordHasher.generate(req.body.password, { algorithm: 'SHA256' }),
+    prefs: {
+      linkTTL: 5 // days until link expires
+    }
   }
 
   geoffrey.getUsers().insertOne(newUser,
@@ -172,6 +175,24 @@ module.exports.auth = function (req, res, next) {
       result: 'error',
       reason: 'invalid session'
     })
+  }
+}
+
+module.exports.getUserPrefs = async function (userId) {
+  if (!userId) {
+    return null
+  }
+
+  var userDoc = await geoffrey.getUsers().findOne({ '_id': userId })
+  if (userDoc.prefs) {
+    return userDoc.prefs
+  } else {
+    var newPrefs = {
+      linkTTL: 5
+    }
+
+    geoffrey.getUsers().updateOne({ '_id': userId }, { '$set': { 'prefs': newPrefs } })
+    return newPrefs
   }
 }
 

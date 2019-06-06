@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 var geoffrey = require('../geoffrey')
+var users = require('./users')
 
 /*
   Endpoint for adding a link to a user's list
@@ -23,7 +24,8 @@ router.post('/add', async function (req, res) {
   var newLink = {
     _id: geoffrey.getObjectId(),
     name: req.body.linkName,
-    link: req.body.link
+    link: req.body.link,
+    addedOn: new Date()
   }
 
   geoffrey.getLists().updateOne({ _id: listId }, { '$push': { 'links': newLink } })
@@ -70,9 +72,18 @@ router.get('/', async function (req, res) {
   var listDoc = await geoffrey.getLists().findOne({ '_id': listId })
 
   if (listDoc) {
+    // clean the list of expired links
+    var links = listDoc.links
+    var userPrefs = await users.getUserPrefs(req.userId)
+    var linkTTL = userPrefs.linkTTL
+
+    if (cleanExpiredLinks(links, linkTTL)) {
+      geoffrey.getLists().updateOne({ '_id': listId }, { '$set': { 'links': links } })
+    }
+
     res.json({
       result: 'success',
-      list: listDoc.links
+      list: links
     })
   } else {
     res.json({
@@ -141,4 +152,28 @@ function validateLink (req) {
   } else {
     return null
   }
+}
+
+function cleanExpiredLinks (links, linkTTL) {
+  var changed = false
+
+  for (var i = 0; i < links.length; i++) {
+    var link = links[i]
+
+    if (!link.addedOn) {
+      links.splice(i, 1)
+      changed = true
+      continue
+    }
+
+    var expireTime = new Date(link.addedOn.valueOf())
+    expireTime.setDate(expireTime.getDate() + linkTTL)
+
+    if (new Date() > expireTime) {
+      links.splice(i, 1)
+      changed = true
+    }
+  }
+
+  return changed
 }

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack --progress --hide-modules && node ./bin/www"
+    "start": "cross-env NODE_ENV=development webpack --progress --hide-modules && node ./bin/www",
+    "ui": "cd ./public/ && cross-env NODE_ENV=development webpack-dev-server --open --hot"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",

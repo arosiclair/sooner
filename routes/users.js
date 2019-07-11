@@ -145,8 +145,8 @@ function createSession (userId) {
 }
 
 // Endpoint for verifying valid login
-router.get('/auth', function (req, res) {
-  var error = auth(req)
+router.get('/auth', async function (req, res) {
+  var error = await auth(req)
   if (error) {
     res.json(error)
   } else {
@@ -156,8 +156,8 @@ router.get('/auth', function (req, res) {
   }
 })
 
-module.exports.auth = function (req, res, next) {
-  var error = auth(req)
+module.exports.auth = async function (req, res, next) {
+  var error = await auth(req)
   if (error) {
     res.json(error)
   } else {
@@ -170,25 +170,22 @@ module.exports.auth = function (req, res, next) {
   expects either the session token to be present in the json payload
   or the request's session to have the token
 */
-function auth (req) {
+async function auth (req) {
   var token = req.body.token ? req.body.token : req.session.token
   var error
 
   if (token) {
-    geoffrey.getSessions().findOne({ token: token })
-      .then(matchedSession => {
-        if (!matchedSession) {
-          console.log('Invalid session token given: ' + token)
-
-          error = {
-            result: 'error',
-            reason: 'invalid session'
-          }
-        } else {
-          // attach the user's mongo ID for easy access
-          req.userId = matchedSession.userId
-        }
-      })
+    var matchedSession = await geoffrey.getSessions().findOne({ token: token })
+    if (!matchedSession) {
+      console.log('Invalid session token given: ' + token)
+      error = {
+        result: 'error',
+        reason: 'invalid session'
+      }
+    } else {
+      // attach the user's mongo ID for easy access
+      req.userId = matchedSession.userId
+    }
   } else {
     console.log('No session token given: ' + token)
 

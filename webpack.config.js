@@ -1,9 +1,10 @@
 var path = require('path')
 var webpack = require('webpack')
+require('babel-polyfill')
 
 module.exports = {
   context: path.resolve(__dirname, 'public'),
-  entry: './src/main.js',
+  entry: ['babel-polyfill', './src/main.js'],
   output: {
     path: path.resolve(__dirname, 'public/dist'),
     publicPath: '/dist/',

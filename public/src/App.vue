@@ -20,14 +20,29 @@
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  import Login from './Login.vue'
+  import axios from 'axios'
+
+
+  axios.get('/users/auth')
+    .then(response => {
+      if (response.data.result !== 'success') {
+        // TODO: transition to login page
+        console.log('Not logged in!')
+      }
+    })
+
+  export default {
+    name: 'app',
+    data () {
+      return {
+        msg: 'Welcome to Your Vue.js App'
+      }
+    },
+    components: {
+      Login
     }
   }
-}
 </script>
 
 <style>

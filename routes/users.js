@@ -144,13 +144,35 @@ function createSession (userId) {
   return newToken
 }
 
+// Endpoint for verifying valid login
+router.get('/auth', function (req, res) {
+  var error = auth(req)
+  if (error) {
+    res.json(error)
+  } else {
+    res.json({
+      result: 'success'
+    })
+  }
+})
+
+module.exports.auth = function (req, res, next) {
+  var error = auth(req)
+  if (error) {
+    res.json(error)
+  } else {
+    next()
+  }
+}
+
 /*
   Authentication middleware to be used with user endpoints
   expects either the session token to be present in the json payload
   or the request's session to have the token
 */
-module.exports.auth = function (req, res, next) {
+function auth (req) {
   var token = req.body.token ? req.body.token : req.session.token
+  var error
 
   if (token) {
     geoffrey.getSessions().findOne({ token: token })
@@ -158,24 +180,25 @@ module.exports.auth = function (req, res, next) {
         if (!matchedSession) {
           console.log('Invalid session token given: ' + token)
 
-          res.json({
+          error = {
             result: 'error',
             reason: 'invalid session'
-          })
+          }
         } else {
           // attach the user's mongo ID for easy access
           req.userId = matchedSession.userId
-          next()
         }
       })
   } else {
     console.log('No session token given: ' + token)
 
-    res.json({
+    error = {
       result: 'error',
       reason: 'invalid session'
-    })
+    }
   }
+
+  return error
 }
 
 module.exports.getUserPrefs = async function (userId) {

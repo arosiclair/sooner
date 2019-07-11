@@ -23,14 +23,36 @@
   import Login from './Login.vue'
   import axios from 'axios'
 
+  async function loginTest() {
+    console.log('Beginning login test...')
+    var response = await  axios.get('/users/auth')
+    if (response.data.result !== 'success') {
+      // TODO: transition to login page
+      console.log('Not logged in!')
+      console.log('Logging in...')
 
-  axios.get('/users/auth')
-    .then(response => {
-      if (response.data.result !== 'success') {
-        // TODO: transition to login page
-        console.log('Not logged in!')
+      var creds = {
+        email: 'arosiclair@gmail.com',
+        password: 'asdasA1asd'
       }
-    })
+      response = await axios.post('/users/login', creds)
+      if (response.data.result === 'success')
+        console.log('Initial login success...')
+      else
+        console.log('Login Failed!')
+
+      response = await axios.get('/users/auth')
+      if (response.data.result === 'success')
+        console.log('Login session is valid!')
+      else
+        console.log('Login session not valid!')
+    } else {
+      console.log('Already logged in!')
+    }
+  }
+
+  loginTest()
+
 
   export default {
     name: 'app',

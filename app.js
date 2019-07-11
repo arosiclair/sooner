@@ -25,8 +25,7 @@ app.use(cookieSession({
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/users', users.router)
-app.use('/list', users.auth)
-app.use('/list', lists)
+app.use('/list', users.auth, lists)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

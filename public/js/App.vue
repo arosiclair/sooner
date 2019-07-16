@@ -25,7 +25,7 @@
 
   async function loginTest() {
     console.log('Beginning login test...')
-    var response = await  axios.get('/users/auth')
+    var response = await  axios.get('/api/users/auth')
     if (response.data.result !== 'success') {
       // TODO: transition to login page
       console.log('Not logged in!')
@@ -35,13 +35,13 @@
         email: 'arosiclair@gmail.com',
         password: 'asdasA1asd'
       }
-      response = await axios.post('/users/login', creds)
+      response = await axios.post('/api/users/login', creds)
       if (response.data.result === 'success')
         console.log('Initial login success...')
       else
         console.log('Login Failed!')
 
-      response = await axios.get('/users/auth')
+      response = await axios.get('/api/users/auth')
       if (response.data.result === 'success')
         console.log('Login session is valid!')
       else

@@ -4,7 +4,7 @@ require('babel-polyfill')
 
 module.exports = {
   context: path.resolve(__dirname, 'public'),
-  entry: ['babel-polyfill', './src/main.js'],
+  entry: ['babel-polyfill', './js/main.js'],
   output: {
     path: path.resolve(__dirname, 'public/dist'),
     publicPath: '/dist/',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img id="logo" src="https:/via.placeholder.com/150" alt="logo"/>
+    <img id="logo" src="http:/via.placeholder.com/150" alt="logo"/>
     <form>
       <div id="loginFields" action="#">
         <input id="name" class="first" type="text" placeholder="Name" />

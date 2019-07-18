@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack --progress --hide-modules && node ./bin/www",
-    "ui": "cd ./public/ && cross-env NODE_ENV=development webpack-dev-server --open --hot"
+    "ui": "cd ./public/ && cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "server": "cross-env NODE_ENV=development node ./bin/www"
   },
   "dependencies": {
     "axios": "^0.19.0",
     "cookie-parser": "~1.4.3",
     "cookie-session": "^1.3.3",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",

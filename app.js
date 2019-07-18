@@ -4,6 +4,7 @@ var path = require('path')
 var logger = require('morgan')
 
 var cookieSession = require('cookie-session')
+var cors = require('cors')
 
 var appSettings = require('./appSettings.json')
 
@@ -22,6 +23,9 @@ app.use(cookieSession({
   name: 'readItNowSession',
   secret: appSettings.secretTokenKey
 }))
+
+app.use(cors())
+app.options('*', cors())
 
 app.use(express.static(path.join(__dirname, 'public')))
 

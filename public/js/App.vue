@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <router-view></router-view>
   </div>
 </template>
@@ -10,7 +10,7 @@
 
   async function onMounted() {
     console.log('Beginning login test...')
-    var response = await  axios.get('/api/users/auth')
+    var response = await  axios.get(API_URL + '/api/users/auth')
     if (response.data.result !== 'success') {
       // TODO: transition to login page
       this.$router.push('login')
@@ -34,30 +34,18 @@
 </script>
 
 <style>
+body {
+  background-color: #fafafa;  
+  padding: 100px 0;
+  color: #212121;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+  max-width: 750px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img id="logo" src="http:/via.placeholder.com/150" alt="logo"/>
+    <img id="logo" src="http://via.placeholder.com/150" alt="logo"/>
     <form>
       <div id="loginFields" action="#">
         <input id="name" class="first" type="text" placeholder="Name" />
@@ -20,9 +20,9 @@ export default {
 
 <style>
     #loginFields {
-        border-radius: 5px;
+        border-radius: 2px;
         overflow: hidden;
-        box-shadow: 0 2px 4px 0;
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
         margin-bottom: 20px;
     }
 
@@ -44,8 +44,8 @@ export default {
         transition: 300ms ease;
     }
     input:hover {
-        background-color: #c6c6c6;
-        border-bottom: 1px solid #c6c6c6;
+        background-color: #eeeeee;
+        border-bottom: 1px solid #eeeeee;
     }
     input:focus {
         outline: none;
@@ -56,12 +56,12 @@ export default {
         width: 100%;
         height: 66px;
         background-color: #ffffff;
+        color: #212121;
         border: none;
         
         font-size: 24px;
-        color: rgba(0,0,0,0.70);
-        box-shadow: 0 2px 4px 0;   
-        border-radius: 4px;
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+        border-radius: 2px;
         
         transition: 0.5s ease;
     }
@@ -69,6 +69,6 @@ export default {
         outline: none;
     }
     #loginButton:hover {
-        box-shadow: 0 2px 15px 0px;
+        box-shadow: 0 1px 14px 0 rgba(0,0,0,0.37);
     }
 </style>

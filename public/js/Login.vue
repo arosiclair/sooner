@@ -1,35 +1,71 @@
 <template>
   <div>
-    <img id="logo" src="http://via.placeholder.com/150" alt="logo"/>
+    <img
+      id="logo"
+      src="http://via.placeholder.com/150"
+      alt="logo" />
     <form>
-      <div id="loginFields" action="#">
-        <input v-if="registering" id="name" class="first" type="text" placeholder="Name" />
-        <input id="email" type="text" placeholder="Email" />
-        <input id="password" class="last" type="password" placeholder="Password" />
+      <div
+        id="loginFields"
+        action="#">
+        <input
+          v-if="registering"
+          v-model="name"
+          class="first"
+          type="text"
+          placeholder="Name" />
+        <input
+          v-model="email"
+          type="text"
+          placeholder="Email" />
+        <input
+          v-model="password"
+          class="last"
+          type="password"
+          placeholder="Password" />
       </div>
-      <button id="loginButton" v-on:click="loginBtnClicked">{{ registering ? 'REGISTER' : 'LOGIN' }}</button>
-      <a href="#" v-on:click="registering = !registering">Register</a>
-    </form>    
+      <button id="loginButton" @click="loginBtnClicked">
+        {{ registering ? 'SIGN UP' : 'LOGIN' }}
+      </button>
+      <a id="signUpLink" href="#" @click="registering = !registering">{{ registering ? 'CANCEL' : 'SIGN UP' }}</a>
+    </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-    name: 'login',
-    data () {
-      return {
-        registering: false
-      }
-    },
-    methods: {
-        loginBtnClicked: function (event) {
-            if (this.registering) {
-                console.log('register button clicked!')
-            } else {
-                console.log('login button clicked!')
-            }
-        }
+  name: 'Login',
+  data () {
+    return {
+      name: '',
+      email: '',
+      password: '',
+      registering: false
     }
+  },
+  methods: {
+    loginBtnClicked: function (event) {
+      if (this.registering) {
+        console.log('register button clicked!')
+      } else {
+        var loginData = {
+          email: this.email,
+          password: this.password
+        }
+        axios.post(API_URL + '/api/users/login', loginData)
+          .then(res => {
+            if (res.data.result === 'success') {
+              console.log('Log in successful!')
+              this.$router.go(-1)
+            } else {
+              console.log('Log in failed!', res.data)
+            }
+          })
+      }
+    }
+  }
 }
 </script>
 
@@ -51,12 +87,12 @@ export default {
         font-family: 'Rubik', sans-serif;
         padding: 15px;
         margin: 0;
-        
+
         border-top: none;
         border-right: none;
         border-left: none;
         border-bottom: 1px solid #ffffff;
-        
+
         transition: 300ms ease;
     }
     input:hover {
@@ -71,15 +107,16 @@ export default {
     #loginButton {
         width: 100%;
         height: 66px;
+        margin-bottom: 10px;
         background-color: #ffffff;
         font-family: 'Rubik', sans-serif;
         color: #212121;
         border: none;
-        
+
         font-size: 24px;
         box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
         border-radius: 2px;
-        
+
         transition: 0.5s ease;
     }
     #loginButton:focus {
@@ -87,5 +124,8 @@ export default {
     }
     #loginButton:hover {
         box-shadow: 0 1px 10px 0 rgba(0,0,0,0.37);
+    }
+    #signUpLink {
+        font-family: 'Rubik', sans-serif;
     }
 </style>

@@ -6,36 +6,36 @@
 </template>
 
 <script>
-  import Login from './Login.vue'
-  import List from './List.vue'
-  import axios from 'axios'
+import Login from './Login.vue'
+import List from './List.vue'
+import axios from 'axios'
 
-  async function onMounted() {
-    console.log('Beginning login test...')
-    this.loggedIn = await testLogin();
-    if (!this.loggedIn) {
-      this.$router.push('login')
+async function onMounted () {
+  console.log('Beginning login test...')
+  this.loggedIn = await testLogin()
+  if (!this.loggedIn) {
+    this.$router.push('login')
+  }
+}
+
+async function testLogin () {
+  var response = await axios.get(API_URL + '/api/users/auth')
+  return response.data.result === 'success'
+}
+
+export default {
+  name: 'app',
+  data () {
+    return {
+      loggedIn: false
     }
-  }
-
-  async function testLogin() {
-    var response = await axios.get(API_URL + '/api/users/auth')
-    return response.data.result === 'success'
-  }
-
-  export default {
-    name: 'app',
-    data () {
-      return {
-        loggedIn: false
-      }
-    },
-    components: {
-      Login,
-      List
-    },
-    mounted: onMounted
-  }
+  },
+  components: {
+    Login,
+    List
+  },
+  mounted: onMounted
+}
 </script>
 
 <style>

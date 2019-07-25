@@ -13,5 +13,8 @@
         "ecmaVersion": 2017
     },
     "rules": {
+        "vue/html-self-closing": "off",
+        "vue/html-closing-bracket-newline": "off",
+        "vue/max-attributes-per-line": ["warn", { "singleline": 3 }]
     }
 }

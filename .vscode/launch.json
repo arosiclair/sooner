@@ -9,6 +9,19 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\bin\\www"
-        }
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "vuejs: chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}/public",
+            "breakOnLoad": true,
+            "sourceMapPathOverrides": {
+              "webpack:///*": "${webRoot}/*",
+              "webpack:///./*": "${webRoot}/*"
+            },
+            
+          }
     ]
 }

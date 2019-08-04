@@ -24,8 +24,13 @@ app.use(cookieSession({
   secret: appSettings.secretTokenKey
 }))
 
-app.use(cors())
-app.options('*', cors())
+var corsOptions = {
+  origin: ['https://localhost:3000', 'https://localhost:8080'],
+  credentials: true
+}
+
+app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
 
 app.use(express.static(path.join(__dirname, 'public')))
 

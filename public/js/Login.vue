@@ -24,7 +24,7 @@
           type="password"
           placeholder="Password" />
       </div>
-      <button id="loginButton" @click="loginBtnClicked">
+      <button id="loginButton" @click="loginBtnClicked" type="button">
         {{ registering ? 'SIGN UP' : 'LOGIN' }}
       </button>
       <a id="signUpLink" href="#" @click="registering = !registering">{{ registering ? 'CANCEL' : 'SIGN UP' }}</a>
@@ -58,7 +58,7 @@ export default {
           .then(res => {
             if (res.data.result === 'success') {
               console.log('Log in successful!')
-              this.$router.go(-1)
+              this.$emit('logged-in')
             } else {
               console.log('Log in failed!', res.data)
             }

@@ -1,6 +1,9 @@
 var path = require('path')
 var webpack = require('webpack')
 require('babel-polyfill')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
+var API_URL = "'https://localhost:3000'"
 
 module.exports = {
   context: path.resolve(__dirname, 'public'),
@@ -55,7 +58,11 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new webpack.DefinePlugin({ 'API_URL': API_URL }),
+    new VueLoaderPlugin()
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {

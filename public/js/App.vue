@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
-    <router-view></router-view>
     <List v-if="loggedIn"></List>
+    <Login v-else @logged-in="loggedIn = true"></Login>
   </div>
 </template>
 
@@ -10,29 +10,30 @@ import Login from './Login.vue'
 import List from './List.vue'
 import axios from 'axios'
 
+var api = axios.create({
+  withCredentials: true
+})
+
 async function onMounted () {
   console.log('Beginning login test...')
   this.loggedIn = await testLogin()
-  if (!this.loggedIn) {
-    this.$router.push('login')
-  }
 }
 
 async function testLogin () {
-  var response = await axios.get(API_URL + '/api/users/auth')
+  var response = await api.get(API_URL + '/api/users/auth')
   return response.data.result === 'success'
 }
 
 export default {
   name: 'app',
+  components: {
+    Login,
+    List
+  },
   data () {
     return {
       loggedIn: false
     }
-  },
-  components: {
-    Login,
-    List
   },
   mounted: onMounted
 }

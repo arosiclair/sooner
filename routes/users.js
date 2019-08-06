@@ -10,17 +10,26 @@ var uuidv4 = require('uuid/v4')
   Endpoint for creating a user.
   Responds with a session token in payload and set's the token in a session cookie
   Expects json payload with following params:
+  name: string
   email: string
   password: string
 */
 router.post('/register', function (req, res) {
   var result = validateEmailAndPass(req)
+  if (!req.body.name || req.body.name.length > 30) {
+    result = {
+      result: 'error',
+      reason: 'bad name'
+    }
+  }
+
   if (result) {
     res.json(result)
     return
   }
 
   var newUser = {
+    name: req.body.name,
     email: req.body.email,
     password: passwordHasher.generate(req.body.password, { algorithm: 'SHA256' }),
     prefs: {

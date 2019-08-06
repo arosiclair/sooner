@@ -8,11 +8,7 @@
 <script>
 import Login from './Login.vue'
 import List from './List.vue'
-import axios from 'axios'
-
-var api = axios.create({
-  withCredentials: true
-})
+import api from './api'
 
 async function onMounted () {
   console.log('Beginning login test...')

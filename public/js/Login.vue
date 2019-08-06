@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from './api'
 
 export default {
   name: 'Login',
@@ -48,13 +48,27 @@ export default {
   methods: {
     loginBtnClicked: function (event) {
       if (this.registering) {
-        console.log('register button clicked!')
+        var data = {
+          name: this.name,
+          email: this.email,
+          password: this.password
+        }
+
+        api.post(API_URL + '/api/users/register', data)
+          .then(res => {
+            if (res.data.result === 'success') {
+              console.log('Sign up successful!')
+              this.$emit('logged-in')
+            } else {
+              console.log('Sign up failed!', res.data)
+            }
+          })
       } else {
         var loginData = {
           email: this.email,
           password: this.password
         }
-        axios.post(API_URL + '/api/users/login', loginData)
+        api.post(API_URL + '/api/users/login', loginData)
           .then(res => {
             if (res.data.result === 'success') {
               console.log('Log in successful!')

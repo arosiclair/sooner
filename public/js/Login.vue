@@ -34,6 +34,7 @@
 
 <script>
 import api from './api'
+import currentUser from './user'
 
 export default {
   name: 'Login',
@@ -58,6 +59,11 @@ export default {
           .then(res => {
             if (res.data.result === 'success') {
               console.log('Sign up successful!')
+
+              // update user module
+              currentUser.name = res.data.name
+              currentUser.token = res.data.token
+
               this.$emit('logged-in')
             } else {
               console.log('Sign up failed!', res.data)
@@ -72,6 +78,11 @@ export default {
           .then(res => {
             if (res.data.result === 'success') {
               console.log('Log in successful!')
+
+              // update user module
+              currentUser.name = res.data.name
+              currentUser.token = res.data.token
+
               this.$emit('logged-in')
             } else {
               console.log('Log in failed!', res.data)

@@ -49,6 +49,7 @@ router.post('/register', function (req, res) {
 
         res.json({
           result: 'success',
+          name: req.body.name,
           token: req.session.token
         })
       }
@@ -83,6 +84,7 @@ router.post('/login', function (req, res) {
         req.session.token = createSession(matchedUser._id)
         res.json({
           result: 'success',
+          name: matchedUser.name,
           token: req.session.token
         })
       } else {

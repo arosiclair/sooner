@@ -96,6 +96,34 @@ router.post('/login', function (req, res) {
     })
 })
 
+/*
+  Endpoint for logging out
+  Responds with 'success' or 'error'
+  Expects session token in json payload or in session cookie
+*/
+router.post('/logout', function (req, res) {
+  var token = req.body.token ? req.body.token : req.session.token
+
+  if (token) {
+    geoffrey.getSessions().deleteOne({ token: token })
+      .then(result => {
+        if (result.deletedCount === 1) {
+          res.json({
+            result: 'success'
+          })
+        } else {
+          res.json({
+            result: 'error'
+          })
+        }
+      })
+  } else {
+    res.json({
+      result: 'error'
+    })
+  }
+})
+
 function validateEmailAndPass (req) {
   var errorReason
   if (!validateEmail(req.body.email)) {
@@ -157,7 +185,7 @@ function createSession (userId) {
 
 // Endpoint for verifying valid login
 router.get('/auth', async function (req, res) {
-  var error = await auth(req)
+  var error = await authImpl(req)
   if (error) {
     res.json(error)
   } else {
@@ -168,7 +196,7 @@ router.get('/auth', async function (req, res) {
 })
 
 module.exports.auth = async function (req, res, next) {
-  var error = await auth(req)
+  var error = await authImpl(req)
   if (error) {
     res.json(error)
   } else {
@@ -181,7 +209,7 @@ module.exports.auth = async function (req, res, next) {
   expects either the session token to be present in the json payload
   or the request's session to have the token
 */
-async function auth (req) {
+async function authImpl (req) {
   var token = req.body.token ? req.body.token : req.session.token
   var error
 
@@ -196,6 +224,7 @@ async function auth (req) {
     } else {
       // attach the user's mongo ID for easy access
       req.userId = matchedSession.userId
+      req.sessionToken = matchedSession.token
     }
   } else {
     console.log('No session token given: ' + token)

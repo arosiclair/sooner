@@ -55,7 +55,7 @@ export default {
           password: this.password
         }
 
-        api.post(API_URL + '/api/users/register', data)
+        api.post(API_URL + '/users/register', data)
           .then(res => {
             if (res.data.result === 'success') {
               console.log('Sign up successful!')
@@ -74,7 +74,7 @@ export default {
           email: this.email,
           password: this.password
         }
-        api.post(API_URL + '/api/users/login', loginData)
+        api.post(API_URL + '/users/login', loginData)
           .then(res => {
             if (res.data.result === 'success') {
               console.log('Log in successful!')

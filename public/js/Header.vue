@@ -7,13 +7,14 @@
       <span id="header-title">ReadItNow</span>
     </div>
     <div class="header-right">
-      <a id="usernameLink" href="#">{{ username }}</a>
+      <a id="usernameLink" href="#" @click="logout">{{ username }}</a>
     </div>
   </div>
 </template>
 
 <script>
 import user from './user'
+import api from './api'
 
 function onMounted () {
   this.username = user.name
@@ -26,7 +27,19 @@ export default {
       username: 'unknown'
     }
   },
-  mounted: onMounted
+  mounted: onMounted,
+  methods: {
+    logout: function () {
+      api.post(API_URL + '/users/logout')
+        .then(result => {
+          if (result.data.result === 'success') {
+            this.$emit('logged-off')
+          } else {
+            console.log('Log off failed!')
+          }
+        })
+    }
+  }
 }
 </script>
 

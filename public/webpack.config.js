@@ -3,7 +3,7 @@ var webpack = require('webpack')
 require('babel-polyfill')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
-var API_URL = "'https://localhost:3000'"
+var API_URL = "'https://localhost:3000/api'"
 
 module.exports = {
   entry: ['babel-polyfill', './js/main.js'],

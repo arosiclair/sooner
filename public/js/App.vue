@@ -2,7 +2,7 @@
   <div id="app">
     <Header v-if="loggedIn"></Header>
     <div class="container content">
-      <List v-if="loggedIn"></List>
+      <List v-if="loggedIn" @logged-off="loggedIn = false"></List>
       <Login v-else @logged-in="loggedIn = true"></Login>
     </div>
   </div>
@@ -20,7 +20,7 @@ async function onMounted () {
 }
 
 async function testLogin () {
-  var response = await api.get(API_URL + '/api/users/auth')
+  var response = await api.get(API_URL + '/users/auth')
   return response.data.result === 'success'
 }
 

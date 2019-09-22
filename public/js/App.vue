@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <Header v-if="loggedIn"></Header>
+    <Header v-if="loggedIn" @logged-off="onLoggedOff()"></Header>
     <div class="container content">
-      <List v-if="loggedIn" @logged-off="loggedIn = false"></List>
-      <Login v-else @logged-in="loggedIn = true"></Login>
+      <List v-if="loggedIn"></List>
+      <Login v-else @logged-in="onLoggedIn()"></Login>
     </div>
   </div>
 </template>
@@ -36,7 +36,15 @@ export default {
       loggedIn: false
     }
   },
-  mounted: onMounted
+  mounted: onMounted,
+  methods: {
+    onLoggedIn: function () {
+      this.loggedIn = true
+    },
+    onLoggedOff: function () {
+      this.loggedIn = false
+    }
+  }
 }
 </script>
 

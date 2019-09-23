@@ -5,6 +5,7 @@
       src="http://via.placeholder.com/150"
       alt="logo" />
     <form>
+      <div v-if="error">Error msg: {{ error }}</div>
       <div
         id="loginFields"
         action="#">
@@ -43,51 +44,81 @@ export default {
       name: '',
       email: '',
       password: '',
-      registering: false
+      registering: false,
+      error: ''
+    }
+  },
+  computed: {
+    validInput: function () {
+      if (this.registering) {
+        return true
+      } else {
+        return this.name.length > 0 && this.password.length > 0
+      }
     }
   },
   methods: {
     loginBtnClicked: function (event) {
       if (this.registering) {
-        var data = {
-          name: this.name,
-          email: this.email,
-          password: this.password
-        }
-
-        api.post(API_URL + '/users/register', data)
-          .then(res => {
-            if (res.data.result === 'success') {
-              console.log('Sign up successful!')
-
-              // update user module
-              currentUser.name = res.data.name
-              currentUser.token = res.data.token
-
-              this.$emit('logged-in')
-            } else {
-              console.log('Sign up failed!', res.data)
-            }
-          })
+        this.register()
       } else {
-        var loginData = {
-          email: this.email,
-          password: this.password
-        }
-        api.post(API_URL + '/users/login', loginData)
-          .then(res => {
-            if (res.data.result === 'success') {
-              console.log('Log in successful!')
+        this.login()
+      }
+    },
+    register: function () {
+      var data = {
+        name: this.name,
+        email: this.email,
+        password: this.password
+      }
 
-              // update user module
-              currentUser.name = res.data.name
-              currentUser.token = res.data.token
+      api.post(API_URL + '/users/register', data)
+        .then(res => {
+          if (res.data.result === 'success') {
+            console.log('Sign up successful!')
 
-              this.$emit('logged-in')
-            } else {
-              console.log('Log in failed!', res.data)
-            }
-          })
+            // update user module
+            currentUser.name = res.data.name
+            currentUser.token = res.data.token
+
+            this.$emit('logged-in')
+          } else {
+            console.log('Sign up failed!', res.data)
+          }
+        })
+    },
+    login: function () {
+      this.error = this.validateLogin()
+      if (this.error) {
+        return
+      }
+
+      var loginData = {
+        email: this.email,
+        password: this.password
+      }
+      api.post(API_URL + '/users/login', loginData)
+        .then(res => {
+          if (res.data.result === 'success') {
+            console.log('Log in successful!')
+
+            // update user module
+            currentUser.name = res.data.name
+            currentUser.token = res.data.token
+
+            this.$emit('logged-in')
+          } else {
+            console.log('Log in failed!', res.data)
+          }
+        })
+    },
+    validateLogin: function () {
+      if (this.email.length <= 0) {
+        return 'Enter a valid email'
+      } else if (this.password.length <= 0) {
+        return 'Enter a password'
+      } else {
+        return null
       }
     }
   }

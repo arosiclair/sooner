@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <Header v-if="loggedIn" @logged-off="onLoggedOff()"></Header>
+    <Header v-if="loggedIn" @logged-off="onLoggedOff"></Header>
     <div class="container content">
       <List v-if="loggedIn"></List>
-      <Login v-else @logged-in="onLoggedIn()"></Login>
+      <Login v-else @logged-in="onLoggedIn"></Login>
     </div>
   </div>
 </template>

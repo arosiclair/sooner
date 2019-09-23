@@ -13,6 +13,7 @@ import Header from './Header'
 import Login from './Login'
 import List from './List'
 import api from './api'
+import currentUser from './user'
 
 async function onMounted () {
   console.log('Beginning login test...')
@@ -21,6 +22,7 @@ async function onMounted () {
 
 async function testLogin () {
   var response = await api.get(API_URL + '/users/auth')
+  currentUser.name = response.data.name
   return response.data.result === 'success'
 }
 

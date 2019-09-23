@@ -107,6 +107,7 @@ router.post('/logout', function (req, res) {
   if (token) {
     geoffrey.getSessions().deleteOne({ token: token })
       .then(result => {
+        req.session.token = ''
         if (result.deletedCount === 1) {
           res.json({
             result: 'success'
@@ -189,11 +190,18 @@ router.get('/auth', async function (req, res) {
   if (error) {
     res.json(error)
   } else {
+    var user = await getUser(req.userId)
     res.json({
-      result: 'success'
+      result: 'success',
+      name: user.name,
+      email: user.email
     })
   }
 })
+
+async function getUser(id) {
+  return await geoffrey.getUsers().findOne({ _id: id })
+}
 
 module.exports.auth = async function (req, res, next) {
   var error = await authImpl(req)

@@ -7,7 +7,8 @@
     "extends": ["standard", "plugin:vue/recommended"],
     "globals": {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "SharedArrayBuffer": "readonly",
+        "API_URL": "readonly"
     },
     "parserOptions": {
         "ecmaVersion": 2017

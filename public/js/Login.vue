@@ -5,7 +5,9 @@
       src="http://via.placeholder.com/150"
       alt="logo" />
     <form>
-      <div v-if="error">Error msg: {{ error }}</div>
+      <div v-if="error" id="error-div" class="alert alert-danger">
+        {{ error }}
+      </div>
       <div
         id="loginFields"
         action="#">
@@ -17,15 +19,19 @@
           placeholder="Name" />
         <input
           v-model="email"
+          :class="{ error: emailError }"
           type="text"
-          placeholder="Email" />
+          placeholder="Email"
+          @keyup.enter="loginBtnClicked" />
         <input
           v-model="password"
           class="last"
+          :class="{ error: passwordError }"
           type="password"
-          placeholder="Password" />
+          placeholder="Password"
+          @keyup.enter="loginBtnClicked" />
       </div>
-      <button id="loginButton" @click="loginBtnClicked" type="button">
+      <button id="loginButton" type="button" @click="loginBtnClicked">
         {{ registering ? 'SIGN UP' : 'LOGIN' }}
       </button>
       <a id="signUpLink" href="#" @click="registering = !registering">{{ registering ? 'CANCEL' : 'SIGN UP' }}</a>
@@ -45,7 +51,9 @@ export default {
       email: '',
       password: '',
       registering: false,
-      error: ''
+      error: '',
+      emailError: false,
+      passwordError: false
     }
   },
   computed: {
@@ -88,6 +96,7 @@ export default {
         })
     },
     login: function () {
+      this.resetErrors()
       this.error = this.validateLogin()
       if (this.error) {
         return
@@ -108,18 +117,26 @@ export default {
 
             this.$emit('logged-in')
           } else {
+            this.error = 'Incorrect email or password'
             console.log('Log in failed!', res.data)
           }
         })
     },
     validateLogin: function () {
       if (this.email.length <= 0) {
+        this.emailError = true
         return 'Enter a valid email'
       } else if (this.password.length <= 0) {
+        this.passwordError = true
         return 'Enter a password'
       } else {
         return null
       }
+    },
+    resetErrors: function () {
+      this.error = null
+      this.passwordError = false
+      this.emailError = false
     }
   }
 }
@@ -127,14 +144,14 @@ export default {
 
 <style>
     #loginFields {
-        border-radius: 2px;
+        border-radius: 5px;
         overflow: hidden;
         box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
         margin-bottom: 20px;
     }
 
     #logo {
-        margin-bottom: 50px;
+        margin-bottom: 20px;
     }
 
     input{
@@ -159,6 +176,9 @@ export default {
         outline: none;
         border-bottom: 1px solid #28b5f4;
     }
+    input.error {
+        border-bottom: 1px solid #e53635;
+    }
 
     #loginButton {
         width: 100%;
@@ -171,7 +191,7 @@ export default {
 
         font-size: 24px;
         box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
-        border-radius: 2px;
+        border-radius: 5px;
 
         transition: 0.5s ease;
     }
@@ -183,5 +203,9 @@ export default {
     }
     #signUpLink {
         font-family: 'Rubik', sans-serif;
+    }
+
+    #error-div {
+      font-family: 'Rubik', sans-serif;
     }
 </style>

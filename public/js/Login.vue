@@ -19,14 +19,14 @@
           placeholder="Name" />
         <input
           v-model="email"
-          :class="{ error: emailError }"
+          :class="{ error: error && !validEmail }"
           type="text"
           placeholder="Email"
           @keyup.enter="loginBtnClicked" />
         <input
           v-model="password"
           class="last"
-          :class="{ error: passwordError }"
+          :class="{ error: error && !validPass }"
           type="password"
           placeholder="Password"
           @keyup.enter="loginBtnClicked" />
@@ -51,18 +51,15 @@ export default {
       email: '',
       password: '',
       registering: false,
-      error: '',
-      emailError: false,
-      passwordError: false
+      error: ''
     }
   },
   computed: {
-    validInput: function () {
-      if (this.registering) {
-        return true
-      } else {
-        return this.name.length > 0 && this.password.length > 0
-      }
+    validEmail: function () {
+      return this.email.length > 0
+    },
+    validPass: function () {
+      return this.password.length > 0
     }
   },
   methods: {
@@ -96,7 +93,6 @@ export default {
         })
     },
     login: function () {
-      this.resetErrors()
       this.error = this.validateLogin()
       if (this.error) {
         return
@@ -123,20 +119,13 @@ export default {
         })
     },
     validateLogin: function () {
-      if (this.email.length <= 0) {
-        this.emailError = true
+      if (!this.validEmail) {
         return 'Enter a valid email'
-      } else if (this.password.length <= 0) {
-        this.passwordError = true
+      } else if (!this.validPass) {
         return 'Enter a password'
       } else {
         return null
       }
-    },
-    resetErrors: function () {
-      this.error = null
-      this.passwordError = false
-      this.emailError = false
     }
   }
 }

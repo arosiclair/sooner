@@ -15,30 +15,25 @@ import List from './List'
 import api from './api'
 import currentUser from './user'
 
-async function onMounted () {
-  console.log('Beginning login test...')
-  this.loggedIn = await testLogin()
-}
-
-async function testLogin () {
-  var response = await api.get(API_URL + '/users/auth')
-  currentUser.name = response.data.name
-  return response.data.result === 'success'
-}
-
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     Header,
     Login,
     List
   },
+
   data () {
     return {
       loggedIn: false
     }
   },
-  mounted: onMounted,
+
+  mounted: async function () {
+    console.log('Beginning login test...')
+    this.loggedIn = await testLogin()
+  },
+
   methods: {
     onLoggedIn: function () {
       this.loggedIn = true
@@ -47,6 +42,12 @@ export default {
       this.loggedIn = false
     }
   }
+}
+
+async function testLogin () {
+  var response = await api.get(API_URL + '/users/auth')
+  currentUser.name = response.data.name
+  return response.data.result === 'success'
 }
 </script>
 

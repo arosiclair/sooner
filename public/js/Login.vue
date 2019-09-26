@@ -131,70 +131,72 @@ export default {
 }
 </script>
 
+<style scoped>
+#loginFields {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+    margin-bottom: 20px;
+}
+
+#logo {
+    margin-bottom: 20px;
+}
+
+#loginButton {
+    width: 100%;
+    height: 66px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    font-family: 'Rubik', sans-serif;
+    color: #212121;
+    border: none;
+
+    font-size: 24px;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+    border-radius: 5px;
+
+    transition: 0.5s ease;
+}
+#loginButton:focus {
+    outline: none;
+}
+#loginButton:hover {
+    box-shadow: 0 1px 10px 0 rgba(0,0,0,0.37);
+}
+#signUpLink {
+    font-family: 'Rubik', sans-serif;
+}
+
+#error-div {
+  font-family: 'Rubik', sans-serif;
+}
+</style>
+
 <style>
-    #loginFields {
-        border-radius: 5px;
-        overflow: hidden;
-        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
-        margin-bottom: 20px;
-    }
+input{
+    width: 100%;
+    font-size: 24px;
+    font-family: 'Rubik', sans-serif;
+    padding: 15px;
+    margin: 0;
 
-    #logo {
-        margin-bottom: 20px;
-    }
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #ffffff;
 
-    input{
-        width: 100%;
-        font-size: 24px;
-        font-family: 'Rubik', sans-serif;
-        padding: 15px;
-        margin: 0;
-
-        border-top: none;
-        border-right: none;
-        border-left: none;
-        border-bottom: 1px solid #ffffff;
-
-        transition: 300ms ease;
-    }
-    input:hover {
-        background-color: #eeeeee;
-        border-bottom: 1px solid #eeeeee;
-    }
-    input:focus {
-        outline: none;
-        border-bottom: 1px solid #28b5f4;
-    }
-    input.error {
-        border-bottom: 1px solid #e53635;
-    }
-
-    #loginButton {
-        width: 100%;
-        height: 66px;
-        margin-bottom: 10px;
-        background-color: #ffffff;
-        font-family: 'Rubik', sans-serif;
-        color: #212121;
-        border: none;
-
-        font-size: 24px;
-        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
-        border-radius: 5px;
-
-        transition: 0.5s ease;
-    }
-    #loginButton:focus {
-        outline: none;
-    }
-    #loginButton:hover {
-        box-shadow: 0 1px 10px 0 rgba(0,0,0,0.37);
-    }
-    #signUpLink {
-        font-family: 'Rubik', sans-serif;
-    }
-
-    #error-div {
-      font-family: 'Rubik', sans-serif;
-    }
+    transition: 300ms ease;
+}
+input:hover {
+    background-color: #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+}
+input:focus {
+    outline: none;
+    border-bottom: 1px solid #28b5f4;
+}
+input.error {
+    border-bottom: 1px solid #e53635;
+}
 </style>

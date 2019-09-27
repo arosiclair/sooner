@@ -10,20 +10,21 @@
       placeholder="Enter a link here"
       :class="{ error: badLink || error }"
       @keyup.enter="addNewLink" />
-    <div id="list-container">
-      <h2>Links:</h2>
-      <li v-for="link in links" :key="link._id">
-        {{ link.link }}
-      </li>
+    <div class="group">
+      <Link v-for="link in links" :key="link._id" :data="link" />
     </div>
   </div>
 </template>
 
 <script>
 import api from '../js/api'
+import Link from './Link'
 
 export default {
   name: 'List',
+  components: {
+    Link
+  },
   data () {
     return {
       loading: true,
@@ -78,5 +79,12 @@ export default {
   overflow: hidden;
   box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
   margin-bottom: 20px;
+}
+
+#loginFields {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+    margin-bottom: 20px;
 }
 </style>

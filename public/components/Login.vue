@@ -8,9 +8,7 @@
       <div v-if="error" id="error-div" class="alert alert-danger">
         {{ error }}
       </div>
-      <div
-        id="loginFields"
-        action="#">
+      <div class="group">
         <input
           v-if="registering"
           v-model="name"
@@ -132,12 +130,6 @@ export default {
 </script>
 
 <style scoped>
-#loginFields {
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
-    margin-bottom: 20px;
-}
 
 #logo {
     margin-bottom: 20px;
@@ -174,6 +166,13 @@ export default {
 </style>
 
 <style>
+.group {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+    margin-bottom: 20px;
+}
+
 input{
     width: 100%;
     font-size: 24px;

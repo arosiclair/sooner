@@ -12,8 +12,8 @@
 import Header from './Header'
 import Login from './Login'
 import List from './List'
-import api from './api'
-import currentUser from './user'
+import api from '../js/api'
+import currentUser from '../js/user'
 
 export default {
   name: 'App',

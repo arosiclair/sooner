@@ -20,8 +20,7 @@
 </template>
 
 <script>
-import api from './api'
-import currentUser from './user'
+import api from '../js/api'
 
 export default {
   name: 'List',

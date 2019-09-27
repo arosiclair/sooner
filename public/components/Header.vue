@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import user from './user'
-import api from './api'
+import user from '../js/user'
+import api from '../js/api'
 
 function onMounted () {
   this.username = user.name

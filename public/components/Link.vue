@@ -8,17 +8,29 @@
       </div>
     </div>
     <div>
-      <i class="material-icons done-btn">done</i>
+      <i class="material-icons done-btn" @click="remove">done</i>
     </div>
   </div>
 </template>
 
 <script>
+import api from '../js/api'
+
 export default {
   props: ['data'],
   computed: {
     faviconUrl: function () {
-      return 'https://s2.googleusercontent.com/s2/favicons?domain=' + this.data.link
+      return 'https://favicons.githubusercontent.com/' + this.data.link
+    }
+  },
+  methods: {
+    remove: async function () {
+      var data = {
+        linkId: this.data._id
+      }
+
+      await api.post(API_URL + '/list/remove', data)
+      this.$emit('list-updated')
     }
   }
 }
@@ -50,8 +62,8 @@ div {
 }
 
 .favicon {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     margin-right: 10px;
 }
 h3 {

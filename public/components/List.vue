@@ -11,7 +11,11 @@
       :class="{ error: badLink || error }"
       @keyup.enter="addNewLink" />
     <div class="group">
-      <Link v-for="link in links" :key="link._id" :data="link" />
+      <Link
+        v-for="link in links"
+        :key="link._id"
+        :data="link"
+        @list-updated="refresh" />
     </div>
   </div>
 </template>
@@ -35,10 +39,10 @@ export default {
     }
   },
   mounted: function () {
-    this.refreshLinks()
+    this.refresh()
   },
   methods: {
-    refreshLinks: async function () {
+    refresh: async function () {
       this.loading = true
 
       var result = await api.get(API_URL + '/list/')
@@ -62,7 +66,7 @@ export default {
       var response = await api.post(API_URL + '/list/add', newLink)
       console.log('Adding link result = ' + response.data.result)
       if (response.data.result === 'success') {
-        this.refreshLinks()
+        this.refresh()
         this.newLink = ''
         this.error = null
       } else {

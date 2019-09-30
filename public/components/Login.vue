@@ -115,6 +115,10 @@ export default {
             console.log('Log in failed!', res.data)
           }
         })
+        .catch(error => {
+          this.error = 'There was an issue logging in'
+          console.log('Log in error: \n', error)
+        })
     },
     validateLogin: function () {
       if (!this.validEmail) {

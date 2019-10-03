@@ -23,6 +23,7 @@
 <script>
 import api from '../js/api'
 import Link from './Link'
+import { getDomainFromUrl } from '../js/utilities'
 
 export default {
   name: 'List',
@@ -58,8 +59,13 @@ export default {
         this.badLink = false
       }
 
+      var metadata = await this.getMetadata(this.newLink)
+      var title = metadata.title ? metadata.title : 'Title'
+      var siteName = metadata['og:site_name'] ? metadata['og:site_name'] : getDomainFromUrl(this.newLink)
+
       var newLink = {
-        linkName: 'New link name',
+        linkName: title,
+        siteName: siteName,
         link: this.newLink
       }
 
@@ -71,6 +77,12 @@ export default {
         this.error = null
       } else {
         this.error = 'There was an issue adding your link'
+      }
+    },
+    getMetadata: async function (url) {
+      var response = await api.get(API_URL + '/list/linkMetadata?url=' + url)
+      if (response.data.result === 'success') {
+        return response.data.metadata
       }
     }
   }

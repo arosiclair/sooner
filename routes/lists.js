@@ -4,6 +4,8 @@ var router = express.Router()
 var geoffrey = require('../geoffrey')
 var users = require('./users')
 
+var urlMetadata = require('url-metadata')
+
 /*
   Endpoint for adding a link to a user's list
   Creates a document in the list collection for the user if they do not already have one
@@ -24,6 +26,7 @@ router.post('/add', async function (req, res) {
   var newLink = {
     _id: geoffrey.getObjectId(),
     name: req.body.linkName,
+    siteName: req.body.siteName,
     link: req.body.link,
     addedOn: new Date()
   }
@@ -93,6 +96,30 @@ router.get('/', async function (req, res) {
   }
 })
 
+router.get('/linkMetadata', function (req, res) {
+  if (!req.query.url) {
+    res.json({
+      result: 'error',
+      reason: 'bad link'
+    })
+  } else {
+    urlMetadata(req.query.url).then(
+      function (metadata) { // success handler
+        res.json({
+          result: 'success',
+          metadata: metadata
+        })
+      },
+      function (error) { // failure handler
+        console.log(error)
+        res.json({
+          result: 'error',
+          reason: 'bad link'
+        })
+      })
+  }
+})
+
 module.exports = router
 
 /*
@@ -138,6 +165,10 @@ function validateLink (req) {
   var errorReason
   if (!req.body.linkName || typeof req.body.linkName !== 'string' || req.body.linkName > 140) {
     errorReason = 'bad link name'
+  }
+
+  if (!req.body.siteName || typeof req.body.siteName !== 'string' || req.body.siteName > 140) {
+    errorReason = 'bad site name'
   }
 
   if (!req.body.link || typeof req.body.link !== 'string') {

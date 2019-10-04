@@ -3,13 +3,20 @@
     <div v-if="error" id="error-div" class="alert alert-danger">
       {{ error }}
     </div>
-    <input
-      id="new-link-input"
-      v-model="newLink"
-      type="text"
-      placeholder="Enter a link here"
-      :class="{ error: badLink || error }"
-      @keyup.enter="addNewLink" />
+
+    <div class="group">
+      <div class="link-preview-container" :class="{ hidden: !newLinkPreview }">
+        {{ newLinkPreview }}
+      </div>
+      <input
+        id="new-link-input"
+        v-model="newLink"
+        @input="onNewLinkChanged"
+        type="text"
+        placeholder="Enter a link here"
+        :class="{ error: badLink || error }"
+        @keyup.enter="addNewLink" />
+    </div>
     <div class="group">
       <Link
         v-for="link in links"
@@ -34,6 +41,7 @@ export default {
     return {
       loading: true,
       newLink: '',
+      newLinkPreview: 'Link preview text',
       error: '',
       badLink: false,
       links: []
@@ -79,6 +87,9 @@ export default {
         this.error = 'There was an issue adding your link'
       }
     },
+    onNewLinkChanged: function () {
+      console.log('New link changed!')
+    },
     getMetadata: async function (url) {
       var response = await api.get(API_URL + '/list/linkMetadata?url=' + url)
       if (response.data.result === 'success') {
@@ -93,7 +104,21 @@ export default {
 #new-link-input {
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+}
+
+.link-preview-container {
+    font-family: 'Rubik', sans-serif;
+    font-size: 20px;
+    padding: 15px;
+    text-align: start;
+    background-color: #ffffff
+}
+
+.hidden {
+  display: none;
+}
+
+.group {
   margin-bottom: 20px;
 }
 

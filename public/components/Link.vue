@@ -1,5 +1,5 @@
 <template>
-  <div class="centered-container split item">
+  <div @click="goToLink" class="centered-container split item">
     <div class="centered-container link-text-container">
       <img class="favicon" :src="faviconUrl" alt="" />
       <div class="link-text-container">
@@ -25,6 +25,10 @@ export default {
     }
   },
   methods: {
+    goToLink: function () {
+      var win = window.open(this.data.link, '_blank');
+      win.focus();
+    },
     remove: async function () {
       var data = {
         linkId: this.data._id
@@ -57,6 +61,8 @@ div {
     width: 100%;
     padding: 15px;
     margin: 0;
+
+    cursor: pointer;
 }
 .item:hover {
     background-color: #eeeeee;
@@ -71,6 +77,7 @@ div {
 .link-text-container {
   overflow: hidden;
   width: 100%;
+  margin: 0 10px;
 }
 h3 {
     font-size: 20px;
@@ -96,10 +103,12 @@ a {
 .done-btn {
     color: #c7c7c7;
     font-size: 30px;
-    padding: 0 10px;
+    padding: 10px;
+    border-radius: 50%;
     cursor: pointer;
 }
 .done-btn:hover {
     color: #28b5f4;
+    background-color: #0000001c;
 }
 </style>

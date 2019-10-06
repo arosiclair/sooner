@@ -80,7 +80,8 @@ export default {
       this.loading = false
     },
     addNewLink: async function () {
-      if (!this.newLink || this.newLink.length <= 0) {
+      var url = this.newLink.trim()
+      if (!url || url.length <= 0) {
         this.badLink = true
         return
       } else {
@@ -88,7 +89,7 @@ export default {
       }
 
       if (!this.metadata) {
-        this.metadata = await this.getMetadata(this.newLink)
+        this.metadata = await this.getMetadata(url)
       }
 
       var title = this.metadata.title ? this.metadata.title : 'Title'
@@ -97,7 +98,7 @@ export default {
       var newLink = {
         linkName: title,
         siteName: siteName,
-        link: this.newLink
+        link: url
       }
 
       var response = await api.post(API_URL + '/list/add', newLink)
@@ -113,6 +114,7 @@ export default {
     },
     onNewLinkChanged: debounce(async function (event) {
       this.newLinkLoading = true
+      this.badLink = false
       this.metadata = await this.getMetadata(this.newLink)
       this.newLinkLoading = false
     }, 750),
@@ -121,6 +123,8 @@ export default {
         var response = await api.get(API_URL + '/list/linkMetadata?url=' + url)
         if (response.data.result === 'success') {
           return response.data.metadata
+        } else {
+          this.badLink = true
         }
       }
     }

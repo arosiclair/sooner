@@ -111,10 +111,9 @@ router.get('/linkMetadata', function (req, res) {
         })
       },
       function (error) { // failure handler
-        console.log(error)
         res.json({
           result: 'error',
-          reason: 'bad link'
+          reason: error
         })
       })
   }

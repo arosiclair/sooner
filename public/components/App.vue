@@ -72,4 +72,26 @@ body {
   padding-top: 100px;
   padding-bottom: 100px;
 }
+
+.centered-container {
+    display: flex;
+    align-items: center;
+}
+
+.centered-container.split {
+    justify-content: space-between;
+}
+
+.material-icons {
+    color: #c7c7c7;
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.material-icons:hover {
+    color: #28b5f4;
+    background-color: #0000001c;
+    cursor: pointer;
+}
 </style>

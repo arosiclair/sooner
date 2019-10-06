@@ -5,16 +5,26 @@
     </div>
 
     <div class="group">
-      <div class="link-preview-container" :class="{ hidden: !newLinkPreview }">
-        {{ newLinkPreview }}
+      <div class="link-preview-container" :class="{ hidden: !newLinkPreview && !newLinkLoading }">
+        <div v-if="newLinkLoading" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div v-else class="link-preview-text centered-container split">
+          <div>
+            {{ newLinkPreview }}
+          </div>
+          <div @click="addNewLink">
+            <i class="material-icons">add_circle_outline</i>
+          </div>
+        </div>
       </div>
       <input
         id="new-link-input"
         v-model="newLink"
-        @input="onNewLinkChanged"
-        type="text"
         placeholder="Enter a link here"
+        type="text"
         :class="{ error: badLink || error }"
+        @input="onNewLinkChanged"
         @keyup.enter="addNewLink" />
     </div>
     <div class="group">
@@ -30,7 +40,7 @@
 <script>
 import api from '../js/api'
 import Link from './Link'
-import { getDomainFromUrl } from '../js/utilities'
+import { getDomainFromUrl, debounce } from '../js/utilities'
 
 export default {
   name: 'List',
@@ -41,10 +51,20 @@ export default {
     return {
       loading: true,
       newLink: '',
-      newLinkPreview: 'Link preview text',
       error: '',
       badLink: false,
-      links: []
+      links: [],
+      metadata: undefined,
+      newLinkLoading: false
+    }
+  },
+  computed: {
+    newLinkPreview: function () {
+      if (this.metadata) {
+        return this.metadata.title ? this.metadata.title : 'Title'
+      } else {
+        return null
+      }
     }
   },
   mounted: function () {
@@ -67,9 +87,12 @@ export default {
         this.badLink = false
       }
 
-      var metadata = await this.getMetadata(this.newLink)
-      var title = metadata.title ? metadata.title : 'Title'
-      var siteName = metadata['og:site_name'] ? metadata['og:site_name'] : getDomainFromUrl(this.newLink)
+      if (!this.metadata) {
+        this.metadata = await this.getMetadata(this.newLink)
+      }
+
+      var title = this.metadata.title ? this.metadata.title : 'Title'
+      var siteName = this.metadata['og:site_name'] ? this.metadata['og:site_name'] : getDomainFromUrl(this.newLink)
 
       var newLink = {
         linkName: title,
@@ -83,17 +106,22 @@ export default {
         this.refresh()
         this.newLink = ''
         this.error = null
+        this.metadata = null
       } else {
         this.error = 'There was an issue adding your link'
       }
     },
-    onNewLinkChanged: function () {
-      console.log('New link changed!')
-    },
+    onNewLinkChanged: debounce(async function (event) {
+      this.newLinkLoading = true
+      this.metadata = await this.getMetadata(this.newLink)
+      this.newLinkLoading = false
+    }, 750),
     getMetadata: async function (url) {
-      var response = await api.get(API_URL + '/list/linkMetadata?url=' + url)
-      if (response.data.result === 'success') {
-        return response.data.metadata
+      if (url) {
+        var response = await api.get(API_URL + '/list/linkMetadata?url=' + url)
+        if (response.data.result === 'success') {
+          return response.data.metadata
+        }
       }
     }
   }
@@ -104,14 +132,18 @@ export default {
 #new-link-input {
   border-radius: 5px;
   overflow: hidden;
+  font-size: 20px;
 }
 
 .link-preview-container {
-    font-family: 'Rubik', sans-serif;
-    font-size: 20px;
-    padding: 15px;
-    text-align: start;
-    background-color: #ffffff
+  padding: 15px;
+  text-align: start;
+  background-color: #ffffff
+}
+
+.link-preview-text {
+  font-family: 'Rubik', sans-serif;
+  font-size: 24px;
 }
 
 .hidden {

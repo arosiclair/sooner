@@ -26,8 +26,8 @@ export default {
   },
   methods: {
     goToLink: function () {
-      var win = window.open(this.data.link, '_blank');
-      win.focus();
+      var win = window.open(this.data.link, '_blank')
+      win.focus()
     },
     remove: async function () {
       var data = {
@@ -44,15 +44,6 @@ export default {
 <style scoped>
 div {
     text-align: start;
-}
-
-.centered-container {
-    display: flex;
-    align-items: center;
-}
-
-.split {
-    justify-content: space-between;
 }
 
 .item {
@@ -98,17 +89,5 @@ a {
     width: 100%;
     display: block;
     overflow: hidden
-}
-
-.done-btn {
-    color: #c7c7c7;
-    font-size: 30px;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-.done-btn:hover {
-    color: #28b5f4;
-    background-color: #0000001c;
 }
 </style>

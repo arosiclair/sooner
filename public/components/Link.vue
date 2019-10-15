@@ -4,11 +4,17 @@
       <img class="favicon" :src="faviconUrl" alt="" />
       <div class="link-text-container">
         <h3>{{ data.name }}</h3>
-        <a :href="data.link">{{ data.siteName }}</a>
+        <div class="centered-container split">
+          <a :href="data.link">{{ data.siteName }}</a>
+          <div class="centered-container">
+            <i class="material-icons expiration-icon">schedule</i>
+            <span class="time-left-text">time left</span> 
+          </div>
+        </div>
       </div>
     </div>
     <div>
-      <i class="material-icons done-btn" @click="remove">done</i>
+      <i class="material-icons actionable done-btn" @click="remove">done</i>
     </div>
   </div>
 </template>
@@ -16,12 +22,16 @@
 <script>
 import api from '../js/api'
 import { getDomainFromUrl } from '../js/utilities'
+import currentUser from '../js/user'
 
 export default {
   props: ['data'],
   computed: {
     faviconUrl: function () {
       return 'https://favicons.githubusercontent.com/' + getDomainFromUrl(this.data.link)
+    },
+    timeLeft: function () {
+      var expirationDts = this.data.addedOn;
     }
   },
   methods: {
@@ -86,8 +96,17 @@ a {
 
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 100%;
+    /* width: 100%; */
     display: block;
     overflow: hidden
+}
+
+.expiration-icon {
+  font-size: 16px;
+  margin: 0px 5px;
+  padding: 0px;
+}
+.time-left-text {
+  font-size: 16px;
 }
 </style>

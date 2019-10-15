@@ -68,57 +68,26 @@ export default {
         this.login()
       }
     },
-    register: function () {
-      var data = {
-        name: this.name,
-        email: this.email,
-        password: this.password
+    register: async function () {
+      var result = await currentUser.register(this.name, this.email, this.password)
+      if (result.success) {
+        this.$emit('logged-in')
+      } else {
+        this.error = result.reason
       }
-
-      api.post(API_URL + '/users/register', data)
-        .then(res => {
-          if (res.data.result === 'success') {
-            console.log('Sign up successful!')
-
-            // update user module
-            currentUser.name = res.data.name
-            currentUser.token = res.data.token
-
-            this.$emit('logged-in')
-          } else {
-            console.log('Sign up failed!', res.data)
-          }
-        })
     },
-    login: function () {
+    login: async function () {
       this.error = this.validateLogin()
       if (this.error) {
         return
       }
 
-      var loginData = {
-        email: this.email,
-        password: this.password
+      var result = await currentUser.login(this.email, this.password)
+      if (result.success) {
+        this.$emit('logged-in')
+      } else {
+        this.error = result.reason
       }
-      api.post(API_URL + '/users/login', loginData)
-        .then(res => {
-          if (res.data.result === 'success') {
-            console.log('Log in successful!')
-
-            // update user module
-            currentUser.name = res.data.name
-            currentUser.token = res.data.token
-
-            this.$emit('logged-in')
-          } else {
-            this.error = 'Incorrect email or password'
-            console.log('Log in failed!', res.data)
-          }
-        })
-        .catch(error => {
-          this.error = 'There was an issue logging in'
-          console.log('Log in error: \n', error)
-        })
     },
     validateLogin: function () {
       if (!this.validEmail) {

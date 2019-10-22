@@ -8,7 +8,7 @@
           <a :href="data.link">{{ data.siteName }}</a>
           <div class="centered-container">
             <i class="material-icons expiration-icon">schedule</i>
-            <span class="time-left-text">time left</span> 
+            <span class="time-left-text">{{ timeLeft }}</span> 
           </div>
         </div>
       </div>
@@ -31,7 +31,9 @@ export default {
       return 'https://favicons.githubusercontent.com/' + getDomainFromUrl(this.data.link)
     },
     timeLeft: function () {
-      var expirationDts = this.data.addedOn;
+      var expirationDts = this.data.addedOn
+
+      return 'time left'
     }
   },
   methods: {

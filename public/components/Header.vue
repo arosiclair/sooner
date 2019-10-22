@@ -2,7 +2,7 @@
   <div id="header">
     <div class="header-left">
       <img
-        src="http://via.placeholder.com/50"
+        src="https://via.placeholder.com/50"
         alt="logo" />
       <span id="header-title">ReadItNow</span>
     </div>

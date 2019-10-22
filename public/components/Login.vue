@@ -2,7 +2,7 @@
   <div>
     <img
       id="logo"
-      src="http://via.placeholder.com/150"
+      src="https://via.placeholder.com/150"
       alt="logo" />
     <form>
       <div v-if="error" id="error-div" class="alert alert-danger">

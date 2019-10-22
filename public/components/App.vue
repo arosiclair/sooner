@@ -12,7 +12,6 @@
 import Header from './Header'
 import Login from './Login'
 import List from './List'
-import api from '../js/api'
 import currentUser from '../js/user'
 
 export default {
@@ -31,7 +30,8 @@ export default {
 
   mounted: async function () {
     console.log('Beginning login test...')
-    this.loggedIn = await testLogin()
+    var result = await currentUser.updateUserData()
+    this.loggedIn = result.success
   },
 
   methods: {
@@ -42,12 +42,6 @@ export default {
       this.loggedIn = false
     }
   }
-}
-
-async function testLogin () {
-  var response = await api.get(API_URL + '/users/auth')
-  currentUser.name = response.data.name
-  return response.data.result === 'success'
 }
 </script>
 

@@ -125,6 +125,25 @@ router.post('/logout', function (req, res) {
   }
 })
 
+router.all('/userData', authMiddleware)
+router.get('/userData', async function (req, res) {
+  var user = await getUser(req.userId)
+  if (user) {
+    var data = {
+      result: 'success',
+      name: user.name,
+      email: user.email,
+      prefs: user.prefs
+    }
+    res.json(data)
+  } else {
+    res.json({
+      result: 'error',
+      reason: 'There was an issue getting the user\'s data'
+    })
+  }
+})
+
 function validateEmailAndPass (req) {
   var errorReason
   if (!validateEmail(req.body.email)) {
@@ -184,26 +203,18 @@ function createSession (userId) {
   return newToken
 }
 
-// Endpoint for verifying valid login
-router.get('/auth', async function (req, res) {
-  var error = await authImpl(req)
-  if (error) {
-    res.json(error)
-  } else {
-    var user = await getUser(req.userId)
-    res.json({
-      result: 'success',
-      name: user.name,
-      email: user.email
-    })
-  }
-})
-
 async function getUser (id) {
   return geoffrey.getUsers().findOne({ _id: id })
 }
 
-module.exports.auth = async function (req, res, next) {
+/*
+  Authentication middleware to be used with user endpoints
+  expects either the session token to be present in the json payload
+  or the request's session to have the token
+*/
+module.exports.auth = authMiddleware
+
+async function authMiddleware (req, res, next) {
   var error = await authImpl(req)
   if (error) {
     res.json(error)
@@ -212,11 +223,6 @@ module.exports.auth = async function (req, res, next) {
   }
 }
 
-/*
-  Authentication middleware to be used with user endpoints
-  expects either the session token to be present in the json payload
-  or the request's session to have the token
-*/
 async function authImpl (req) {
   var token = req.body.token ? req.body.token : req.session.token
   var error

@@ -43,7 +43,18 @@ export default {
     }
 
     try {
+      // login
       var resp = await api.post(API_URL + '/users/login', loginData)
+      if (resp.data.result === 'success') {
+        console.log('Log in successful!')
+        // get user data
+        return this.updateUserData()
+      } else {
+        return {
+          error: true,
+          reason: 'Incorrect email or password'
+        }
+      }
     } catch (error) {
       console.log('Log in error: \n', error)
       return {
@@ -51,20 +62,18 @@ export default {
         reason: 'There was an issue logging in'
       }
     }
-
+  },
+  updateUserData: async function () {
+    var resp = await api.get(API_URL + '/users/userData')
     if (resp.data.result === 'success') {
-      console.log('Log in successful!')
-
-      // update user module
       this.name = resp.data.name
-      this.token = resp.data.token
-
+      this.email = resp.data.email
+      this.prefs = resp.data.prefs
       return { success: true }
     } else {
-      console.log('Log in failed!', resp.data)
       return {
         error: true,
-        reason: 'Incorrect email or password'
+        reason: resp.data.reason
       }
     }
   }

@@ -89,7 +89,7 @@ body {
     border-radius: 50%;
     cursor: pointer;
 }
-.material-icons:hover {
+.material-icons.actionable:hover {
     color: #28b5f4;
     background-color: #0000001c;
     cursor: pointer;

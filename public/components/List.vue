@@ -14,7 +14,7 @@
             {{ newLinkPreview }}
           </div>
           <div @click="addNewLink">
-            <i class="material-icons">add_circle_outline</i>
+            <i class="material-icons actionable">add_circle_outline</i>
           </div>
         </div>
       </div>

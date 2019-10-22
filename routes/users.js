@@ -199,8 +199,8 @@ router.get('/auth', async function (req, res) {
   }
 })
 
-async function getUser(id) {
-  return await geoffrey.getUsers().findOne({ _id: id })
+async function getUser (id) {
+  return geoffrey.getUsers().findOne({ _id: id })
 }
 
 module.exports.auth = async function (req, res, next) {

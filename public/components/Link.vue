@@ -23,6 +23,7 @@
 import api from '../js/api'
 import { getDomainFromUrl } from '../js/utilities'
 import currentUser from '../js/user'
+import { addDays, formatDistance } from 'date-fns'
 
 export default {
   props: ['data'],
@@ -31,9 +32,8 @@ export default {
       return 'https://favicons.githubusercontent.com/' + getDomainFromUrl(this.data.link)
     },
     timeLeft: function () {
-      var expirationDts = this.data.addedOn
-
-      return 'time left'
+      var expirationDts = addDays(new Date(this.data.addedOn), currentUser.prefs.linkTTL)
+      return formatDistance(new Date(), expirationDts)
     }
   },
   methods: {

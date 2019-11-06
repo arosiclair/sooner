@@ -85,7 +85,7 @@ body {
 }
 .material-icons.actionable:hover {
     color: #28b5f4;
-    background-color: #0000001c;
+    background-color: #0000000f;
     cursor: pointer;
 }
 </style>

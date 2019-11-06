@@ -80,13 +80,14 @@ router.get('/', async function (req, res) {
     var userPrefs = await users.getUserPrefs(req.userId)
     var linkTTL = userPrefs.linkTTL
 
-    if (cleanExpiredLinks(links, linkTTL)) {
-      geoffrey.getLists().updateOne({ '_id': listId }, { '$set': { 'links': links } })
+    var unexpiredLinks = cleanExpiredLinks(links, linkTTL)
+    if (unexpiredLinks !== links) {
+      geoffrey.getLists().updateOne({ '_id': listId }, { '$set': { 'links': unexpiredLinks } })
     }
 
     res.json({
       result: 'success',
-      list: links
+      list: unexpiredLinks
     })
   } else {
     res.json({
@@ -185,25 +186,26 @@ function validateLink (req) {
 }
 
 function cleanExpiredLinks (links, linkTTL) {
+  var unexpiredLinks = []
   var changed = false
 
   for (var i = 0; i < links.length; i++) {
     var link = links[i]
 
     if (!link.addedOn) {
-      links.splice(i, 1)
       changed = true
       continue
     }
 
     var expireTime = new Date(link.addedOn.valueOf())
     expireTime.setDate(expireTime.getDate() + linkTTL)
-
     if (new Date() > expireTime) {
-      links.splice(i, 1)
       changed = true
+      continue
     }
+
+    unexpiredLinks.push(link)
   }
 
-  return changed
+  return changed ? unexpiredLinks : links
 }

@@ -7,9 +7,15 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "morgan": "~1.9.1"
+    "mongodb": "^3.6.2",
+    "morgan": "~1.9.1",
+    "password-hash": "^1.2.2",
+    "url-metadata": "^2.4.1",
+    "uuid": "^8.3.0"
   }
 }

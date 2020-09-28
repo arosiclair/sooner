@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import api from '../js/api'
-import { getDomainFromUrl } from '../js/utilities'
-import currentUser from '../js/user'
+import api from '../modules/api'
+import { getDomainFromUrl } from '../modules/utilities'
+import currentUser from '../modules/user'
 import { addDays, formatDistance, differenceInDays } from 'date-fns'
 
 export default {

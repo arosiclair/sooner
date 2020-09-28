@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import api from '../js/api'
-import currentUser from '../js/user'
+import api from '../modules/api'
+import currentUser from '../modules/user'
 
 export default {
   name: 'Login',

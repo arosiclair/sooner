@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import api from '../js/api'
+import api from '../modules/api'
 import Link from './Link'
-import { getDomainFromUrl, debounce } from '../js/utilities'
+import { getDomainFromUrl, debounce } from '../modules/utilities'
 
 export default {
   name: 'List',

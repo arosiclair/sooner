@@ -57,7 +57,7 @@ export default {
         linkId: this.data._id
       }
 
-      await api.post(API_URL + '/list/remove', data)
+      await api.post('/list/remove', data)
       this.$emit('list-updated')
     }
   }

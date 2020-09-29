@@ -74,7 +74,7 @@ export default {
     refresh: async function () {
       this.loading = true
 
-      var result = await api.get(API_URL + '/list/')
+      var result = await api.get('/list/')
       this.links = result.data.list
 
       this.loading = false
@@ -101,7 +101,7 @@ export default {
         link: url
       }
 
-      var response = await api.post(API_URL + '/list/add', newLink)
+      var response = await api.post('/list/add', newLink)
       console.log('Adding link result = ' + response.data.result)
       if (response.data.result === 'success') {
         this.refresh()
@@ -120,7 +120,7 @@ export default {
     }, 750),
     getMetadata: async function (url) {
       if (url) {
-        var response = await api.get(API_URL + '/list/linkMetadata?url=' + url)
+        var response = await api.get('/list/linkMetadata?url=' + url)
         if (response.data.result === 'success') {
           return response.data.metadata
         } else {

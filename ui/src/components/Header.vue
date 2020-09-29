@@ -30,7 +30,7 @@ export default {
   mounted: onMounted,
   methods: {
     logout: function () {
-      api.post(API_URL + '/users/logout')
+      api.post('/users/logout')
         .then(result => {
           if (result.data.result === 'success') {
             this.$emit('logged-off')

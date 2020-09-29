@@ -12,7 +12,7 @@ export default {
     }
 
     try {
-      var resp = await api.post(API_URL + '/users/register', data)
+      var resp = await api.post('/users/register', data)
     } catch (error) {
       console.log('Register error: \n', error)
       return {
@@ -44,7 +44,7 @@ export default {
 
     try {
       // login
-      var resp = await api.post(API_URL + '/users/login', loginData)
+      var resp = await api.post('/users/login', loginData)
       if (resp.data.result === 'success') {
         console.log('Log in successful!')
         // get user data
@@ -64,7 +64,7 @@ export default {
     }
   },
   updateUserData: async function () {
-    var resp = await api.get(API_URL + '/users/userData')
+    var resp = await api.get('/users/userData')
     if (resp.data.result === 'success') {
       this.name = resp.data.name
       this.email = resp.data.email

@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import api from '../modules/api'
 import currentUser from '../modules/user'
 
 export default {

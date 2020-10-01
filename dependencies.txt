@@ -1,3 +1,0 @@
-node v11.15.3 LTS
-express 4.16.4
-mongodb 4.0.8

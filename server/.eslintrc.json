@@ -11,5 +11,6 @@
         "ecmaVersion": 12
     },
     "rules": {
+        "quote-props": ["error", "as-needed", { "keywords": true, "unnecessary": false }]
     }
 }

@@ -7,7 +7,6 @@ var cors = require('cors')
 var appSettings = require('./appSettings.json')
 
 // routes
-var index = require('./routes/index')
 var users = require('./routes/users')
 var lists = require('./routes/lists')
 

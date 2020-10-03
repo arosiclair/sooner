@@ -4,7 +4,7 @@ var router = express.Router()
 
 var geoffrey = require('../geoffrey')
 var passwordHasher = require('password-hash')
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid')
 
 /*
   Endpoint for creating a user.

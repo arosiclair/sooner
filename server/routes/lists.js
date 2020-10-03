@@ -31,7 +31,7 @@ router.post('/add', async function (req, res) {
     addedOn: new Date()
   }
 
-  geoffrey.getLists().updateOne({ _id: listId }, { '$push': { 'links': newLink } })
+  geoffrey.getLists().updateOne({ _id: listId }, { $push: { links: newLink } })
 
   res.json({
     result: 'success',
@@ -57,7 +57,7 @@ router.post('/remove', async function (req, res) {
   var listId = await getListId(req.userId)
 
   var linkId = geoffrey.getObjectId(req.body.linkId)
-  geoffrey.getLists().updateOne({ '_id': listId }, { '$pull': { 'links': { '_id': linkId } } })
+  geoffrey.getLists().updateOne({ _id: listId }, { $pull: { links: { _id: linkId } } })
 
   res.json({
     result: 'success'
@@ -72,7 +72,7 @@ router.get('/', async function (req, res) {
   }
 
   var listId = await getListId(req.userId)
-  var listDoc = await geoffrey.getLists().findOne({ '_id': listId })
+  var listDoc = await geoffrey.getLists().findOne({ _id: listId })
 
   if (listDoc) {
     // clean the list of expired links
@@ -82,7 +82,7 @@ router.get('/', async function (req, res) {
 
     var unexpiredLinks = cleanExpiredLinks(links, linkTTL)
     if (unexpiredLinks !== links) {
-      geoffrey.getLists().updateOne({ '_id': listId }, { '$set': { 'links': unexpiredLinks } })
+      geoffrey.getLists().updateOne({ _id: listId }, { $set: { links: unexpiredLinks } })
     }
 
     res.json({
@@ -127,7 +127,7 @@ module.exports = router
   if they do not have one
 */
 async function getListId (userId) {
-  var user = await geoffrey.getUsers().findOne({ '_id': userId })
+  var user = await geoffrey.getUsers().findOne({ _id: userId })
   if (user) {
     if (!user.listId) {
       return createListForUser(userId)
@@ -146,7 +146,7 @@ async function createListForUser (userId) {
   }
 
   var result = await geoffrey.getLists().insertOne(newList)
-  geoffrey.getUsers().updateOne({ _id: userId }, { '$set': { 'listId': result.insertedId } })
+  geoffrey.getUsers().updateOne({ _id: userId }, { $set: { listId: result.insertedId } })
   return result.insertedId
 }
 

@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <Header v-if="loggedIn" @logged-off="onLoggedOff"></Header>
+    <Header v-if="loggedIn"></Header>
     <div class="container content">
       <List v-if="loggedIn"></List>
-      <Login v-else @logged-in="onLoggedIn"></Login>
+      <Login v-else></Login>
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
 import Header from './components/Header'
 import Login from './components/Login'
 import List from './components/List'
-import currentUser from './modules/user'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -22,25 +22,14 @@ export default {
     List
   },
 
-  data () {
-    return {
-      loggedIn: false
-    }
-  },
+  computed: mapGetters({
+    loggedIn: 'user/loggedIn'
+  }),
 
   mounted: async function () {
-    console.log('Beginning login test...')
-    var result = await currentUser.updateUserData()
-    this.loggedIn = result.success
-  },
-
-  methods: {
-    onLoggedIn: function () {
-      this.loggedIn = true
-    },
-    onLoggedOff: function () {
-      this.loggedIn = false
-    }
+    // console.log('Beginning login test...')
+    // var result = await currentUser.updateUserData()
+    // this.loggedIn = result.success
   }
 }
 </script>

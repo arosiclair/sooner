@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import currentUser from '../modules/user'
 
 export default {
@@ -75,18 +76,18 @@ export default {
         this.error = result.reason
       }
     },
-    login: async function () {
+    login: function () {
       this.error = this.validateLogin()
       if (this.error) {
         return
       }
 
-      var result = await currentUser.login(this.email, this.password)
-      if (result.success) {
-        this.$emit('logged-in')
-      } else {
-        this.error = result.reason
-      }
+      this.dispatchLogin({ email: this.email, password: this.password })
+        .then(result => {
+          if (!result.success) {
+            this.error = result.reason
+          }
+        })
     },
     validateLogin: function () {
       if (!this.validEmail) {
@@ -96,7 +97,10 @@ export default {
       } else {
         return null
       }
-    }
+    },
+    ...mapActions({
+      dispatchLogin: 'user/login'
+    })
   }
 }
 </script>

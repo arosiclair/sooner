@@ -100,6 +100,7 @@ export default {
         email,
         prefs
       }
-    }
+    },
+    userName: ({ name }) => name || 'unknown'
   }
 }

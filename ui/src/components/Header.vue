@@ -13,21 +13,14 @@
 </template>
 
 <script>
-import user from '../modules/user'
 import api from '../modules/api'
-
-function onMounted () {
-  this.username = user.name
-}
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Header',
-  data () {
-    return {
-      username: 'unknown'
-    }
-  },
-  mounted: onMounted,
+  computed: mapGetters({
+    username: 'user/userName'
+  }),
   methods: {
     logout: function () {
       api.post('/users/logout')

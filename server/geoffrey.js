@@ -10,7 +10,7 @@ var usersCollection
 var sessionsCollection
 var listsCollection
 
-mongoClient.connect(url, function (err, client) {
+mongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
   if (err) {
     console.error('Error connecting to MongoDB: ' + err)
   }

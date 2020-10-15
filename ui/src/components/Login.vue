@@ -39,7 +39,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-import currentUser from '../modules/user'
 
 export default {
   name: 'Login',
@@ -69,10 +68,13 @@ export default {
       }
     },
     register: async function () {
-      var result = await currentUser.register(this.name, this.email, this.password)
-      if (result.success) {
-        this.$emit('logged-in')
-      } else {
+      const data = {
+        name: this.name,
+        email: this.email,
+        password: this.password
+      }
+      const result = await this.dispatchRegister(data)
+      if (result.error) {
         this.error = result.reason
       }
     },
@@ -99,7 +101,8 @@ export default {
       }
     },
     ...mapActions({
-      dispatchLogin: 'user/login'
+      dispatchLogin: 'user/login',
+      dispatchRegister: 'user/register'
     })
   }
 }

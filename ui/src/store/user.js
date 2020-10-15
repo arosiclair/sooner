@@ -14,6 +14,12 @@ export default {
       state.email = payload.email
       state.prefs = payload.prefs
       state.loggedIn = true
+    },
+    resetUserdata: (state) => {
+      state.name = ''
+      state.email = ''
+      state.prefs = ''
+      state.loggedIn = false
     }
   },
   actions: {
@@ -72,22 +78,41 @@ export default {
     },
 
     async updateUserData ({ commit }) {
+      let error = ''
       try {
         var resp = await api.get('/users/userData')
-      } catch (error) {
-        return {
-          error: true,
-          reason: 'There was an issue getting your data'
-        }
+      } catch (e) {
+        error = 'There was an issue getting your data'
       }
 
-      if (resp.data.result === 'success') {
+      error = error || resp.data.reason
+      if (!error) {
         commit('setUserData', resp.data)
         return { success: true }
       } else {
+        commit('resetUserdata')
         return {
           error: true,
-          reason: 'There was an issue getting your data'
+          reason: error
+        }
+      }
+    },
+
+    async logout ({ dispatch }) {
+      let error = ''
+      try {
+        var resp = await api.post('/users/logout')
+      } catch (e) {
+        error = 'There was an issue logging out'
+      }
+
+      error = error || resp.data.reason
+      if (!error) {
+        return dispatch('updateUserData')
+      } else {
+        return {
+          error: true,
+          reason: error
         }
       }
     }

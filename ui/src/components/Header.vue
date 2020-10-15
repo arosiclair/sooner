@@ -7,32 +7,22 @@
       <span id="header-title">ReadItNow</span>
     </div>
     <div class="header-right">
-      <a id="usernameLink" href="#" @click="logout">{{ username }}</a>
+      <a id="usernameLink" href="#" @click="dispatchLogout">{{ username }}</a>
     </div>
   </div>
 </template>
 
 <script>
-import api from '../modules/api'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Header',
   computed: mapGetters({
     username: 'user/userName'
   }),
-  methods: {
-    logout: function () {
-      api.post('/users/logout')
-        .then(result => {
-          if (result.data.result === 'success') {
-            this.$emit('logged-off')
-          } else {
-            console.log('Log off failed!')
-          }
-        })
-    }
-  }
+  methods: mapActions({
+    dispatchLogout: 'user/logout'
+  })
 }
 </script>
 

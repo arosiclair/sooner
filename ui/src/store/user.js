@@ -42,12 +42,22 @@ export default {
         }
       }
     },
-    updateUserData: async ({ commit }) => {
+
+
+    async updateUserData ({ commit }) {
       try {
-        const resp = await api.get('/users/userData')
+        var resp = await api.get('/users/userData')
+      } catch (error) {
+        return {
+          error: true,
+          reason: 'There was an issue getting your data'
+        }
+      }
+
+      if (resp.data.result === 'success') {
         commit('setUserData', resp.data)
         return { success: true }
-      } catch (error) {
+      } else {
         return {
           error: true,
           reason: 'There was an issue getting your data'

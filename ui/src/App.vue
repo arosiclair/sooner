@@ -12,7 +12,7 @@
 import Header from './components/Header'
 import Login from './components/Login'
 import List from './components/List'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -26,10 +26,12 @@ export default {
     loggedIn: 'user/loggedIn'
   }),
 
+  methods: mapActions({
+    updateUserData: 'user/updateUserData'
+  }),
+
   mounted: async function () {
-    // console.log('Beginning login test...')
-    // var result = await currentUser.updateUserData()
-    // this.loggedIn = result.success
+    this.updateUserData()
   }
 }
 </script>

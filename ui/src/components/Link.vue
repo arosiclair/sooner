@@ -24,8 +24,8 @@
 <script>
 import api from '../modules/api'
 import { getDomainFromUrl } from '../modules/utilities'
-import currentUser from '../modules/user'
 import { addDays, formatDistance, differenceInDays } from 'date-fns'
+import { mapGetters } from 'vuex'
 
 export default {
   props: ['data'],
@@ -34,18 +34,21 @@ export default {
       return 'https://favicons.githubusercontent.com/' + getDomainFromUrl(this.data.link)
     },
     timeLeft: function () {
-      var expirationDts = addDays(new Date(this.data.addedOn), currentUser.prefs.linkTTL)
+      const expirationDts = addDays(new Date(this.data.addedOn), this.userPrefs.linkTTL)
       return formatDistance(new Date(), expirationDts)
     },
     backgroundStyle: function () {
-      var expirationDts = addDays(new Date(this.data.addedOn), currentUser.prefs.linkTTL)
-      var ttl = differenceInDays(expirationDts, new Date())
+      const expirationDts = addDays(new Date(this.data.addedOn), this.userPrefs.linkTTL)
+      const ttl = differenceInDays(expirationDts, new Date())
 
       return {
         'expiration-warn': ttl < 2,
         'expiration-alert': ttl < 1
       }
-    }
+    },
+    ...mapGetters({
+      userPrefs: 'user/userPrefs'
+    })
   },
   methods: {
     goToLink: function () {

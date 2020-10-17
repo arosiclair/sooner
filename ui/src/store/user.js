@@ -126,6 +126,7 @@ export default {
         prefs
       }
     },
-    userName: ({ name }) => name || 'unknown'
+    userName: ({ name }) => name || 'unknown',
+    userPrefs: ({ prefs }) => prefs
   }
 }

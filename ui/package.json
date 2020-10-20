@@ -12,6 +12,7 @@
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
+    "dotdotdot-js": "^4.1.0",
     "vue": "^2.6.11",
     "vuex": "^3.5.1"
   },

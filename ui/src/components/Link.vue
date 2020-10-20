@@ -1,21 +1,24 @@
 <template>
   <div :class="backgroundStyle">
     <div class="centered-container split item" @click="goToLink">
+      <!-- Favicon section -->
+      <img class="favicon" :src="faviconUrl" alt="" />
+      <!-- Text section -->
       <div class="centered-container link-text-container">
-        <img class="favicon" :src="faviconUrl" alt="" />
         <div class="link-text-container">
-          <h3>{{ data.name }}</h3>
+          <div class="title" ref="title">{{ data.name }}</div>
           <div class="centered-container split">
             <a :href="data.link">{{ data.siteName }}</a>
-            <div class="centered-container">
-              <i class="material-icons expiration-icon">schedule</i>
-              <span class="time-left-text">{{ timeLeft }}</span>
-            </div>
           </div>
         </div>
       </div>
-      <div>
+      <!-- Done section -->
+      <div class="text-center">
         <i class="material-icons actionable done-btn" @click="remove">done</i>
+        <div class="time-left-container">
+          <i class="material-icons expiration-icon">schedule</i>
+          <span class="time-left-text">{{ timeLeft }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -26,9 +29,18 @@ import api from '../modules/api'
 import { getDomainFromUrl } from '../modules/utilities'
 import { addDays, formatDistance, differenceInDays } from 'date-fns'
 import { mapGetters } from 'vuex'
+import Dotdotdot from 'dotdotdot-js'
 
 export default {
   props: ['data'],
+  data () {
+    return {
+      dddTitle: null
+    }
+  },
+  mounted () {
+    this.dddTitle = new Dotdotdot(this.$refs.title)
+  },
   computed: {
     faviconUrl: function () {
       return 'https://favicons.githubusercontent.com/' + getDomainFromUrl(this.data.link)
@@ -75,7 +87,7 @@ div {
 .item {
     font-family: 'Rubik', sans-serif;
     width: 100%;
-    padding: 15px;
+    padding: 1rem 1.5rem;
     margin: 0;
 
     cursor: pointer;
@@ -87,7 +99,7 @@ div {
 .favicon {
     width: 32px;
     height: 32px;
-    margin-right: 10px;
+    /* margin-right: 10px; */
 }
 
 .link-text-container {
@@ -95,15 +107,13 @@ div {
   width: 100%;
   margin: 0 10px;
 }
-h3 {
+.title {
     font-size: 20px;
-    margin-bottom: 0px;
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 100%;
-    display: block;
-    overflow: hidden
+    line-height: 1.3;
+    max-height: 3.9em;
+    /* white-space: nowrap;
+    text-overflow: ellipsis; */
+    overflow: hidden;
 }
 a {
     font-size: 14px;
@@ -115,7 +125,14 @@ a {
     display: block;
     overflow: hidden
 }
-
+.done-btn {
+  margin-bottom: 5px;
+}
+.time-left-container {
+  display: flex;
+  white-space: nowrap;
+  justify-content: center;
+}
 .expiration-icon {
   font-size: 22px;
   margin: 0px 5px;

@@ -8,17 +8,17 @@
         <div class="link-text-container">
           <div class="title" ref="title">{{ data.name }}</div>
           <div class="centered-container split">
-            <a :href="data.link">{{ data.siteName }}</a>
+            <span class="site-name">{{ data.siteName }}</span>
+            <div class="time-left-container">
+              <i class="material-icons expiration-icon">schedule</i>
+              <span class="time-left-text">{{ timeLeft }}</span>
+            </div>
           </div>
         </div>
       </div>
       <!-- Done section -->
       <div class="text-center">
         <i class="material-icons actionable done-btn" @click="remove">done</i>
-        <div class="time-left-container">
-          <i class="material-icons expiration-icon">schedule</i>
-          <span class="time-left-text">{{ timeLeft }}</span>
-        </div>
       </div>
     </div>
   </div>
@@ -115,7 +115,7 @@ div {
     text-overflow: ellipsis; */
     overflow: hidden;
 }
-a {
+.site-name {
     font-size: 14px;
     color: #c7c7c7;
 
@@ -131,11 +131,10 @@ a {
 .time-left-container {
   display: flex;
   white-space: nowrap;
-  justify-content: center;
 }
 .expiration-icon {
   font-size: 22px;
-  margin: 0px 5px;
+  margin-right: 5px;
   padding: 0px;
 }
 .time-left-text {
@@ -148,7 +147,7 @@ a {
 .expiration-warn .item:hover {
     background-color: #fafafa5c;
 }
-.expiration-warn a {
+.expiration-warn .site-name {
   color: #212121;
 }
 .expiration-warn .material-icons {
@@ -165,7 +164,7 @@ a {
 .expiration-alert .item:hover {
     background-color: #fafafa21;
 }
-.expiration-alert a {
+.expiration-alert .site-name {
   color: #212121;
 }
 .expiration-alert .material-icons {

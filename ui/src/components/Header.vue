@@ -7,7 +7,10 @@
       <span id="header-title">ReadItNow</span>
     </div>
     <div class="header-right">
-      <a id="usernameLink" href="#" @click="dispatchLogout">{{ username }}</a>
+      <div id="usernameLink" href="#" @click="dispatchLogout">
+        {{ username }}
+        <b-avatar class="m-1" />
+      </div>
     </div>
   </div>
 </template>
@@ -45,5 +48,6 @@ export default {
 #usernameLink {
     font-family: 'Rubik', sans-serif;
     font-size: 24px;
+    cursor: pointer;
 }
 </style>

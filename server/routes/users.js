@@ -63,37 +63,44 @@ router.post('/register', function (req, res) {
   email: string
   password: string
 */
-router.post('/login', function (req, res) {
-  var result = validateEmailAndPass(req)
+router.post('/login', async function (req, res) {
+  const result = validateEmailAndPass(req)
   if (result) {
     res.json(result)
     return
   }
 
-  geoffrey.getUsers().findOne({ email: req.body.email })
-    .then(matchedUser => {
-      if (!matchedUser) {
-        res.json({
-          result: 'error',
-          reason: 'couldn\'t find user'
-        })
-        return
-      }
-
-      if (passwordHasher.verify(req.body.password, matchedUser.password)) {
-        req.session.token = createSession(matchedUser._id)
-        res.json({
-          result: 'success',
-          name: matchedUser.name,
-          token: req.session.token
-        })
-      } else {
-        res.json({
-          result: 'failed',
-          reason: 'incorrect password'
-        })
-      }
+  try {
+    var matchedUser = await geoffrey.getUsers().findOne({ email: req.body.email })
+  } catch (error) {
+    res.json({
+      result: 'error',
+      reason: 'there was an issue querying the DB'
     })
+    return
+  }
+
+  if (!matchedUser) {
+    res.json({
+      result: 'error',
+      reason: 'couldn\'t find user'
+    })
+    return
+  }
+
+  if (passwordHasher.verify(req.body.password, matchedUser.password)) {
+    req.session.token = await createSession(matchedUser._id)
+    res.json({
+      result: 'success',
+      name: matchedUser.name,
+      token: req.session.token
+    })
+  } else {
+    res.json({
+      result: 'failed',
+      reason: 'incorrect password'
+    })
+  }
 })
 
 /*
@@ -190,7 +197,7 @@ function validatePass (password) {
 
 // Creates a new session for the user and adds it to the sessions collection
 // the session document will be removed after an hour based on createdAt
-function createSession (userId) {
+async function createSession (userId) {
   var newToken = uuidv4()
   var newSession = {
     createdAt: new Date(),
@@ -198,7 +205,7 @@ function createSession (userId) {
     token: newToken
   }
 
-  geoffrey.getSessions().insertOne(newSession)
+  await geoffrey.getSessions().insertOne(newSession)
 
   return newToken
 }

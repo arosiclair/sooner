@@ -7,25 +7,18 @@
       <span id="header-title">ReadItNow</span>
     </div>
     <div class="header-right">
-      <div id="usernameLink" href="#" @click="dispatchLogout">
-        {{ username }}
-        <b-avatar class="m-1" />
-      </div>
+      <UserMenu />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
+import UserMenu from './UserMenu'
 export default {
   name: 'Header',
-  computed: mapGetters({
-    username: 'user/userName'
-  }),
-  methods: mapActions({
-    dispatchLogout: 'user/logout'
-  })
+  components: {
+    UserMenu
+  }
 }
 </script>
 
@@ -45,9 +38,4 @@ export default {
     margin-left: 10px;
 }
 
-#usernameLink {
-    font-family: 'Rubik', sans-serif;
-    font-size: 24px;
-    cursor: pointer;
-}
 </style>

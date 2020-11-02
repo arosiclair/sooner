@@ -43,6 +43,17 @@ export default {
   methods: {
     toggleOpen () {
       this.open = !this.open
+
+      // handle outside clicks when open
+      if (this.open) {
+        const outsideClick = (event) => {
+          if (!event.target.closest('#dd-container')) {
+            this.open = false
+            document.removeEventListener('click', outsideClick)
+          }
+        }
+        setTimeout(() => document.addEventListener('click', outsideClick))
+      }
     },
     ...mapActions({
       dispatchLogout: 'user/logout'

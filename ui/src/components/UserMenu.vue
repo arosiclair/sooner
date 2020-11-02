@@ -5,17 +5,25 @@
       <b-avatar class="m-1" />
     </div>
     <div id="dd-container" class="rounded text-center paper-bg shadow" :class="dropdownClass">
-      <div>Settings</div>
-      <div>Logout</div>
+      <HoverOverlay class="dd-item">
+        Settings
+      </HoverOverlay>
+      <HoverOverlay class="dd-item" @click="dispatchLogout">
+        Logout
+      </HoverOverlay>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import HoverOverlay from './utils/HoverOverlay'
 
 export default {
   name: 'UserMenu',
+  components: {
+    HoverOverlay
+  },
   data () {
     return {
       open: false
@@ -66,15 +74,12 @@ export default {
 #dd-container.hide {
   top: 0;
   opacity: 0;
+  pointer-events: none;
 }
 
-#dd-container > div {
+.dd-item {
   font-size: 1.2rem;
   cursor: pointer;
   padding: 1rem 3rem;
-}
-
-#dd-container > div:not(:last-child) {
-  /* margin-bottom: 0.5rem; */
 }
 </style>

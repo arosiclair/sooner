@@ -2,7 +2,8 @@
   <div :class="backgroundStyle">
     <div class="centered-container split item" @click="goToLink">
       <!-- Favicon section -->
-      <img class="favicon" :src="faviconUrl" alt="" />
+      <!-- <img class="favicon" :src="faviconUrl" alt="" /> -->
+      <LinkIcon class="favicon" :linkUrl="data.link" />
       <!-- Text section -->
       <div class="centered-container link-text-container">
         <div class="link-text-container">
@@ -25,13 +26,17 @@
 </template>
 
 <script>
-import api from '../modules/api'
-import { getDomainFromUrl } from '../modules/utilities'
+import api from '../../modules/api'
+import { getDomainFromUrl } from '../../modules/utilities'
 import { addDays, formatDistance, differenceInDays } from 'date-fns'
 import { mapGetters } from 'vuex'
 import Dotdotdot from 'dotdotdot-js'
+import LinkIcon from './LinkIcon'
 
 export default {
+  components: {
+    LinkIcon
+  },
   props: ['data'],
   data () {
     return {

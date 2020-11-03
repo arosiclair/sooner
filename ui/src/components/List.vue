@@ -39,7 +39,7 @@
 
 <script>
 import api from '../modules/api'
-import Link from './Link'
+import Link from './Link/Link'
 import { getDomainFromUrl, debounce } from '../modules/utilities'
 
 export default {

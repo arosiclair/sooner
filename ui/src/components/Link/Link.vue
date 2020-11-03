@@ -2,7 +2,6 @@
   <div :class="backgroundStyle">
     <div class="centered-container split item" @click="goToLink">
       <!-- Favicon section -->
-      <!-- <img class="favicon" :src="faviconUrl" alt="" /> -->
       <LinkIcon class="favicon" :linkUrl="data.link" />
       <!-- Text section -->
       <div class="centered-container link-text-container">
@@ -27,7 +26,6 @@
 
 <script>
 import api from '../../modules/api'
-import { getDomainFromUrl } from '../../modules/utilities'
 import { addDays, formatDistance, differenceInDays } from 'date-fns'
 import { mapGetters } from 'vuex'
 import Dotdotdot from 'dotdotdot-js'
@@ -47,9 +45,6 @@ export default {
     this.dddTitle = new Dotdotdot(this.$refs.title)
   },
   computed: {
-    faviconUrl: function () {
-      return 'https://favicons.githubusercontent.com/' + getDomainFromUrl(this.data.link)
-    },
     timeLeft: function () {
       const expirationDts = addDays(new Date(this.data.addedOn), this.userPrefs.linkTTL)
       return formatDistance(new Date(), expirationDts)

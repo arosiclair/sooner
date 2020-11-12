@@ -1,14 +1,14 @@
 <template>
   <div>
     <img
-      id="logo"
+      class="m-4"
       src="https://via.placeholder.com/150"
       alt="logo" />
     <form>
       <div v-if="error" id="error-div" class="alert alert-danger">
         {{ error }}
       </div>
-      <div class="group">
+      <div class="shadow-sm rounded overflow-hidden mb-3">
         <input
           v-if="registering"
           v-model="name"
@@ -29,10 +29,12 @@
           placeholder="Password"
           @keyup.enter="loginBtnClicked" />
       </div>
-      <button id="loginButton" type="button" @click="loginBtnClicked">
+      <button class="shadow-sm rounded mb-4" id="loginButton" type="button" @click="loginBtnClicked">
         {{ registering ? 'SIGN UP' : 'LOGIN' }}
       </button>
-      <a id="signUpLink" href="#" @click="registering = !registering">{{ registering ? 'CANCEL' : 'SIGN UP' }}</a>
+      <a href="#" @click="registering = !registering">
+        {{ registering ? 'CANCEL' : 'SIGN UP' }}
+      </a>
     </form>
   </div>
 </template>
@@ -109,23 +111,15 @@ export default {
 </script>
 
 <style scoped>
-
-#logo {
-    margin-bottom: 20px;
-}
-
 #loginButton {
     width: 100%;
     height: 66px;
-    margin-bottom: 10px;
     background-color: #ffffff;
-    font-family: 'Rubik', sans-serif;
-    color: #212121;
     border: none;
 
+    font-family: 'Rubik', sans-serif;
     font-size: 24px;
-    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
-    border-radius: 5px;
+    color: #212121;
 
     transition: 0.5s ease;
 }
@@ -133,25 +127,12 @@ export default {
     outline: none;
 }
 #loginButton:hover {
-    box-shadow: 0 1px 10px 0 rgba(0,0,0,0.37);
-}
-#signUpLink {
-    font-family: 'Rubik', sans-serif;
-}
-
-#error-div {
-  font-family: 'Rubik', sans-serif;
+  /* Bootstrap shadow class */
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
 }
 </style>
 
 <style>
-.group {
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
-    margin-bottom: 20px;
-}
-
 input{
     width: 100%;
     font-size: 24px;

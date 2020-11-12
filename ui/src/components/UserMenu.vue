@@ -4,7 +4,7 @@
       {{ username }}
       <b-avatar class="m-1" />
     </div>
-    <div id="dd-container" class="rounded text-center paper-bg shadow" :class="dropdownClass">
+    <div id="dd-container" class="rounded text-center paper-bg shadow-sm" :class="dropdownClass">
       <HoverOverlay class="dd-item">
         Settings
       </HoverOverlay>

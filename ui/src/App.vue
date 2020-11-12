@@ -40,7 +40,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 
 body {
-  background-color: #fafafa;
+  background-color: #f5f5f5;
   color: #212121;
   font-family: 'Rubik', sans-serif;
 }
@@ -81,6 +81,10 @@ body {
 
 .paper-bg {
   background-color: #fff;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 </style>

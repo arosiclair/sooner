@@ -1,6 +1,6 @@
 <template>
   <div :class="backgroundStyle">
-    <div class="centered-container split item" @click="goToLink">
+    <div class="centered-container split item paper-bg" @click="goToLink">
       <!-- Favicon section -->
       <LinkIcon class="favicon" :linkUrl="data.link" />
       <!-- Text section -->

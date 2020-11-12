@@ -4,7 +4,7 @@
       {{ error }}
     </div>
 
-    <div class="group">
+    <div class="shadow-sm rounded overflow-hidden mb-4">
       <div class="link-preview-container" :class="{ hidden: !newLinkPreview && !newLinkLoading }">
         <div v-if="newLinkLoading" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
@@ -27,7 +27,7 @@
         @input="onNewLinkChanged"
         @keyup.enter="addNewLink" />
     </div>
-    <div class="group">
+    <div class="shadow-sm rounded overflow-hidden">
       <Link
         v-for="link in links"
         :key="link._id"
@@ -156,12 +156,5 @@ export default {
 
 .group {
   margin-bottom: 20px;
-}
-
-#loginFields {
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
-    margin-bottom: 20px;
 }
 </style>

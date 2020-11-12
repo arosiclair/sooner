@@ -15,7 +15,12 @@ function debounce (fn, time) {
   }
 }
 
+function isDebug () {
+  return process.env.NODE_ENV === 'development'
+}
+
 export {
   getDomainFromUrl,
-  debounce
+  debounce,
+  isDebug
 }

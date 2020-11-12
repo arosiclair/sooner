@@ -5,6 +5,7 @@
       <List v-if="loggedIn"></List>
       <Login v-else></Login>
     </div>
+    <DebugLayer v-if="isDebug" />
   </div>
 </template>
 
@@ -12,16 +13,23 @@
 import Header from './components/Header'
 import Login from './components/Login'
 import List from './components/List'
+import DebugLayer from './components/debug/DebugLayer'
 import { mapGetters, mapActions } from 'vuex'
+import { isDebug } from './modules/utilities'
 
 export default {
   name: 'App',
   components: {
     Header,
     Login,
-    List
+    List,
+    DebugLayer
   },
-
+  data () {
+    return {
+      isDebug: isDebug()
+    }
+  },
   computed: mapGetters({
     loggedIn: 'user/loggedIn'
   }),

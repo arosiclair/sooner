@@ -28,7 +28,7 @@ router.post('/add', async function (req, res) {
     name: req.body.linkName,
     siteName: req.body.siteName,
     link: req.body.link,
-    addedOn: new Date()
+    addedOn: req.body.addedOn || new Date()
   }
 
   geoffrey.getLists().updateOne({ _id: listId }, { $push: { links: newLink } })

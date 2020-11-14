@@ -75,6 +75,7 @@ export default {
       this.loading = true
 
       var result = await api.get('/list/')
+      result.data.list.sort((a, b) => new Date(a.addedOn) - new Date(b.addedOn))
       this.links = result.data.list
 
       this.loading = false

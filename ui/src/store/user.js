@@ -30,7 +30,7 @@ export default {
       }
 
       try {
-        var resp = await api.post('/users/login', loginData)
+        var resp = await api.post('/user/login', loginData)
         if (resp.data.result === 'success') {
           console.log('Log in successful!')
           return dispatch('updateUserData')
@@ -57,7 +57,7 @@ export default {
       }
 
       try {
-        var resp = await api.post('/users/register', data)
+        var resp = await api.post('/user/register', data)
       } catch (error) {
         console.log('Register error: \n', error)
         return {
@@ -80,7 +80,7 @@ export default {
     async updateUserData ({ commit }) {
       let error = ''
       try {
-        var resp = await api.get('/users/userData')
+        var resp = await api.get('/user/data')
       } catch (e) {
         error = 'There was an issue getting your data'
       }
@@ -101,7 +101,7 @@ export default {
     async logout ({ dispatch }) {
       let error = ''
       try {
-        var resp = await api.post('/users/logout')
+        var resp = await api.post('/user/logout')
       } catch (e) {
         error = 'There was an issue logging out'
       }

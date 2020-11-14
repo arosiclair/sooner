@@ -7,8 +7,8 @@ var cors = require('cors')
 var appSettings = require('./appSettings.json')
 
 // routes
-var users = require('./routes/users')
-var lists = require('./routes/lists')
+var user = require('./routes/user')
+var list = require('./routes/list')
 
 var app = express()
 
@@ -37,8 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 // REST API routing
 var apiRouter = express.Router()
 app.use('/api', apiRouter)
-apiRouter.use('/users', users.router)
-apiRouter.use('/list', users.auth, lists)
+apiRouter.use('/user', user.router)
+apiRouter.use('/list', user.auth, list)
 
 // SPA (redirect any non-API requests)
 app.get('/*', function (req, res) {

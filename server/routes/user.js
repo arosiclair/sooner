@@ -132,8 +132,8 @@ router.post('/logout', function (req, res) {
   }
 })
 
-router.all('/userData', authMiddleware)
-router.get('/userData', async function (req, res) {
+router.all('/data', authMiddleware)
+router.get('/data', async function (req, res) {
   var user = await getUser(req.userId)
   if (user) {
     var data = {

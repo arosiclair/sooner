@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 var geoffrey = require('../geoffrey')
-var users = require('./users')
+var users = require('./user')
 
 var urlMetadata = require('url-metadata')
 

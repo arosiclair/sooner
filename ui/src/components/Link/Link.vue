@@ -68,11 +68,7 @@ export default {
       win.focus()
     },
     remove: async function () {
-      var data = {
-        linkId: this.data._id
-      }
-
-      await api.post('/list/remove', data)
+      await api.delete(`/list/${this.data._id}`)
       this.$emit('list-updated')
     }
   }

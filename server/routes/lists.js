@@ -6,64 +6,6 @@ var users = require('./users')
 
 var urlMetadata = require('url-metadata')
 
-/*
-  Endpoint for adding a link to a user's list
-  Creates a document in the list collection for the user if they do not already have one
-  Expects the following params:
-  linkName: string
-  link: string
-*/
-router.post('/add', async function (req, res) {
-  var error = validateUserId(req)
-  error = validateLink(req)
-  if (error) {
-    res.json(error)
-    return
-  }
-
-  var listId = await getListId(req.userId)
-
-  var newLink = {
-    _id: geoffrey.getObjectId(),
-    name: req.body.linkName,
-    siteName: req.body.siteName,
-    link: req.body.link,
-    addedOn: req.body.addedOn || new Date()
-  }
-
-  geoffrey.getLists().updateOne({ _id: listId }, { $push: { links: newLink } })
-
-  res.json({
-    result: 'success',
-    linkId: newLink._id
-  })
-})
-
-router.post('/remove', async function (req, res) {
-  var error = validateUserId(req)
-  if (error) {
-    res.json(error)
-    return
-  }
-
-  if (!req.body.linkId) {
-    res.json({
-      result: 'error',
-      reason: 'bad link id'
-    })
-    return
-  }
-
-  var listId = await getListId(req.userId)
-
-  var linkId = geoffrey.getObjectId(req.body.linkId)
-  geoffrey.getLists().updateOne({ _id: listId }, { $pull: { links: { _id: linkId } } })
-
-  res.json({
-    result: 'success'
-  })
-})
-
 router.get('/', async function (req, res) {
   var error = validateUserId(req)
   if (error) {
@@ -95,6 +37,65 @@ router.get('/', async function (req, res) {
       reason: 'no list data found'
     })
   }
+})
+
+/*
+  Endpoint for adding a link to a user's list
+  Creates a document in the list collection for the user if they do not already have one
+  Expects the following params:
+  linkName: string
+  link: string
+*/
+router.put('/', async function (req, res) {
+  var error = validateUserId(req)
+  error = validateLink(req)
+  if (error) {
+    res.json(error)
+    return
+  }
+
+  var listId = await getListId(req.userId)
+
+  var newLink = {
+    _id: geoffrey.getObjectId(),
+    name: req.body.linkName,
+    siteName: req.body.siteName,
+    link: req.body.link,
+    addedOn: req.body.addedOn || new Date()
+  }
+
+  geoffrey.getLists().updateOne({ _id: listId }, { $push: { links: newLink } })
+
+  res.json({
+    result: 'success',
+    linkId: newLink._id
+  })
+})
+
+router.delete('/:linkId', async function (req, res) {
+  var error = validateUserId(req)
+  if (error) {
+    res.json(error)
+    return
+  }
+
+  const linkId = req.params.linkId
+
+  if (!linkId) {
+    res.json({
+      result: 'error',
+      reason: 'bad link id'
+    })
+    return
+  }
+
+  const listId = await getListId(req.userId)
+  const linkObjId = geoffrey.getObjectId(linkId)
+  geoffrey.getLists().updateOne({ _id: listId }, { $pull: { links: { _id: linkObjId } } })
+
+  res.json({
+    result: 'success'
+  })
 })
 
 router.get('/linkMetadata', function (req, res) {

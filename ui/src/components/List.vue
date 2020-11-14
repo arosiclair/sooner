@@ -101,7 +101,7 @@ export default {
         link: url
       }
 
-      var response = await api.post('/list/add', newLink)
+      var response = await api.put('/list/', newLink)
       console.log('Adding link result = ' + response.data.result)
       if (response.data.result === 'success') {
         this.refresh()

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header v-if="loggedIn"></Header>
-    <div class="container content">
+    <div class="container content my-0 my-sm-5">
       <List v-if="loggedIn"></List>
       <Login v-else></Login>
     </div>
@@ -61,8 +61,6 @@ body {
 .content {
   text-align: center;
   max-width: 750px;
-  padding-top: 100px;
-  padding-bottom: 100px;
 }
 
 .centered-container {

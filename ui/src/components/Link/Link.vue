@@ -67,7 +67,9 @@ export default {
       var win = window.open(this.data.link, '_blank')
       win.focus()
     },
-    remove: async function () {
+    remove: async function (event) {
+      event.stopPropagation()
+
       await api.delete(`/list/${this.data._id}`)
       this.$emit('list-updated')
     }

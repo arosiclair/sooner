@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div v-if="error" id="error-div" class="alert alert-danger">
-      {{ error }}
-    </div>
-
     <div class="shadow-sm rounded overflow-hidden mb-4">
       <div class="link-preview-container" :class="{ hidden: !newLinkPreview && !newLinkLoading }">
         <div v-if="newLinkLoading" class="spinner-border" role="status">
@@ -23,7 +19,7 @@
         v-model="newLink"
         placeholder="Enter a link here"
         type="text"
-        :class="{ error: badLink || error }"
+        :class="{ error: error }"
         @input="onNewLinkChanged"
         @keyup.enter="addNewLink" />
     </div>
@@ -51,8 +47,7 @@ export default {
     return {
       loading: true,
       newLink: '',
-      error: '',
-      badLink: false,
+      error: false,
       links: [],
       metadata: undefined,
       newLinkLoading: false
@@ -83,10 +78,10 @@ export default {
     addNewLink: async function () {
       var url = this.newLink.trim()
       if (!url || url.length <= 0) {
-        this.badLink = true
+        this.error = true
         return
       } else {
-        this.badLink = false
+        this.error = false
       }
 
       if (!this.metadata) {
@@ -102,15 +97,21 @@ export default {
         link: url
       }
 
-      var response = await api.put('/list/', newLink)
-      console.log('Adding link result = ' + response.data.result)
+      try {
+        var response = await api.put('/list/', newLink)
+      } catch (error) {
+        this.$toast.error('There was an issue adding your link')
+        this.error = true
+      }
+
       if (response.data.result === 'success') {
         this.refresh()
         this.newLink = ''
         this.error = null
         this.metadata = null
       } else {
-        this.error = 'There was an issue adding your link'
+        this.$toast.error('There was an issue adding your link')
+        this.error = true
       }
     },
     onNewLinkChanged: debounce(async function (event) {
@@ -121,11 +122,17 @@ export default {
     }, 750),
     getMetadata: async function (url) {
       if (url) {
-        var response = await api.get('/list/linkMetadata?url=' + url)
+        try {
+          var response = await api.get('/list/linkMetadata?url=' + url)
+        } catch (error) {
+          this.$toast.error('There was an issue getting info on your link')
+          return null
+        }
+
         if (response.data.result === 'success') {
           return response.data.metadata
         } else {
-          this.badLink = true
+          this.error = true
         }
       }
     }

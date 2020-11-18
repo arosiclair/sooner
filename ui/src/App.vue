@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header v-if="loggedIn"></Header>
-    <div class="container content my-0 my-sm-5">
+    <div class="container content my-0 my-md-5">
       <List v-if="loggedIn"></List>
       <Login v-else></Login>
     </div>

@@ -5,9 +5,6 @@
       src="https://via.placeholder.com/150"
       alt="logo" />
     <form>
-      <div v-if="error" id="error-div" class="alert alert-danger">
-        {{ error }}
-      </div>
       <div class="shadow-sm rounded overflow-hidden mb-3">
         <input
           v-if="registering"
@@ -83,13 +80,15 @@ export default {
     login: function () {
       this.error = this.validateLogin()
       if (this.error) {
+        this.$toast.error(this.error)
         return
       }
 
       this.dispatchLogin({ email: this.email, password: this.password })
         .then(result => {
           if (!result.success) {
-            this.error = result.reason
+            this.error = true
+            this.$toast.error(result.reason)
           }
         })
     },

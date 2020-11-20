@@ -26,8 +26,13 @@
           placeholder="Password"
           @keyup.enter="loginBtnClicked" />
       </div>
-      <button class="shadow-sm rounded mb-4" id="loginButton" type="button" @click="loginBtnClicked">
-        {{ registering ? 'SIGN UP' : 'LOGIN' }}
+      <button class="shadow-sm rounded mb-4" id="loginButton" type="button" @click="loginBtnClicked" :disabled="loading">
+        <div v-if="loading" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <span v-else>
+          {{ registering ? 'SIGN UP' : 'LOGIN' }}
+        </span>
       </button>
       <a href="#" @click="registering = !registering">
         {{ registering ? 'CANCEL' : 'SIGN UP' }}
@@ -47,7 +52,8 @@ export default {
       email: '',
       password: '',
       registering: false,
-      error: ''
+      error: '',
+      loading: false
     }
   },
   computed: {
@@ -59,14 +65,16 @@ export default {
     }
   },
   methods: {
-    loginBtnClicked: function (event) {
+    async loginBtnClicked (event) {
+      this.loading = true
       if (this.registering) {
-        this.register()
+        await this.register()
       } else {
-        this.login()
+        await this.login()
       }
+      this.loading = false
     },
-    register: async function () {
+    async register () {
       const data = {
         name: this.name,
         email: this.email,
@@ -77,22 +85,20 @@ export default {
         this.error = result.reason
       }
     },
-    login: function () {
+    async login () {
       this.error = this.validateLogin()
       if (this.error) {
         this.$toast.error(this.error)
         return
       }
 
-      this.dispatchLogin({ email: this.email, password: this.password })
-        .then(result => {
-          if (!result.success) {
-            this.error = true
-            this.$toast.error(result.reason)
-          }
-        })
+      const result = await this.dispatchLogin({ email: this.email, password: this.password })
+      if (!result.success) {
+        this.error = true
+        this.$toast.error(result.reason)
+      }
     },
-    validateLogin: function () {
+    validateLogin () {
       if (!this.validEmail) {
         return 'Enter a valid email'
       } else if (!this.validPass) {
@@ -128,6 +134,9 @@ export default {
 #loginButton:hover {
   /* Bootstrap shadow class */
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+.spinner-border {
+  font-size: 1rem;
 }
 </style>
 

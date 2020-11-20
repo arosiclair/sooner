@@ -30,6 +30,11 @@ const mockLinks = [
     linkName: "YouTube is down, it's not just you",
     siteName: 'Input',
     link: 'https://www.inputmag.com/tech/youtube-is-down-its-not-just-you'
+  },
+  {
+    linkName: 'Facing collapse, the famed Arecibo Observatory will be demolished',
+    link: 'https://www.theverge.com/2020/11/19/21575025/arecibo-observatory-puerto-rico-decommission-structural-collapse-cable-break',
+    siteName: 'The Verge'
   }
 ]
 export default {

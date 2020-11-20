@@ -29,7 +29,8 @@ router.get('/', async function (req, res) {
 
     res.json({
       result: 'success',
-      list: unexpiredLinks
+      list: unexpiredLinks,
+      numExpired: links.length - unexpiredLinks.length
     })
   } else {
     res.json({

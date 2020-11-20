@@ -73,6 +73,12 @@ export default {
       result.data.list.sort((a, b) => new Date(a.addedOn) - new Date(b.addedOn))
       this.links = result.data.list
 
+      const numExpired = result.data.numExpired
+      if (numExpired) {
+        const links = numExpired > 1 ? 'links' : 'link'
+        this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
+      }
+
       this.loading = false
     },
     addNewLink: async function () {

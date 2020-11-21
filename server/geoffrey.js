@@ -38,24 +38,7 @@ const getObjectId = (id = null) => {
   }
 }
 
-// const flattenObj = (queryObj) => {
-//   const result = {}
-//   const entries = Object.entries(queryObj)
-//   for (const [key, value] of entries) {
-//     if (typeof value === 'object') {
-//       addFlattenedObjKeys(result, queryObj, key)
-//     } else if (Array.isArray(value)) {
-//       addFlattenedArrayKeys(result, queryObj, key)
-//     } else {
-//       result[key] = value
-//     }
-//   }
-// }
-
-// const addFlattenedObjKeys = (result, queryObj, key) => {
-
-// }
-
+// taken from https://gist.github.com/penguinboy/762197
 const flattenObject = (obj) => {
   var toReturn = {}
 

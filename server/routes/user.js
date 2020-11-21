@@ -5,6 +5,7 @@ var router = express.Router()
 var geoffrey = require('../geoffrey')
 var passwordHasher = require('password-hash')
 const { v4: uuidv4 } = require('uuid')
+const { sanitize, sanitizeAndValidate } = require('../utils')
 
 /*
   Endpoint for creating a user.
@@ -149,6 +150,35 @@ router.get('/data', async function (req, res) {
       reason: 'There was an issue getting the user\'s data'
     })
   }
+})
+
+const userDataSchema = {
+  name: value => typeof value === 'string' && value.length <= 30,
+  email: value => typeof value === 'string' && validateEmail(value),
+  prefs: value => typeof value === 'object' && sanitizeAndValidate(value, userPrefsSchema)
+}
+const userPrefsSchema = {
+  linkTTL: value => typeof value === 'number'
+}
+
+router.patch('/data', async function (req, res) {
+  const data = req.body
+  const errorKeys = sanitizeAndValidate(data, userDataSchema)
+  if (errorKeys.length) {
+    res.json({
+      result: 'error',
+      reason: errorKeys
+    })
+    return
+  }
+
+  const updateObj = geoffrey.flattenObject(data)
+  const result = await geoffrey.getUsers().findOneAndUpdate({ _id: req.userId }, { '$set': updateObj })
+
+  res.json({
+    result: 'success',
+    data: sanitize(result.value, userDataSchema)
+  })
 })
 
 function validateEmailAndPass (req) {

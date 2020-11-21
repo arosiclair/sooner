@@ -1,14 +1,15 @@
+/* eslint-disable no-prototype-builtins */
 // Data access for ReadItNow
 
-var mongoClient = require('mongodb').MongoClient
-var bson = require('bson')
-var url = 'mongodb://localhost:27017/geoffrey'
+const mongoClient = require('mongodb').MongoClient
+const bson = require('bson')
+const url = 'mongodb://localhost:27017/geoffrey'
 const dbName = 'geoffrey'
 
-var geoffrey
-var usersCollection
-var sessionsCollection
-var listsCollection
+let geoffrey
+let usersCollection
+let sessionsCollection
+let listsCollection
 
 mongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
   if (err) {
@@ -23,22 +24,62 @@ mongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
   listsCollection = geoffrey.collection('lists')
 })
 
-module.exports.getUsers = function () {
-  return usersCollection
-}
+const getUsers = () => usersCollection
 
-module.exports.getSessions = function () {
-  return sessionsCollection
-}
+const getSessions = () => sessionsCollection
 
-module.exports.getLists = function () {
-  return listsCollection
-}
+const getLists = () => listsCollection
 
-module.exports.getObjectId = function (id = null) {
+const getObjectId = (id = null) => {
   if (id) {
     return new bson.ObjectID(id)
   } else {
     return new bson.ObjectID()
   }
+}
+
+// const flattenObj = (queryObj) => {
+//   const result = {}
+//   const entries = Object.entries(queryObj)
+//   for (const [key, value] of entries) {
+//     if (typeof value === 'object') {
+//       addFlattenedObjKeys(result, queryObj, key)
+//     } else if (Array.isArray(value)) {
+//       addFlattenedArrayKeys(result, queryObj, key)
+//     } else {
+//       result[key] = value
+//     }
+//   }
+// }
+
+// const addFlattenedObjKeys = (result, queryObj, key) => {
+
+// }
+
+const flattenObject = (obj) => {
+  var toReturn = {}
+
+  for (var i in obj) {
+    if (!obj.hasOwnProperty(i)) continue
+
+    if ((typeof obj[i]) === 'object') {
+      var flatObject = flattenObject(obj[i])
+      for (var x in flatObject) {
+        if (!flatObject.hasOwnProperty(x)) continue
+
+        toReturn[i + '.' + x] = flatObject[x]
+      }
+    } else {
+      toReturn[i] = obj[i]
+    }
+  }
+  return toReturn
+}
+
+module.exports = {
+  getUsers,
+  getSessions,
+  getLists,
+  getObjectId,
+  flattenObject
 }

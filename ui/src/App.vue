@@ -4,6 +4,7 @@
     <div class="container content my-0 my-md-5">
       <List v-if="loggedIn"></List>
       <Login v-else></Login>
+      <Settings />
     </div>
     <DebugLayer v-if="isDebug" />
   </div>
@@ -13,6 +14,7 @@
 import Header from './components/Header'
 import Login from './components/Login'
 import List from './components/List'
+import Settings from './components/Settings'
 import DebugLayer from './components/debug/DebugLayer'
 import { mapGetters, mapActions } from 'vuex'
 import { isDebug } from './modules/utilities'
@@ -23,7 +25,8 @@ export default {
     Header,
     Login,
     List,
-    DebugLayer
+    DebugLayer,
+    Settings
   },
   data () {
     return {

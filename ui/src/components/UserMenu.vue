@@ -5,7 +5,7 @@
       <b-avatar class="m-1" />
     </div>
     <div id="dd-container" class="rounded text-center paper-bg shadow-sm" :class="dropdownClass">
-      <HoverOverlay class="dd-item">
+      <HoverOverlay class="dd-item" @click="showSettings">
         Settings
       </HoverOverlay>
       <HoverOverlay class="dd-item" @click="dispatchLogout">
@@ -43,17 +43,21 @@ export default {
   methods: {
     toggleOpen () {
       this.open = !this.open
-
-      // handle outside clicks when open
       if (this.open) {
-        const outsideClick = (event) => {
-          if (!event.target.closest('#dd-container')) {
-            this.open = false
-            document.removeEventListener('click', outsideClick)
-          }
-        }
-        setTimeout(() => document.addEventListener('click', outsideClick))
+        setTimeout(() => document.addEventListener('click', this.outsideClick))
+      } else {
+        document.removeEventListener('click', this.outsideClick)
       }
+    },
+    outsideClick (event) {
+      if (!event.target.closest('#dd-container')) {
+        this.open = false
+        document.removeEventListener('click', this.outsideClick)
+      }
+    },
+    showSettings () {
+      this.toggleOpen()
+      this.$bvModal.show('settings-modal')
     },
     ...mapActions({
       dispatchLogout: 'user/logout'

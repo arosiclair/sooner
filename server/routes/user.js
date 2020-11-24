@@ -173,7 +173,7 @@ router.patch('/data', async function (req, res) {
   }
 
   const updateObj = geoffrey.flattenObject(data)
-  const result = await geoffrey.getUsers().findOneAndUpdate({ _id: req.userId }, { '$set': updateObj })
+  const result = await geoffrey.getUsers().findOneAndUpdate({ _id: req.userId }, { '$set': updateObj }, { returnOriginal: false })
 
   res.json({
     result: 'success',

@@ -25,7 +25,7 @@
     </div>
     <div class="shadow-sm rounded overflow-hidden">
       <Link
-        v-for="link in links"
+        v-for="link in sortedLinks"
         :key="link._id"
         :data="link"
         @list-updated="refresh" />
@@ -37,6 +37,7 @@
 import api from '../modules/api'
 import Link from './Link/Link'
 import { getDomainFromUrl, debounce } from '../modules/utilities'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'List',
@@ -54,13 +55,26 @@ export default {
     }
   },
   computed: {
-    newLinkPreview: function () {
+    sortedLinks () {
+      const result = [...this.links]
+      return result.sort((a, b) => {
+        if (this.userPrefs.linkOrder === 'desc') {
+          return new Date(b.addedOn) - new Date(a.addedOn)
+        } else {
+          return new Date(a.addedOn) - new Date(b.addedOn)
+        }
+      })
+    },
+    newLinkPreview () {
       if (this.metadata) {
         return this.metadata.title ? this.metadata.title : 'Title'
       } else {
         return null
       }
-    }
+    },
+    ...mapGetters({
+      userPrefs: 'user/prefs'
+    })
   },
   mounted: function () {
     this.refresh()
@@ -70,7 +84,6 @@ export default {
       this.loading = true
 
       var result = await api.get('/list/')
-      result.data.list.sort((a, b) => new Date(a.addedOn) - new Date(b.addedOn))
       this.links = result.data.list
 
       const numExpired = result.data.numExpired

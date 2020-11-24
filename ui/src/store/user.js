@@ -102,7 +102,7 @@ export default {
       try {
         var resp = await api.patch('/user/data', changes)
       } catch (e) {
-        var error = 'There was an issue updating your data'
+        var error = 'There was an issue updating your settings'
       }
 
       error = error || resp.data.reason

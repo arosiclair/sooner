@@ -12,16 +12,19 @@
   <template #default>
     <div>
       <h6>Display Name</h6>
-      <b-form-input v-model="displayName"/>
+      <b-form-input v-model="displayName" class="form-input"/>
     </div>
     <div>
       <h6>Email</h6>
-      <b-form-input v-model="email" disabled />
+      <b-form-input v-model="email" class="form-input" disabled />
     </div>
     <div>
       <h6>Link Time Limit</h6>
       <b-form-input v-model="ttl" type="range" min="1" max="10" />
-      {{ ttlStr }}
+      <div class="text-center">
+        {{ ttlStr }}
+      </div>
+
     </div>
     <div>
       <h6>Sort Links</h6>
@@ -102,6 +105,7 @@ export default {
 }
 
 .settings-body > div:not(:last-child) {
- margin-bottom: 1.5rem;
+ margin-bottom: 2rem;
 }
+
 </style>

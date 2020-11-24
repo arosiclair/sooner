@@ -26,9 +26,9 @@
     <div>
       <h6>Sort Links</h6>
       <b-form-group class="text-center">
-        <b-form-radio-group>
-          <b-form-radio name="sort-direction" value="asc">Newest first</b-form-radio>
-          <b-form-radio name="sort-direction" value="desc">Oldest first</b-form-radio>
+        <b-form-radio-group v-model="linkOrder" name="link-order">
+          <b-form-radio value="asc">Oldest first</b-form-radio>
+          <b-form-radio value="desc">Newest first</b-form-radio>
         </b-form-radio-group>
       </b-form-group>
     </div>
@@ -43,7 +43,8 @@ export default {
     return {
       displayName: '',
       email: '',
-      ttl: ''
+      ttl: '',
+      linkOrder: ''
     }
   },
   computed: {
@@ -51,6 +52,16 @@ export default {
       let str = `${this.ttl} day`
       if (parseInt(this.ttl) > 1) { str += 's' }
       return str
+    },
+    payload () {
+      return {
+        name: this.displayName,
+        email: this.email,
+        prefs: {
+          linkTTL: parseInt(this.ttl),
+          linkOrder: this.linkOrder
+        }
+      }
     },
     ...mapGetters({
       userData: 'user/data'
@@ -61,16 +72,10 @@ export default {
       this.displayName = this.userData.name
       this.email = this.userData.email
       this.ttl = this.userData.prefs.linkTTL
+      this.linkOrder = this.userData.prefs.linkOrder
     },
     async save () {
-      const changes = {
-        name: this.displayName,
-        email: this.email,
-        prefs: {
-          linkTTL: parseInt(this.ttl)
-        }
-      }
-      const result = await this.updateUserData(changes)
+      const result = await this.updateUserData(this.payload)
 
       if (result.error) {
         this.$toast.error(result.reason)

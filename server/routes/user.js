@@ -158,7 +158,8 @@ const userDataSchema = {
   prefs: value => typeof value === 'object' && sanitizeAndValidate(value, userPrefsSchema)
 }
 const userPrefsSchema = {
-  linkTTL: value => typeof value === 'number'
+  linkTTL: value => typeof value === 'number',
+  linkOrder: value => typeof value === 'string' && ['asc', 'desc'].includes(value)
 }
 
 router.patch('/data', async function (req, res) {

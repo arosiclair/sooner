@@ -35,7 +35,7 @@ const validateStrict = (object, schema) => Object
   .map(key => key)
 
 const sanitizeAndValidate = (object, schema) => {
-  sanitize(object)
+  sanitize(object, schema)
   return validate(object, schema)
 }
 

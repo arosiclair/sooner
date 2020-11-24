@@ -19,6 +19,7 @@
         v-model="newLink"
         placeholder="Enter a link here"
         type="text"
+        class="lg-input"
         :class="{ error: error }"
         @input="onNewLinkChanged"
         @keyup.enter="addNewLink" />

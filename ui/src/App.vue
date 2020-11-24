@@ -96,4 +96,57 @@ body {
   overflow: hidden;
 }
 
+/* input styling */
+.lg-input {
+    width: 100%;
+    font-size: 24px;
+    font-family: 'Rubik', sans-serif;
+    padding: 15px;
+    margin: 0;
+
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #ffffff;
+
+    transition: 300ms ease;
+}
+.lg-input:hover {
+    background-color: #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+}
+.lg-input:focus {
+    outline: none;
+    border-bottom: 1px solid #28b5f4;
+}
+.lg-input.error {
+    border-bottom: 1px solid #e53635;
+}
+
+.form-input {
+    font-size: 1.25rem;
+    padding: 1rem 0.5rem;
+    margin: 0;
+
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #eeeeee;
+
+    border-radius: 0;
+
+    transition: 300ms ease;
+}
+.form-input:hover {
+    background-color: #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+}
+.form-input:focus {
+    outline: none;
+    box-shadow: none;
+    border-bottom: 1px solid #28b5f4;
+}
+.form-input.error {
+    border-bottom: 1px solid #e53635;
+}
 </style>

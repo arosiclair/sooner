@@ -9,22 +9,23 @@
         <input
           v-if="registering"
           v-model="name"
-          class="first"
           type="text"
-          placeholder="Name" />
+          placeholder="Name"
+          class="lg-input" />
         <input
           v-model="email"
-          :class="{ error: error && !validEmail }"
           type="text"
           placeholder="Email"
-          @keyup.enter="loginBtnClicked" />
+          @keyup.enter="loginBtnClicked"
+          class="lg-input"
+          :class="{ error: error && !validEmail }" />
         <input
           v-model="password"
-          class="last"
-          :class="{ error: error && !validPass }"
           type="password"
           placeholder="Password"
-          @keyup.enter="loginBtnClicked" />
+          @keyup.enter="loginBtnClicked"
+          class="lg-input"
+          :class="{ error: error && !validPass }" />
       </div>
       <button class="shadow-sm rounded mb-4" id="loginButton" type="button" @click="loginBtnClicked" :disabled="loading">
         <div v-if="loading" class="spinner-border" role="status">
@@ -137,33 +138,5 @@ export default {
 }
 .spinner-border {
   font-size: 1rem;
-}
-</style>
-
-<style>
-input{
-    width: 100%;
-    font-size: 24px;
-    font-family: 'Rubik', sans-serif;
-    padding: 15px;
-    margin: 0;
-
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    border-bottom: 1px solid #ffffff;
-
-    transition: 300ms ease;
-}
-input:hover {
-    background-color: #eeeeee;
-    border-bottom: 1px solid #eeeeee;
-}
-input:focus {
-    outline: none;
-    border-bottom: 1px solid #28b5f4;
-}
-input.error {
-    border-bottom: 1px solid #e53635;
 }
 </style>

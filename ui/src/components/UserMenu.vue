@@ -37,7 +37,7 @@ export default {
       }
     },
     ...mapGetters({
-      username: 'user/userName'
+      username: 'user/name'
     })
   },
   methods: {

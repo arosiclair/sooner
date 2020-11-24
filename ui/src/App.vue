@@ -38,7 +38,7 @@ export default {
   }),
 
   methods: mapActions({
-    updateUserData: 'user/updateUserData'
+    updateUserData: 'user/refreshData'
   }),
 
   mounted: async function () {

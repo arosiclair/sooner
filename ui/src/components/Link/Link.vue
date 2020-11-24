@@ -59,7 +59,7 @@ export default {
       }
     },
     ...mapGetters({
-      userPrefs: 'user/userPrefs'
+      userPrefs: 'user/prefs'
     })
   },
   methods: {

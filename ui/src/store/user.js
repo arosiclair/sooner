@@ -33,7 +33,7 @@ export default {
         var resp = await api.post('/user/login', loginData)
         if (resp.data.result === 'success') {
           console.log('Log in successful!')
-          return dispatch('updateUserData')
+          return dispatch('refreshData')
         } else {
           return {
             error: true,
@@ -68,7 +68,7 @@ export default {
 
       if (resp.data.result === 'success') {
         console.log('Sign up successful!')
-        return dispatch('updateUserData')
+        return dispatch('refreshData')
       } else {
         return {
           error: true,
@@ -77,7 +77,7 @@ export default {
       }
     },
 
-    async updateUserData ({ commit }) {
+    async refreshData ({ commit }) {
       let error = ''
       try {
         var resp = await api.get('/user/data')
@@ -98,6 +98,25 @@ export default {
       }
     },
 
+    async updateData ({ commit }, changes) {
+      try {
+        var resp = await api.patch('/user/data', changes)
+      } catch (e) {
+        var error = 'There was an issue updating your data'
+      }
+
+      error = error || resp.data.reason
+      if (!error) {
+        commit('setUserData', resp.data.data)
+        return { success: true }
+      } else {
+        return {
+          error: true,
+          reason: error
+        }
+      }
+    },
+
     async logout ({ dispatch }) {
       let error = ''
       try {
@@ -108,7 +127,7 @@ export default {
 
       error = error || resp.data.reason
       if (!error) {
-        return dispatch('updateUserData')
+        return dispatch('refreshData')
       } else {
         return {
           error: true,
@@ -119,14 +138,14 @@ export default {
   },
   getters: {
     loggedIn: ({ loggedIn }) => loggedIn,
-    userData: ({ name, email, prefs }) => {
+    data: ({ name, email, prefs }) => {
       return {
         name,
         email,
         prefs
       }
     },
-    userName: ({ name }) => name || 'unknown',
-    userPrefs: ({ prefs }) => prefs
+    name: ({ name }) => name || 'unknown',
+    prefs: ({ prefs }) => prefs
   }
 }

@@ -4,7 +4,7 @@
       <img
         src="https://via.placeholder.com/50"
         alt="logo" />
-      <span id="header-title">ReadItNow</span>
+      <span id="header-title" class="d-none d-sm-inline">ReadItNow</span>
     </div>
     <div class="header-right">
       <UserMenu />

@@ -7,8 +7,7 @@
     footer-class="settings-footer"
     title="Settings"
     centered
-    @show="onShow"
-    @ok="save">
+    @show="onShow">
   <template #default>
     <div>
       <h6>Display Name</h6>
@@ -24,7 +23,6 @@
       <div class="text-center">
         {{ ttlStr }}
       </div>
-
     </div>
     <div>
       <h6>Sort Links</h6>
@@ -35,6 +33,12 @@
         </b-form-radio-group>
       </b-form-group>
     </div>
+  </template>
+  <template #modal-footer>
+    <b-button variant="primary" @click="save" class="save-btn">
+      <b-spinner v-if="saving" small />
+      <span v-else>Save</span>
+    </b-button>
   </template>
   </b-modal>
 </template>
@@ -47,7 +51,8 @@ export default {
       displayName: '',
       email: '',
       ttl: '',
-      linkOrder: ''
+      linkOrder: '',
+      saving: false
     }
   },
   computed: {
@@ -78,10 +83,14 @@ export default {
       this.linkOrder = this.userData.prefs.linkOrder
     },
     async save () {
+      this.saving = true
       const result = await this.updateUserData(this.payload)
 
+      this.saving = false
       if (result.error) {
         this.$toast.error(result.reason)
+      } else {
+        this.$bvModal.hide('settings-modal')
       }
     },
     ...mapActions({
@@ -107,5 +116,10 @@ export default {
 .settings-body > div:not(:last-child) {
  margin-bottom: 2rem;
 }
+</style>
 
+<style scoped>
+.save-btn {
+  width: 75px;
+}
 </style>

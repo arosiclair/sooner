@@ -68,7 +68,6 @@ export default {
 
 <style scoped>
 #username-container {
-  font-family: 'Rubik', sans-serif;
   font-size: 24px;
   cursor: pointer;
   position: relative;

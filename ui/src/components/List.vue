@@ -174,7 +174,6 @@ export default {
 }
 
 .link-preview-text {
-  font-family: 'Rubik', sans-serif;
   font-size: 24px;
 }
 

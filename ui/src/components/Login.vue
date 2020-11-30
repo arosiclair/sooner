@@ -123,7 +123,6 @@ export default {
     background-color: #ffffff;
     border: none;
 
-    font-family: 'Rubik', sans-serif;
     font-size: 24px;
     color: #212121;
 

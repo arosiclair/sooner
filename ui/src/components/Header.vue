@@ -32,7 +32,6 @@ export default {
 }
 
 #header-title {
-    font-family: 'Rubik', sans-serif;
     font-size: 24px;
     vertical-align: middle;
     margin-left: 10px;

@@ -49,11 +49,12 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 body {
   background-color: #f5f5f5;
   color: #212121;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 #app {
@@ -100,7 +101,6 @@ body {
 .lg-input {
     width: 100%;
     font-size: 24px;
-    font-family: 'Rubik', sans-serif;
     padding: 15px;
     margin: 0;
 

@@ -1,23 +1,21 @@
 <template>
   <div class="paper-bg" :class="backgroundStyle">
-    <div class="centered-container split item" @click="goToLink">
+    <div class="centered-container split item py-3" @click="goToLink">
       <!-- Favicon section -->
-      <LinkIcon class="favicon" :linkUrl="data.link" />
+      <LinkIcon class="favicon mx-3" :linkUrl="data.link" />
       <!-- Text section -->
-      <div class="centered-container link-text-container">
-        <div class="link-text-container">
-          <div class="title" ref="title">{{ data.name }}</div>
-          <div class="centered-container split">
-            <span class="site-name">{{ data.siteName }}</span>
-            <div class="time-left-container">
-              <i class="material-icons expiration-icon">schedule</i>
-              <span class="time-left-text">{{ timeLeft }}</span>
-            </div>
+      <div class="text-container">
+        <div class="title" ref="title">{{ data.name }}</div>
+        <div class="centered-container split">
+          <span class="site-name">{{ data.siteName }}</span>
+          <div class="time-left-container">
+            <i class="material-icons expiration-icon">schedule</i>
+            <span class="time-left-text">{{ timeLeft }}</span>
           </div>
         </div>
       </div>
       <!-- Done section -->
-      <div class="text-center">
+      <div class="text-center mx-3">
         <i class="material-icons actionable done-btn" @click="remove">done</i>
       </div>
     </div>
@@ -83,10 +81,6 @@ div {
 }
 
 .item {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    margin: 0;
-
     cursor: pointer;
 }
 .item:hover {
@@ -99,31 +93,24 @@ div {
     /* margin-right: 10px; */
 }
 
-.link-text-container {
-  overflow: hidden;
+.text-container {
+  flex: 1;
   width: 100%;
-  margin: 0 10px;
+  overflow: hidden;
 }
 .title {
-    font-size: 20px;
     line-height: 1.3;
     max-height: 3.9em;
-    /* white-space: nowrap;
-    text-overflow: ellipsis; */
     overflow: hidden;
 }
 .site-name {
-    font-size: 14px;
+  font-size: 0.9rem;
     color: #c7c7c7;
 
     white-space: nowrap;
     text-overflow: ellipsis;
-    /* width: 100%; */
     display: block;
     overflow: hidden
-}
-.done-btn {
-  margin-bottom: 5px;
 }
 .time-left-container {
   display: flex;
@@ -135,7 +122,7 @@ div {
   padding: 0px;
 }
 .time-left-text {
-  font-size: 16px;
+  font-size: 0.9rem;
 }
 
 .expiration-warn {

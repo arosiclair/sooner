@@ -2,10 +2,8 @@
   <div>
     <div class="shadow-sm rounded overflow-hidden mb-4">
       <div class="link-preview-container" :class="{ hidden: !newLinkPreview && !newLinkLoading }">
-        <div v-if="newLinkLoading" class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-        <div v-else class="link-preview-text centered-container split">
+        <b-spinner small v-if="newLinkLoading" />
+        <div v-else class="centered-container split">
           <div>
             {{ newLinkPreview }}
           </div>
@@ -164,17 +162,12 @@ export default {
 #new-link-input {
   border-radius: 5px;
   overflow: hidden;
-  font-size: 20px;
 }
 
 .link-preview-container {
   padding: 15px;
   text-align: start;
   background-color: #ffffff
-}
-
-.link-preview-text {
-  font-size: 24px;
 }
 
 .hidden {

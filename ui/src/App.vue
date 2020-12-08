@@ -100,8 +100,8 @@ body {
 /* input styling */
 .lg-input {
     width: 100%;
-    font-size: 24px;
-    padding: 15px;
+    font-size: 1.2rem;
+    padding: 0.8rem;
     margin: 0;
 
     border-top: none;
@@ -124,7 +124,7 @@ body {
 }
 
 .form-input {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     padding: 1rem 0.5rem;
     margin: 0;
 

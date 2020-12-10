@@ -11,11 +11,11 @@
   <template #default>
     <div>
       <h6>Display Name</h6>
-      <b-form-input v-model="displayName" class="form-input"/>
+      <b-form-input v-model="displayName" class="form"/>
     </div>
     <div>
       <h6>Email</h6>
-      <b-form-input v-model="email" class="form-input" disabled />
+      <b-form-input v-model="email" class="form" disabled />
     </div>
     <div>
       <h6>Link Time Limit</h6>

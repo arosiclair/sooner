@@ -97,10 +97,24 @@ body {
   overflow: hidden;
 }
 
+/* text styling */
+
+.text-sm {
+  font-size: 0.8rem;
+}
+
+.text-lg {
+  font-size: 1.2rem;
+}
+
+.text-xl {
+  font-size: 1.5rem;
+}
+
 /* input styling */
-.lg-input {
+
+input {
     width: 100%;
-    font-size: 1.2rem;
     padding: 0.8rem;
     margin: 0;
 
@@ -111,19 +125,23 @@ body {
 
     transition: 300ms ease;
 }
-.lg-input:hover {
+
+input.lg {
+    font-size: 1.2rem;
+}
+input.lg:hover {
     background-color: #eeeeee;
     border-bottom: 1px solid #eeeeee;
 }
-.lg-input:focus {
+input.lg:focus {
     outline: none;
     border-bottom: 1px solid #28b5f4;
 }
-.lg-input.error {
+input.lg.error {
     border-bottom: 1px solid #e53635;
 }
 
-.form-input {
+input.form {
     font-size: 1.2rem;
     padding: 1rem 0.5rem;
     margin: 0;
@@ -132,21 +150,20 @@ body {
     border-right: none;
     border-left: none;
     border-bottom: 1px solid #eeeeee;
-
     border-radius: 0;
 
     transition: 300ms ease;
 }
-.form-input:hover {
+input.form:hover {
     background-color: #eeeeee;
     border-bottom: 1px solid #eeeeee;
 }
-.form-input:focus {
+input.form:focus {
     outline: none;
     box-shadow: none;
     border-bottom: 1px solid #28b5f4;
 }
-.form-input.error {
+input.form.error {
     border-bottom: 1px solid #e53635;
 }
 </style>

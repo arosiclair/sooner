@@ -11,23 +11,23 @@
           v-model="name"
           type="text"
           placeholder="Name"
-          class="lg-input" />
+          class="lg" />
         <input
           v-model="email"
           type="text"
           placeholder="Email"
           @keyup.enter="loginBtnClicked"
-          class="lg-input"
+          class="lg"
           :class="{ error: error && !validEmail }" />
         <input
           v-model="password"
           type="password"
           placeholder="Password"
           @keyup.enter="loginBtnClicked"
-          class="lg-input"
+          class="lg"
           :class="{ error: error && !validPass }" />
       </div>
-      <button class="shadow-sm rounded mb-4" id="loginButton" type="button" @click="loginBtnClicked" :disabled="loading">
+      <button class="text-lg shadow-sm rounded mb-4 p-3" id="loginButton" type="button" @click="loginBtnClicked" :disabled="loading">
         <div v-if="loading" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>
@@ -119,12 +119,9 @@ export default {
 <style scoped>
 #loginButton {
     width: 100%;
-    height: 66px;
     background-color: #ffffff;
-    border: none;
-
-    font-size: 24px;
     color: #212121;
+    border: none;
 
     transition: 0.5s ease;
 }

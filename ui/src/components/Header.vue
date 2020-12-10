@@ -4,7 +4,7 @@
       <img
         src="https://via.placeholder.com/50"
         alt="logo" />
-      <span id="header-title" class="d-none d-sm-inline">ReadItNow</span>
+      <span id="header-title" class="d-none d-sm-inline text-xl mx-2">ReadItNow</span>
     </div>
     <div class="header-right">
       <UserMenu />
@@ -32,9 +32,7 @@ export default {
 }
 
 #header-title {
-    font-size: 24px;
     vertical-align: middle;
-    margin-left: 10px;
 }
 
 </style>

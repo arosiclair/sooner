@@ -1,14 +1,14 @@
 <template>
   <div class="position-relative">
-    <div id="username-container" @click="toggleOpen" class="mb-2">
+    <div id="username-container" class="text-lg" @click="toggleOpen">
       {{ username }}
       <b-avatar class="m-1" />
     </div>
     <div id="dd-container" class="rounded text-center paper-bg shadow-sm" :class="dropdownClass">
-      <HoverOverlay class="dd-item" @click="showSettings">
+      <HoverOverlay class="dd-item text-lg" @click="showSettings">
         Settings
       </HoverOverlay>
-      <HoverOverlay class="dd-item" @click="dispatchLogout">
+      <HoverOverlay class="dd-item text-lg" @click="dispatchLogout">
         Logout
       </HoverOverlay>
     </div>
@@ -68,7 +68,6 @@ export default {
 
 <style scoped>
 #username-container {
-  font-size: 24px;
   cursor: pointer;
   position: relative;
   z-index: 1;
@@ -92,7 +91,6 @@ export default {
 }
 
 .dd-item {
-  font-size: 1.2rem;
   cursor: pointer;
   padding: 1rem 3rem;
 }

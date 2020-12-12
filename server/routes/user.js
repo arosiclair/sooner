@@ -155,7 +155,7 @@ router.get('/data', async function (req, res) {
 const userDataSchema = {
   name: value => typeof value === 'string' && value.length <= 30,
   // email: value => typeof value === 'string' && validateEmail(value),
-  prefs: value => typeof value === 'object' && sanitizeAndValidate(value, userPrefsSchema)
+  prefs: value => typeof value === 'object' && !sanitizeAndValidate(value, userPrefsSchema).length
 }
 const userPrefsSchema = {
   linkTTL: value => typeof value === 'number',

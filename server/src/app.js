@@ -4,7 +4,7 @@ var path = require('path')
 var logger = require('morgan')
 var cookieSession = require('cookie-session')
 var cors = require('cors')
-var appSettings = require('./appSettings.json')
+var appSettings = require('../appSettings.json')
 
 // routes
 var user = require('./routes/user')

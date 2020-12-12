@@ -2,10 +2,9 @@
 var express = require('express')
 var router = express.Router()
 
-var passwordHasher = require('password-hash')
 const { sanitize, sanitizeAndValidate, sanitizeAndValidateStrict } = require('../utils/validation')
 const { InvalidJSONResponse, ErrorResponse } = require('../utils/errors')
-const { addUser, getUserByEmail, getUserById, updateUser } = require('../daos/users')
+const { addUser, getUserById, updateUser, getUserbyEmailAndPass } = require('../daos/users')
 const { createSession, deleteSession, getSession } = require('../daos/sessions')
 /*
   Endpoint for creating a user.
@@ -64,21 +63,16 @@ router.post('/login', async function (req, res) {
     return
   }
 
-  const user = await getUserByEmail(req.body.email)
+  const user = await getUserbyEmailAndPass(req.body.email, req.body.password)
   if (!user) {
     res.status(401).json(new ErrorResponse('Email/password is incorrect'))
-    return
-  }
-
-  if (passwordHasher.verify(req.body.password, user.password)) {
+  } else {
     req.session.token = await createSession(user._id)
     res.json({
       result: 'success',
       name: user.name,
       token: req.session.token
     })
-  } else {
-    res.status(401).json(new ErrorResponse('Email/password is incorrect'))
   }
 })
 

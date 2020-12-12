@@ -13,6 +13,15 @@ async function getUserByEmail (email) {
   return geoffrey.getUsers().findOne({ email: email })
 }
 
+async function getUserbyEmailAndPass (email, password) {
+  if (!email || !password) return null
+
+  const user = await getUserByEmail(email)
+  if (user && passwordHasher.verify(password, user.password)) {
+    return user
+  }
+}
+
 async function getUserPrefs (userId) {
   const user = await getUserById(userId)
   if (user) {
@@ -43,6 +52,7 @@ async function updateUser (userId, changes) {
 module.exports = {
   getUserById,
   getUserByEmail,
+  getUserbyEmailAndPass,
   getUserPrefs,
   addUser,
   updateUser

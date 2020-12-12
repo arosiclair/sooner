@@ -83,7 +83,8 @@ export default {
       }
       const result = await this.dispatchRegister(data)
       if (result.error) {
-        this.error = result.reason
+        this.error = true
+        this.$toast.error(result.reason)
       }
     },
     async login () {

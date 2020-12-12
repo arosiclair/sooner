@@ -2,105 +2,83 @@
 var express = require('express')
 var router = express.Router()
 
-var geoffrey = require('../geoffrey')
 var passwordHasher = require('password-hash')
-const { v4: uuidv4 } = require('uuid')
-const { sanitize, sanitizeAndValidate } = require('../utils')
-
+const { sanitize, sanitizeAndValidate, sanitizeAndValidateStrict } = require('../utils/validation')
+const { InvalidJSONResponse, ErrorResponse } = require('../utils/errors')
+const { addUser, getUserByEmail, getUserById, updateUser } = require('../daos/users')
+const { createSession, deleteSession, getSession } = require('../daos/sessions')
 /*
   Endpoint for creating a user.
   Responds with a session token in payload and set's the token in a session cookie
-  Expects json payload with following params:
-  name: string
-  email: string
-  password: string
 */
-router.post('/register', function (req, res) {
-  var result = validateEmailAndPass(req)
-  if (!req.body.name || req.body.name.length > 30) {
-    result = {
-      result: 'error',
-      reason: 'bad name'
-    }
+const registerUserSchema = {
+  name: (val) => typeof val === 'string' && val.length <= 30,
+  email: (val) => {
+    return typeof val === 'string' &&
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        .test(val.toLowerCase())
+  },
+  password: (val) => {
+    return typeof val === 'string' &&
+      val.length >= 8 && val.length <= 30 &&
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+        .test(val)
   }
-
-  if (result) {
-    res.json(result)
+}
+router.post('/register', async (req, res) => {
+  const errorParams = sanitizeAndValidateStrict(req.body, registerUserSchema)
+  if (errorParams.length) {
+    res.status(400).json(new InvalidJSONResponse(errorParams))
     return
   }
 
-  var newUser = {
-    name: req.body.name,
-    email: req.body.email,
-    password: passwordHasher.generate(req.body.password, { algorithm: 'SHA256' }),
-    prefs: {
-      linkTTL: 5 // days until link expires
-    }
-  }
+  const result = await addUser(req.body.name, req.body.email, req.body.password, {
+    linkTTL: 5 // days until link expires
+  })
 
-  geoffrey.getUsers().insertOne(newUser,
-    function onInsertUserResult (error, result) {
-      if (error || result.insertedCount !== 1) {
-        res.json({
-          result: 'error',
-          reason: 'db insert failed'
-        })
-      } else {
-        req.session.token = createSession(result.insertedId)
-
-        res.json({
-          result: 'success',
-          name: req.body.name,
-          token: req.session.token
-        })
-      }
+  if (result) {
+    req.session.token = await createSession(result.insertedId)
+    res.json({
+      result: 'success',
+      name: req.body.name,
+      token: req.session.token
     })
+  } else {
+    res.status(500).json(new ErrorResponse('db error'))
+  }
 })
 
 /*
   Endpoint for logging in
   Responds with a session token in payload and set's the token in a session cookie
   Expects json payload with following params:
-  email: string
-  password: string
 */
+const loginSchema = {
+  email: (val) => typeof val === 'string',
+  password: (val) => typeof val === 'string'
+}
 router.post('/login', async function (req, res) {
-  const result = validateEmailAndPass(req)
-  if (result) {
-    res.json(result)
+  const invalidProps = sanitizeAndValidateStrict(req.body, loginSchema)
+  if (invalidProps.length) {
+    res.status(400).json(new InvalidJSONResponse(invalidProps))
     return
   }
 
-  try {
-    var matchedUser = await geoffrey.getUsers().findOne({ email: req.body.email })
-  } catch (error) {
-    res.json({
-      result: 'error',
-      reason: 'there was an issue querying the DB'
-    })
+  const user = await getUserByEmail(req.body.email)
+  if (!user) {
+    res.status(401).json(new ErrorResponse('Email/password is incorrect'))
     return
   }
 
-  if (!matchedUser) {
-    res.json({
-      result: 'error',
-      reason: 'couldn\'t find user'
-    })
-    return
-  }
-
-  if (passwordHasher.verify(req.body.password, matchedUser.password)) {
-    req.session.token = await createSession(matchedUser._id)
+  if (passwordHasher.verify(req.body.password, user.password)) {
+    req.session.token = await createSession(user._id)
     res.json({
       result: 'success',
-      name: matchedUser.name,
+      name: user.name,
       token: req.session.token
     })
   } else {
-    res.json({
-      result: 'failed',
-      reason: 'incorrect password'
-    })
+    res.status(401).json(new ErrorResponse('Email/password is incorrect'))
   }
 })
 
@@ -109,46 +87,30 @@ router.post('/login', async function (req, res) {
   Responds with 'success' or 'error'
   Expects session token in json payload or in session cookie
 */
-router.post('/logout', function (req, res) {
+router.post('/logout', async (req, res) => {
   var token = req.body.token ? req.body.token : req.session.token
 
   if (token) {
-    geoffrey.getSessions().deleteOne({ token: token })
-      .then(result => {
-        req.session.token = ''
-        if (result.deletedCount === 1) {
-          res.json({
-            result: 'success'
-          })
-        } else {
-          res.json({
-            result: 'error'
-          })
-        }
-      })
+    await deleteSession(token)
+    req.session.token = ''
+    res.json({ result: 'success' })
   } else {
-    res.json({
-      result: 'error'
-    })
+    res.status(400).json(new ErrorResponse('No token provided'))
   }
 })
 
 router.all('/data', authMiddleware)
 router.get('/data', async function (req, res) {
-  var user = await getUser(req.userId)
+  var user = await getUserById(req.userId)
   if (user) {
-    var data = {
+    res.json({
       result: 'success',
       name: user.name,
       email: user.email,
       prefs: user.prefs
-    }
-    res.json(data)
-  } else {
-    res.json({
-      result: 'error',
-      reason: 'There was an issue getting the user\'s data'
     })
+  } else {
+    res.status(500).json(new ErrorResponse("the user wasn't found"))
   }
 })
 
@@ -166,84 +128,20 @@ router.patch('/data', async function (req, res) {
   const data = req.body
   const errorKeys = sanitizeAndValidate(data, userDataSchema)
   if (errorKeys.length) {
-    res.json({
-      result: 'error',
-      reason: errorKeys
-    })
+    res.json(new InvalidJSONResponse(errorKeys))
     return
   }
 
-  const updateObj = geoffrey.flattenObject(data)
-  const result = await geoffrey.getUsers().findOneAndUpdate({ _id: req.userId }, { '$set': updateObj }, { returnOriginal: false })
-
-  res.json({
-    result: 'success',
-    data: sanitize(result.value, userDataSchema)
-  })
-})
-
-function validateEmailAndPass (req) {
-  var errorReason
-  if (!validateEmail(req.body.email)) {
-    errorReason = 'bad email'
-  } else if (!validatePass(req.body.password)) {
-    errorReason = 'bad password'
-  }
-
-  if (errorReason) {
-    return {
-      result: 'error',
-      reason: errorReason
-    }
+  const updatedUser = await updateUser(req.userId, data)
+  if (updateUser) {
+    res.json({
+      result: 'success',
+      data: sanitize(updatedUser, userDataSchema)
+    })
   } else {
-    return null
+    res.status(500).json(ErrorResponse('db error'))
   }
-}
-
-function validateEmail (email) {
-  if (!email || typeof (email) !== 'string') {
-    return false
-  }
-
-  // taken from https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  return re.test(email.toLowerCase())
-}
-
-// Password must be a string with lowercase, uppercase, and numeral characters
-// TODO: this does not accept special characters
-function validatePass (password) {
-  if (!password || typeof (password) !== 'string') {
-    return false
-  }
-
-  if (password.length < 8 || password.length > 32) {
-    return false
-  }
-
-  // taken from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-  var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-  return re.test(password)
-}
-
-// Creates a new session for the user and adds it to the sessions collection
-// the session document will be removed after an hour based on createdAt
-async function createSession (userId) {
-  var newToken = uuidv4()
-  var newSession = {
-    createdAt: new Date(),
-    userId: userId,
-    token: newToken
-  }
-
-  await geoffrey.getSessions().insertOne(newSession)
-
-  return newToken
-}
-
-async function getUser (id) {
-  return geoffrey.getUsers().findOne({ _id: id })
-}
+})
 
 /*
   Authentication middleware to be used with user endpoints
@@ -255,7 +153,7 @@ module.exports.auth = authMiddleware
 async function authMiddleware (req, res, next) {
   var error = await authImpl(req)
   if (error) {
-    res.json(error)
+    res.status(401).json(new ErrorResponse(error))
   } else {
     next()
   }
@@ -263,48 +161,18 @@ async function authMiddleware (req, res, next) {
 
 async function authImpl (req) {
   var token = req.body.token ? req.body.token : req.session.token
-  var error
 
   if (token) {
-    var matchedSession = await geoffrey.getSessions().findOne({ token: token })
-    if (!matchedSession) {
-      console.log('Invalid session token given: ' + token)
-      error = {
-        result: 'error',
-        reason: 'invalid session'
-      }
-    } else {
+    const session = await getSession(token)
+    if (session) {
       // attach the user's mongo ID for easy access
-      req.userId = matchedSession.userId
-      req.sessionToken = matchedSession.token
+      req.userId = session.userId
+      req.sessionToken = session.token
+    } else {
+      return 'invalid session'
     }
   } else {
-    console.log('No session token given: ' + token)
-
-    error = {
-      result: 'error',
-      reason: 'invalid session'
-    }
-  }
-
-  return error
-}
-
-module.exports.getUserPrefs = async function (userId) {
-  if (!userId) {
-    return null
-  }
-
-  var userDoc = await geoffrey.getUsers().findOne({ '_id': userId })
-  if (userDoc.prefs) {
-    return userDoc.prefs
-  } else {
-    var newPrefs = {
-      linkTTL: 5
-    }
-
-    geoffrey.getUsers().updateOne({ '_id': userId }, { '$set': { 'prefs': newPrefs } })
-    return newPrefs
+    return 'invalid session'
   }
 }
 

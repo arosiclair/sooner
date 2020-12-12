@@ -39,9 +39,15 @@ const sanitizeAndValidate = (object, schema) => {
   return validate(object, schema)
 }
 
+const sanitizeAndValidateStrict = (object, schema) => {
+  sanitize(object, schema)
+  return validateStrict(object, schema)
+}
+
 module.exports = {
   sanitize,
   validate,
   validateStrict,
-  sanitizeAndValidate
+  sanitizeAndValidate,
+  sanitizeAndValidateStrict
 }

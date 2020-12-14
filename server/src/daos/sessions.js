@@ -1,4 +1,4 @@
-var geoffrey = require('../geoffrey')
+const geoffrey = require('../geoffrey')
 const { v4: uuidv4 } = require('uuid')
 
 async function createSession (userId) {

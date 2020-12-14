@@ -1,5 +1,5 @@
-var geoffrey = require('../geoffrey')
-var passwordHasher = require('password-hash')
+const geoffrey = require('../geoffrey')
+const passwordHasher = require('password-hash')
 
 async function getUserById (userId) {
   if (!userId) return null

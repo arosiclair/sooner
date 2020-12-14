@@ -1,30 +1,24 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
 
-var geoffrey = require('../geoffrey')
-var users = require('./user')
-
-var urlMetadata = require('url-metadata')
+const urlMetadata = require('url-metadata')
+const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('../daos/lists')
+const { getUserPrefs } = require('../daos/users')
+const { ErrorResponse, InvalidJSONResponse } = require('../utils/errors')
+const { validateStrict } = require('../utils/validation')
 
 router.get('/', async function (req, res) {
-  var error = validateUserId(req)
-  if (error) {
-    res.json(error)
-    return
-  }
+  const listId = await getListIdForUser(req.userId)
+  const list = await getListById(listId)
 
-  var listId = await getListId(req.userId)
-  var listDoc = await geoffrey.getLists().findOne({ _id: listId })
-
-  if (listDoc) {
+  if (list) {
     // clean the list of expired links
-    var links = listDoc.links
-    var userPrefs = await users.getUserPrefs(req.userId)
-    var linkTTL = userPrefs.linkTTL
+    const links = list.links
+    const { linkTTL } = await getUserPrefs(req.userId)
 
-    var unexpiredLinks = cleanExpiredLinks(links, linkTTL)
+    const unexpiredLinks = cleanExpiredLinks(links, linkTTL)
     if (unexpiredLinks !== links) {
-      geoffrey.getLists().updateOne({ _id: listId }, { $set: { links: unexpiredLinks } })
+      updateLinks(listId, unexpiredLinks)
     }
 
     res.json({
@@ -33,159 +27,59 @@ router.get('/', async function (req, res) {
       numExpired: links.length - unexpiredLinks.length
     })
   } else {
-    res.json({
-      result: 'error',
-      reason: 'no list data found'
-    })
+    res.status(500).json(new ErrorResponse('no list data found'))
   }
 })
 
 /*
   Endpoint for adding a link to a user's list
   Creates a document in the list collection for the user if they do not already have one
-  Expects the following params:
-  linkName: string
-  link: string
 */
+const addLinkSchema = {
+  linkName: (val) => typeof val === 'string' && val.length <= 140,
+  siteName: (val) => typeof val === 'string' && val.length <= 140,
+  link: (val) => typeof val === 'string'
+}
 router.put('/', async function (req, res) {
-  var error = validateUserId(req)
-  error = validateLink(req)
-  if (error) {
-    res.json(error)
+  const errorKeys = validateStrict(req.body, addLinkSchema)
+  if (errorKeys.length) {
+    res.status(400).json(new InvalidJSONResponse(errorKeys))
     return
   }
 
-  var listId = await getListId(req.userId)
-
-  var newLink = {
-    _id: geoffrey.getObjectId(),
-    name: req.body.linkName,
-    siteName: req.body.siteName,
-    link: req.body.link,
-    addedOn: req.body.addedOn || new Date()
-  }
-
-  geoffrey.getLists().updateOne({ _id: listId }, { $push: { links: newLink } })
-
+  const newLinkId = await addLink(req.userId, req.body.linkName, req.body.siteName, req.body.link, req.body.addedOn)
   res.json({
     result: 'success',
-    linkId: newLink._id
+    linkId: newLinkId
   })
 })
 
 router.delete('/:linkId', async function (req, res) {
-  var error = validateUserId(req)
-  if (error) {
-    res.json(error)
-    return
-  }
-
   const linkId = req.params.linkId
-
-  if (!linkId) {
-    res.json({
-      result: 'error',
-      reason: 'bad link id'
-    })
-    return
-  }
-
-  const listId = await getListId(req.userId)
-  const linkObjId = geoffrey.getObjectId(linkId)
-  geoffrey.getLists().updateOne({ _id: listId }, { $pull: { links: { _id: linkObjId } } })
-
+  await deleteLink(req.userId, linkId)
   res.json({
     result: 'success'
   })
 })
 
-router.get('/linkMetadata', function (req, res) {
+router.get('/linkMetadata', async function (req, res) {
   if (!req.query.url) {
+    res.status(400).json(new ErrorResponse('bad link'))
+    return
+  }
+
+  try {
+    var metadata = await urlMetadata(req.query.url)
     res.json({
-      result: 'error',
-      reason: 'bad link'
+      result: 'success',
+      metadata: metadata
     })
-  } else {
-    urlMetadata(req.query.url).then(
-      function (metadata) { // success handler
-        res.json({
-          result: 'success',
-          metadata: metadata
-        })
-      },
-      function (error) { // failure handler
-        res.json({
-          result: 'error',
-          reason: error
-        })
-      })
+  } catch (error) {
+    res.status(406).json(new ErrorResponse('metadata not found'))
   }
 })
 
 module.exports = router
-
-/*
-  Gets the Mongo ObjectID for the user's list or creates one for the user
-  if they do not have one
-*/
-async function getListId (userId) {
-  var user = await geoffrey.getUsers().findOne({ _id: userId })
-  if (user) {
-    if (!user.listId) {
-      return createListForUser(userId)
-    } else {
-      return user.listId
-    }
-  } else {
-    // TODO: handle not found
-  }
-}
-
-async function createListForUser (userId) {
-  var newList = {
-    userId: userId,
-    links: []
-  }
-
-  var result = await geoffrey.getLists().insertOne(newList)
-  geoffrey.getUsers().updateOne({ _id: userId }, { $set: { listId: result.insertedId } })
-  return result.insertedId
-}
-
-function validateUserId (req) {
-  if (!req.userId) {
-    console.error('list request received without userId')
-
-    return {
-      result: 'error',
-      reason: 'invalid login'
-    }
-  }
-}
-
-function validateLink (req) {
-  var errorReason
-  if (!req.body.linkName || typeof req.body.linkName !== 'string' || req.body.linkName > 140) {
-    errorReason = 'bad link name'
-  }
-
-  if (!req.body.siteName || typeof req.body.siteName !== 'string' || req.body.siteName > 140) {
-    errorReason = 'bad site name'
-  }
-
-  if (!req.body.link || typeof req.body.link !== 'string') {
-    errorReason = 'bad link'
-  }
-
-  if (errorReason) {
-    return {
-      result: 'error',
-      reason: errorReason
-    }
-  } else {
-    return null
-  }
-}
 
 function cleanExpiredLinks (links, linkTTL) {
   var unexpiredLinks = []

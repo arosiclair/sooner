@@ -30,110 +30,84 @@ export default {
       }
 
       try {
-        var resp = await api.post('/user/login', loginData)
-        if (resp.data.result === 'success') {
-          console.log('Log in successful!')
-          return dispatch('refreshData')
-        } else {
+        await api.post('/user/login', loginData)
+      } catch (error) {
+        if (error.response.status === 401) {
           return {
             error: true,
             reason: 'Incorrect email or password'
           }
-        }
-      } catch (error) {
-        console.log('Log in error: \n', error)
-        return {
-          error: true,
-          reason: 'There was an issue logging in'
+        } else {
+          return {
+            error: true,
+            reason: 'There was an issue logging in'
+          }
         }
       }
+
+      return dispatch('refreshData')
     },
 
     async register ({ dispatch }, newUser) {
-      const data = {
-        name: newUser.name,
-        email: newUser.email,
-        password: newUser.password
-      }
-
       try {
-        var resp = await api.post('/user/register', data)
+        var resp = await api.post('/user/register', newUser)
       } catch (error) {
-        console.log('Register error: \n', error)
         return {
           error: true,
           reason: 'There was an issue creating your account'
         }
       }
 
-      if (resp.data.result === 'success') {
-        console.log('Sign up successful!')
-        return dispatch('refreshData')
-      } else {
+      if (resp.data.error) {
         return {
           error: true,
           reason: 'There was an issue creating your account'
         }
       }
+
+      return dispatch('refreshData')
     },
 
     async refreshData ({ commit }) {
-      let error = ''
       try {
         var resp = await api.get('/user/data')
-      } catch (e) {
-        error = 'There was an issue getting your data'
-      }
-
-      error = error || resp.data.reason
-      if (!error) {
-        commit('setUserData', resp.data)
-        return { success: true }
-      } else {
+      } catch (error) {
         commit('resetUserdata')
         return {
           error: true,
-          reason: error
+          reason: 'There was an issue getting your data'
         }
       }
+
+      commit('setUserData', resp.data)
+      return { success: true }
     },
 
     async updateData ({ commit }, changes) {
       try {
         var resp = await api.patch('/user/data', changes)
-      } catch (e) {
-        var error = 'There was an issue updating your settings'
-      }
-
-      error = error || resp.data.reason
-      if (!error) {
-        commit('setUserData', resp.data.data)
-        return { success: true }
-      } else {
+      } catch (error) {
         return {
           error: true,
-          reason: error
+          reason: 'There was an issue updating your settings'
         }
       }
+
+      commit('setUserData', resp.data.data)
+      return { success: true }
     },
 
     async logout ({ dispatch }) {
-      let error = ''
       try {
-        var resp = await api.post('/user/logout')
+        await api.post('/user/logout')
       } catch (e) {
-        error = 'There was an issue logging out'
-      }
-
-      error = error || resp.data.reason
-      if (!error) {
-        return dispatch('refreshData')
-      } else {
         return {
           error: true,
-          reason: error
+          reason: 'There was an issue logging out'
         }
       }
+
+      return dispatch('refreshData')
     }
   },
   getters: {

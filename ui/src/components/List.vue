@@ -82,7 +82,13 @@ export default {
     refresh: async function () {
       this.loading = true
 
-      var result = await api.get('/list/')
+      try {
+        var result = await api.get('/list/')
+      } catch (error) {
+        this.$toast.error('There was an issue getting your links')
+        return
+      }
+
       this.links = result.data.list
 
       const numExpired = result.data.numExpired
@@ -95,7 +101,7 @@ export default {
     },
     addNewLink: async function () {
       var url = this.newLink.trim()
-      if (!url || url.length <= 0) {
+      if (!url) {
         this.error = true
         return
       } else {
@@ -106,8 +112,8 @@ export default {
         this.metadata = await this.getMetadata(url)
       }
 
-      var title = this.metadata.title ? this.metadata.title : 'Title'
-      var siteName = this.metadata['og:site_name'] ? this.metadata['og:site_name'] : getDomainFromUrl(this.newLink)
+      var title = this.metadata.title || 'Title'
+      var siteName = this.metadata['og:site_name'] || getDomainFromUrl(this.newLink)
 
       var newLink = {
         linkName: title,
@@ -116,21 +122,20 @@ export default {
       }
 
       try {
-        var response = await api.put('/list/', newLink)
+        await api.put('/list/', newLink)
       } catch (error) {
-        this.$toast.error('There was an issue adding your link')
-        this.error = true
+        if (error.response.status === 401) {
+          this.$toast.error('Your session expired')
+        } else {
+          this.$toast.error('There was an issue adding your link')
+          this.error = true
+        }
       }
 
-      if (response.data.result === 'success') {
-        this.refresh()
-        this.newLink = ''
-        this.error = null
-        this.metadata = null
-      } else {
-        this.$toast.error('There was an issue adding your link')
-        this.error = true
-      }
+      this.newLink = ''
+      this.error = null
+      this.metadata = null
+      this.refresh()
     },
     onNewLinkChanged: debounce(async function (event) {
       this.newLinkLoading = true
@@ -143,15 +148,15 @@ export default {
         try {
           var response = await api.get('/list/linkMetadata?url=' + url)
         } catch (error) {
-          this.$toast.error('There was an issue getting info on your link')
+          if (error.response.status === 406) {
+            this.error = true
+          } else {
+            this.$toast.error('There was an issue getting info on your link')
+          }
           return null
         }
 
-        if (response.data.result === 'success') {
-          return response.data.metadata
-        } else {
-          this.error = true
-        }
+        return response.data.metadata
       }
     }
   }

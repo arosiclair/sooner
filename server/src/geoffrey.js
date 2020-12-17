@@ -10,6 +10,7 @@ let geoffrey
 let usersCollection
 let sessionsCollection
 let listsCollection
+let resetRequestsCollection
 
 mongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
   if (err) {
@@ -22,6 +23,7 @@ mongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
   usersCollection = geoffrey.collection('users')
   sessionsCollection = geoffrey.collection('sessions')
   listsCollection = geoffrey.collection('lists')
+  resetRequestsCollection = geoffrey.collection('resetRequests')
 })
 
 const getUsers = () => usersCollection
@@ -29,6 +31,8 @@ const getUsers = () => usersCollection
 const getSessions = () => sessionsCollection
 
 const getLists = () => listsCollection
+
+const getResetRequests = () => resetRequestsCollection
 
 const getObjectId = (id = null) => {
   if (id) {
@@ -64,5 +68,6 @@ module.exports = {
   getSessions,
   getLists,
   getObjectId,
-  flattenObject
+  flattenObject,
+  getResetRequests
 }

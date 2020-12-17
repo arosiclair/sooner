@@ -6,6 +6,7 @@ const { sanitize, sanitizeAndValidate, sanitizeAndValidateStrict } = require('..
 const { InvalidJSONResponse, ErrorResponse } = require('../utils/errors')
 const { addUser, getUserById, updateUser, getUserbyEmailAndPass } = require('../daos/users')
 const { createSession, deleteSession, getSession } = require('../daos/sessions')
+const { createResetRequest } = require('../daos/resetRequests')
 /*
   Endpoint for creating a user.
   Responds with a session token in payload and set's the token in a session cookie
@@ -136,6 +137,33 @@ router.patch('/data', async function (req, res) {
     res.status(500).json(ErrorResponse('db error'))
   }
 })
+
+const resetPasswordSchema = {
+  email: (val) => typeof val === 'string'
+}
+router.post('/resetPassword', async (req, res) => {
+  const errorKeys = sanitizeAndValidateStrict(req.body, resetPasswordSchema)
+  if (errorKeys.length) {
+    return res.json(new InvalidJSONResponse(errorKeys))
+  }
+
+  const token = await createResetRequest(req.body.email)
+  if (!token) {
+    return res.status(400).json(new ErrorResponse('cannot create a reset request for this user'))
+  }
+
+  if (sendResetEmail(req.body.email, token)) {
+    return res.json({
+      result: 'success'
+    })
+  } else {
+    return res.status(400).json(new ErrorResponse('cannot create a reset request for this user'))
+  }
+})
+
+function sendResetEmail (email, token) {
+  return true
+}
 
 /*
   Authentication middleware to be used with user endpoints

@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
-conn = new Mongo()
-db = conn.getDB('geoffrey')
+db = db.getSiblingDB('geoffrey')
 
 db.users.drop()
 db.sessions.drop()

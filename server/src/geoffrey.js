@@ -17,7 +17,7 @@ let listsCollection
 
 mongoClient.connect(dbUrl, { useUnifiedTopology: true }, function (err, client) {
   if (err) {
-    console.error('Error connecting to MongoDB: ' + err)
+    throw new Error('Error connecting to MongoDB:\n' + err)
   }
 
   console.log('Connected successfully to MongoDB')

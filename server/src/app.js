@@ -16,7 +16,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Cookies
-// app.use(cookieParser())
+if (!process.env.SECRET_SESSION_KEY) {
+  throw new Error('SECRET_SESSION_KEY is not defined')
+}
+
 app.use(cookieSession({
   name: 'readItNowSession',
   secret: process.env.SECRET_SESSION_KEY

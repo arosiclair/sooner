@@ -37,14 +37,12 @@ app.options('*', cors(corsOptions))
 app.use(express.static(path.join(__dirname, 'public')))
 
 // REST API routing
-var apiRouter = express.Router()
-app.use('/api', apiRouter)
-apiRouter.use('/user', user.router)
-apiRouter.use('/list', user.auth, list)
+app.use('/user', user.router)
+app.use('/list', user.auth, list)
 
 // SPA (redirect any non-API requests)
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+  res.status(404).send('Not found')
 })
 
 module.exports = app

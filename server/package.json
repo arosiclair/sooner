@@ -2,7 +2,7 @@
   "name": "server",
   "version": "0.1.0",
   "private": true,
-  "main": "./src/main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "cross-env DEBUG=myapp:* node ./src/main"
   },

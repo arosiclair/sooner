@@ -4,7 +4,6 @@ var path = require('path')
 var logger = require('morgan')
 var cookieSession = require('cookie-session')
 var cors = require('cors')
-var appSettings = require('../appSettings.json')
 
 // routes
 var user = require('./routes/user')
@@ -20,7 +19,7 @@ app.use(express.urlencoded({ extended: false }))
 // app.use(cookieParser())
 app.use(cookieSession({
   name: 'readItNowSession',
-  secret: appSettings.secretTokenKey
+  secret: process.env.SECRET_SESSION_KEY
 }))
 
 // CORS setup

@@ -1,17 +1,21 @@
 /* eslint-disable no-prototype-builtins */
 // Data access for ReadItNow
 
+const dbUrl = process.env.MONGODB_URL
+const dbName = process.env.MONGODB_NAME
+
+if (!dbUrl) throw new Error('MONGODB_URL is not defined')
+if (!dbName) throw new Error('MONGODB_NAME is not defined')
+
 const mongoClient = require('mongodb').MongoClient
 const bson = require('bson')
-const url = 'mongodb://localhost:27017/geoffrey'
-const dbName = 'geoffrey'
 
 let geoffrey
 let usersCollection
 let sessionsCollection
 let listsCollection
 
-mongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
+mongoClient.connect(dbUrl, { useUnifiedTopology: true }, function (err, client) {
   if (err) {
     console.error('Error connecting to MongoDB: ' + err)
   }

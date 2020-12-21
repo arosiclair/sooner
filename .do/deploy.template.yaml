@@ -1,0 +1,21 @@
+spec:
+  name: read-it-now
+
+  services:
+    - name: api
+      environment_slug: node-js
+      git:
+        branch: master
+        repo_clone_url: https://github.com/arosiclair/read-it-now.git
+      source_dir: api
+      routes:
+        - path: /api
+
+    - name: ui
+      environment_slug: node-js
+      git:
+        branch: master
+        repo_clone_url: https://github.com/arosiclair/read-it-now.git
+      source_dir: ui
+      routes:
+        - path: /

@@ -1,32 +1,18 @@
 /* eslint-disable no-prototype-builtins */
 // Data access for ReadItNow
+const bson = require('bson')
+const mongoClient = require('mongodb').MongoClient
+const { delay } = require('./utils/misc')
 
 const dbUrl = process.env.MONGODB_URL
 const dbName = process.env.MONGODB_NAME
-
 if (!dbUrl) throw new Error('MONGODB_URL is not defined')
 if (!dbName) throw new Error('MONGODB_NAME is not defined')
-
-const mongoClient = require('mongodb').MongoClient
-const bson = require('bson')
 
 let geoffrey
 let usersCollection
 let sessionsCollection
 let listsCollection
-
-mongoClient.connect(dbUrl, { useUnifiedTopology: true }, function (err, client) {
-  if (err) {
-    throw new Error('Error connecting to MongoDB:\n' + err)
-  }
-
-  console.log('Connected successfully to MongoDB')
-
-  geoffrey = client.db(dbName)
-  usersCollection = geoffrey.collection('users')
-  sessionsCollection = geoffrey.collection('sessions')
-  listsCollection = geoffrey.collection('lists')
-})
 
 const getUsers = () => usersCollection
 
@@ -34,7 +20,38 @@ const getSessions = () => sessionsCollection
 
 const getLists = () => listsCollection
 
-const getObjectId = (id = null) => {
+connect()
+
+async function connect () {
+  const numRetries = 10
+  const delaySecs = 60
+  let client
+
+  for (let i = 0; i < numRetries; i++) {
+    console.log('Attempting MongoDB connection...')
+    try {
+      client = await mongoClient.connect(dbUrl, { useUnifiedTopology: true })
+      break
+    } catch (error) {
+      console.error('Error connecting to MongoDB:\n\t' + error)
+      console.log(`Waiting ${delaySecs} seconds before retrying...`)
+      await delay(delaySecs * 1000)
+    }
+  }
+
+  if (!client) {
+    throw new Error(`Failed to connect to MongoDB after ${numRetries} retries`)
+  }
+
+  geoffrey = client.db(dbName)
+  usersCollection = geoffrey.collection('users')
+  sessionsCollection = geoffrey.collection('sessions')
+  listsCollection = geoffrey.collection('lists')
+
+  console.log('Connected successfully to MongoDB')
+}
+
+function getObjectId (id = null) {
   if (id) {
     return new bson.ObjectID(id)
   } else {
@@ -43,7 +60,7 @@ const getObjectId = (id = null) => {
 }
 
 // taken from https://gist.github.com/penguinboy/762197
-const flattenObject = (obj) => {
+function flattenObject (obj) {
   var toReturn = {}
 
   for (var i in obj) {

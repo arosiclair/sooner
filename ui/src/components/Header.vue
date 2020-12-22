@@ -5,7 +5,7 @@
         id="logo"
         :src="Logo"
         alt="logo" />
-      <span id="header-title" class="d-none d-sm-inline text-xl mx-2">ReadItNow</span>
+      <span id="header-title" class="d-none d-sm-inline text-xl mx-2">Read It Now</span>
     </div>
     <div class="header-right">
       <UserMenu />

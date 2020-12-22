@@ -1,9 +1,11 @@
 <template>
   <div>
     <img
-      class="m-4"
-      src="https://via.placeholder.com/150"
+      id="logo"
+      class="mt-4"
+      :src="Logo"
       alt="logo" />
+    <h1 class="m-4">Read It Now</h1>
     <form>
       <div class="shadow-sm rounded overflow-hidden mb-3">
         <input
@@ -44,6 +46,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import Logo from '../assets/logo-rounded.png'
 
 export default {
   name: 'Login',
@@ -54,7 +57,8 @@ export default {
       password: '',
       registering: false,
       error: '',
-      loading: false
+      loading: false,
+      Logo
     }
   },
   computed: {
@@ -118,6 +122,9 @@ export default {
 </script>
 
 <style scoped>
+#logo {
+  width: 125px;
+}
 #loginButton {
     width: 100%;
     background-color: #ffffff;

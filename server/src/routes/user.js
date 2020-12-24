@@ -162,6 +162,7 @@ router.post('/resetPassword', async (req, res) => {
 })
 
 function sendResetEmail (email, token) {
+  // TODO: implement this after paying for mail service
   return true
 }
 

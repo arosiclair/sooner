@@ -44,10 +44,18 @@ export default {
   },
   computed: {
     timeLeft: function () {
+      if (!this.userPrefs.linkTTL) {
+        return '...'
+      }
+
       const expirationDts = addDays(new Date(this.data.addedOn), this.userPrefs.linkTTL)
       return formatDistance(new Date(), expirationDts)
     },
     backgroundStyle: function () {
+      if (!this.userPrefs.linkTTL) {
+        return {}
+      }
+
       const expirationDts = addDays(new Date(this.data.addedOn), this.userPrefs.linkTTL)
       const ttl = differenceInDays(expirationDts, new Date())
 

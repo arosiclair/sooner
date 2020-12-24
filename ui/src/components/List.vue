@@ -85,7 +85,11 @@ export default {
       try {
         var result = await api.get('/list/')
       } catch (error) {
-        this.$toast.error('There was an issue getting your links')
+        if (error.response.status === 401) {
+          this.$toast.error("Doesn't look like you're logged in")
+        } else {
+          this.$toast.error('There was an issue getting your links')
+        }
         return
       }
 

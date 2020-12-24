@@ -2,8 +2,7 @@
   <div id="app">
     <Header v-if="loggedIn"></Header>
     <div class="container content my-0 my-md-5">
-      <List v-if="loggedIn"></List>
-      <Login v-else></Login>
+      <router-view v-if="ready"></router-view>
       <Settings />
     </div>
     <DebugLayer v-if="isDebug" />
@@ -12,8 +11,6 @@
 
 <script>
 import Header from './components/Header'
-import Login from './components/Login'
-import List from './components/List'
 import Settings from './components/Settings'
 import DebugLayer from './components/debug/DebugLayer'
 import { mapGetters, mapActions } from 'vuex'
@@ -23,13 +20,12 @@ export default {
   name: 'App',
   components: {
     Header,
-    Login,
-    List,
     DebugLayer,
     Settings
   },
   data () {
     return {
+      ready: false,
       isDebug: isDebug()
     }
   },
@@ -42,7 +38,17 @@ export default {
   }),
 
   mounted: async function () {
-    this.updateUserData()
+    await this.updateUserData()
+    this.ready = true
+  },
+
+  updated () {
+    // login/logout routing
+    if (!this.loggedIn && this.$route.path !== '/login') {
+      this.$router.push('/login')
+    } else if (this.loggedIn && this.$route.path !== '/list') {
+      this.$router.push('/list')
+    }
   }
 }
 </script>

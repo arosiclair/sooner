@@ -2,9 +2,10 @@
   <div id="header">
     <div class="header-left">
       <img
-        src="https://via.placeholder.com/50"
+        id="logo"
+        :src="Logo"
         alt="logo" />
-      <span id="header-title" class="d-none d-sm-inline text-xl mx-2">ReadItNow</span>
+      <span id="header-title" class="d-none d-sm-inline text-xl mx-2">Read It Now</span>
     </div>
     <div class="header-right">
       <UserMenu />
@@ -13,11 +14,17 @@
 </template>
 
 <script>
+import Logo from '../assets/logo-rounded.png'
 import UserMenu from './UserMenu'
 export default {
   name: 'Header',
   components: {
     UserMenu
+  },
+  data () {
+    return {
+      Logo
+    }
   }
 }
 </script>
@@ -35,4 +42,7 @@ export default {
     vertical-align: middle;
 }
 
+#logo {
+  width: 50px;
+}
 </style>

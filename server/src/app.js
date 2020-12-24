@@ -4,7 +4,6 @@ var path = require('path')
 var logger = require('morgan')
 var cookieSession = require('cookie-session')
 var cors = require('cors')
-var appSettings = require('../appSettings.json')
 
 // routes
 var user = require('./routes/user')
@@ -17,10 +16,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Cookies
-// app.use(cookieParser())
+if (!process.env.SECRET_SESSION_KEY) {
+  throw new Error('SECRET_SESSION_KEY is not defined')
+}
+
 app.use(cookieSession({
   name: 'readItNowSession',
-  secret: appSettings.secretTokenKey
+  secret: process.env.SECRET_SESSION_KEY
 }))
 
 // CORS setup
@@ -35,14 +37,12 @@ app.options('*', cors(corsOptions))
 app.use(express.static(path.join(__dirname, 'public')))
 
 // REST API routing
-var apiRouter = express.Router()
-app.use('/api', apiRouter)
-apiRouter.use('/user', user.router)
-apiRouter.use('/list', user.auth, list)
+app.use('/user', user.router)
+app.use('/list', user.auth, list)
 
 // SPA (redirect any non-API requests)
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+  res.status(404).send('Not found')
 })
 
 module.exports = app

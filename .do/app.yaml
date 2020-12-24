@@ -1,5 +1,9 @@
 name: read-it-now
 
+domains:
+  - domain: www.readitnow.app
+    type: PRIMARY
+
 services:
   - name: api
     github:

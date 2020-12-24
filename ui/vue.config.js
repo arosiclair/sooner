@@ -1,12 +1,16 @@
-const fs = require('fs')
-
 let devOptions = {}
 if (process.env.NODE_ENV === 'development') {
   devOptions = {
     devServer: {
       https: true,
-      key: fs.readFileSync('../nginx/conf/nginx.key'),
-      cert: fs.readFileSync('../nginx/conf/nginx.cert')
+      proxy: {
+        '^/api': {
+          target: 'http://localhost:3000',
+          pathRewrite: { '^/api': '' },
+          ws: true,
+          changeOrigin: true
+        }
+      }
     },
     configureWebpack: {
       devtool: 'source-map'

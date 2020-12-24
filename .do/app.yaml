@@ -26,5 +26,6 @@ static_sites:
     build_command: npm run build
     output_dir: dist
     index_document: index.html
+    catchall_document: index.html
     routes:
       - path: /

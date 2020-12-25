@@ -29,10 +29,8 @@
           class="lg"
           :class="{ error: error && !validPass }" />
       </div>
-      <button class="text-lg shadow-sm rounded mb-4 p-3" id="loginButton" type="button" @click="loginBtnClicked" :disabled="loading">
-        <div v-if="loading" class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
+      <button id="loginButton" class="btn-lg text-lg shadow-sm rounded mb-4 p-3" type="button" @click="loginBtnClicked" :disabled="loading">
+        <b-spinner v-if="loading"/>
         <span v-else>
           {{ registering ? 'SIGN UP' : 'LOGIN' }}
         </span>
@@ -124,23 +122,5 @@ export default {
 <style scoped>
 #logo {
   width: 125px;
-}
-#loginButton {
-    width: 100%;
-    background-color: #ffffff;
-    color: #212121;
-    border: none;
-
-    transition: 0.5s ease;
-}
-#loginButton:focus {
-    outline: none;
-}
-#loginButton:hover {
-  /* Bootstrap shadow class */
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-}
-.spinner-border {
-  font-size: 1rem;
 }
 </style>

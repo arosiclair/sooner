@@ -1,0 +1,12 @@
+.centered-container {
+    display: flex;
+    align-items: center;
+}
+
+.centered-container.split {
+    justify-content: space-between;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}

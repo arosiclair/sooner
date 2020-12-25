@@ -1,0 +1,33 @@
+.material-icons {
+    color: #c7c7c7;
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.material-icons.actionable:hover {
+    color: #28b5f4;
+    background-color: #0000000f;
+    cursor: pointer;
+}
+
+.paper-bg {
+    background-color: #fff;
+}
+
+.btn-lg {
+    width: 100%;
+    background-color: #ffffff;
+    color: #212121;
+    border: none;
+
+    transition: 0.5s ease;
+}
+.btn-lg:focus {
+    outline: none;
+}
+.btn-lg:hover {
+  /* Bootstrap shadow class */
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}

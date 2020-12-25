@@ -16,6 +16,12 @@ import DebugLayer from './components/debug/DebugLayer'
 import { mapGetters, mapActions } from 'vuex'
 import { isDebug } from './modules/utilities'
 
+// global styling
+import './styles/inputs.css'
+import './styles/text.css'
+import './styles/layout.css'
+import './styles/misc.css'
+
 export default {
   name: 'App',
   components: {
@@ -71,105 +77,5 @@ body {
 .content {
   text-align: center;
   max-width: 750px;
-}
-
-.centered-container {
-    display: flex;
-    align-items: center;
-}
-
-.centered-container.split {
-    justify-content: space-between;
-}
-
-.material-icons {
-    color: #c7c7c7;
-    font-size: 30px;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-.material-icons.actionable:hover {
-    color: #28b5f4;
-    background-color: #0000000f;
-    cursor: pointer;
-}
-
-.paper-bg {
-  background-color: #fff;
-}
-
-.overflow-hidden {
-  overflow: hidden;
-}
-
-/* text styling */
-
-.text-sm {
-  font-size: 0.8rem;
-}
-
-.text-lg {
-  font-size: 1.2rem;
-}
-
-.text-xl {
-  font-size: 1.5rem;
-}
-
-/* input styling */
-
-input {
-    width: 100%;
-    padding: 0.8rem;
-    margin: 0;
-
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    border-bottom: 1px solid #ffffff;
-
-    transition: 300ms ease;
-}
-
-input.lg {
-    font-size: 1.2rem;
-}
-input.lg:hover {
-    background-color: #eeeeee;
-    border-bottom: 1px solid #eeeeee;
-}
-input.lg:focus {
-    outline: none;
-    border-bottom: 1px solid #28b5f4;
-}
-input.lg.error {
-    border-bottom: 1px solid #e53635;
-}
-
-input.form {
-    font-size: 1.2rem;
-    padding: 1rem 0.5rem;
-    margin: 0;
-
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    border-bottom: 1px solid #eeeeee;
-    border-radius: 0;
-
-    transition: 300ms ease;
-}
-input.form:hover {
-    background-color: #eeeeee;
-    border-bottom: 1px solid #eeeeee;
-}
-input.form:focus {
-    outline: none;
-    box-shadow: none;
-    border-bottom: 1px solid #28b5f4;
-}
-input.form.error {
-    border-bottom: 1px solid #e53635;
 }
 </style>

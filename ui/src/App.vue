@@ -35,9 +35,20 @@ export default {
       isDebug: isDebug()
     }
   },
-  computed: mapGetters({
-    loggedIn: 'user/loggedIn'
-  }),
+  computed: {
+    currentPath () {
+      if (this.$route.path !== '/') {
+        return this.$route.path
+      } else if (document.location.pathname !== '/') {
+        return document.location.pathname
+      } else {
+        return '/'
+      }
+    },
+    ...mapGetters({
+      loggedIn: 'user/loggedIn'
+    })
+  },
 
   methods: mapActions({
     updateUserData: 'user/refreshData'
@@ -50,10 +61,12 @@ export default {
 
   updated () {
     // login/logout routing
-    if (!this.loggedIn && this.$route.path !== '/login') {
-      this.$router.push('/login')
-    } else if (this.loggedIn && this.$route.path !== '/list') {
-      this.$router.push('/list')
+    if (this.currentPath !== '/passwordReset') {
+      if (!this.loggedIn && this.currentPath !== '/login') {
+        this.$router.push('/login')
+      } else if (this.loggedIn && this.currentPath !== '/list') {
+        this.$router.push('/list')
+      }
     }
   }
 }

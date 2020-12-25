@@ -7,7 +7,7 @@
     <h3 class="mb-4">Password Reset</h3>
     <b-row align-h="center">
       <b-col cols="12" sm="6">
-      <PasswordRequirements/>
+        <PasswordRequirements/>
       </b-col>
     </b-row>
     <div class="shadow-sm rounded overflow-hidden mb-3">
@@ -24,7 +24,7 @@
         placeholder="Confirm password"
         @keyup.enter="submit"
         class="lg"
-        :class="{ error: error && !validPass }" />
+        :class="{ error: error && !passwordsMatch }" />
     </div>
     <button class="btn-lg text-lg shadow-sm rounded p-3" type="button" @click="submit" :disabled="loading">
         <b-spinner v-if="loading"/>
@@ -56,13 +56,25 @@ export default {
 
   computed: {
     validPass () {
+      if (this.password.length < 8 || this.password.length > 32) return false
+
+      if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(this.password)) return false
+
       return true
+    },
+
+    passwordsMatch () {
+      return this.password === this.passwordConfirm
     }
   },
 
   methods: {
     submit () {
-      return true
+      this.error = false
+
+      if (!this.validPass || !this.passwordsMatch) {
+        this.error = true
+      }
     }
   }
 }

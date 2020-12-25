@@ -5,9 +5,11 @@
       <span class="text-lg">Read It Now</span>
     </div>
     <h3 class="mb-4">Password Reset</h3>
-    <div class="d-flex justify-content-center">
+    <b-row align-h="center">
+      <b-col cols="12" sm="6">
       <PasswordRequirements/>
-    </div>
+      </b-col>
+    </b-row>
     <div class="shadow-sm rounded overflow-hidden mb-3">
       <input
         v-model="password"

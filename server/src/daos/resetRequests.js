@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid')
 async function createResetRequest (email) {
   const user = await getUserByEmail(email)
   if (!user) return null
-  const existingRequest = await getResetRequest(user._id)
+  const existingRequest = await getResetRequestByUserId(user._id)
   if (existingRequest) return null
 
   const resetRequest = {
@@ -18,12 +18,26 @@ async function createResetRequest (email) {
   return resetRequest.token
 }
 
-async function getResetRequest (userId) {
+async function getResetRequestByUserId (userId) {
   if (!userId) return null
 
   return geoffrey.getResetRequests().findOne({ userId })
 }
 
+async function getResetRequestByToken (token) {
+  if (!token) return null
+
+  return geoffrey.getResetRequests().findOne({ token })
+}
+
+async function deleteResetRequest (token) {
+  if (!token) return null
+
+  return geoffrey.getResetRequests().deleteOne({ token })
+}
+
 module.exports = {
-  createResetRequest
+  createResetRequest,
+  getResetRequestByToken,
+  deleteResetRequest
 }

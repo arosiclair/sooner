@@ -4,9 +4,9 @@ var router = express.Router()
 
 const { sanitize, sanitizeAndValidate, sanitizeAndValidateStrict } = require('../utils/validation')
 const { InvalidJSONResponse, ErrorResponse } = require('../utils/errors')
-const { addUser, getUserById, updateUser, getUserbyEmailAndPass } = require('../daos/users')
-const { createSession, deleteSession, getSession } = require('../daos/sessions')
-const { createResetRequest } = require('../daos/resetRequests')
+const { addUser, getUserById, updateUser, getUserbyEmailAndPass, updatePassword } = require('../daos/users')
+const { createSession, deleteSession, getSession, invalidateSessions } = require('../daos/sessions')
+const { createResetRequest, getResetRequestByToken, deleteResetRequest } = require('../daos/resetRequests')
 /*
   Endpoint for creating a user.
   Responds with a session token in payload and set's the token in a session cookie
@@ -18,12 +18,7 @@ const registerUserSchema = {
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         .test(val.toLowerCase())
   },
-  password: (val) => {
-    return typeof val === 'string' &&
-      val.length >= 8 && val.length <= 30 &&
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-        .test(val)
-  }
+  password: (val) => isValidPassword(val)
 }
 router.post('/register', async (req, res) => {
   const errorParams = sanitizeAndValidateStrict(req.body, registerUserSchema)
@@ -160,6 +155,40 @@ router.post('/resetPassword', async (req, res) => {
     return res.status(400).json(new ErrorResponse('cannot create a reset request for this user'))
   }
 })
+
+const updatePasswordSchema = {
+  token: (val) => typeof val === 'string',
+  password: (val) => isValidPassword(val)
+}
+router.post('/updatePassword', async (req, res) => {
+  const errorKeys = sanitizeAndValidateStrict(req.body, updatePasswordSchema)
+  if (errorKeys.length) {
+    return res.status(400).json(new InvalidJSONResponse(errorKeys))
+  }
+
+  const resetRequest = await getResetRequestByToken(req.body.token)
+  if (!resetRequest) {
+    return res.status(400).json(new ErrorResponse('bad token'))
+  }
+
+  const success = await updatePassword(resetRequest.userId, req.body.password)
+  if (success) {
+    invalidateSessions(resetRequest.userId)
+    deleteResetRequest(resetRequest.token)
+    res.json({ result: 'success' })
+  } else {
+    res.status(500).status(new ErrorResponse('password update failed'))
+  }
+})
+
+// helpers
+
+function isValidPassword (password) {
+  return typeof password === 'string' &&
+    password.length >= 8 &&
+    password.length <= 32 &&
+    /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(password)
+}
 
 function sendResetEmail (email, token) {
   // TODO: implement this after paying for mail service

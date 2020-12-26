@@ -49,11 +49,22 @@ async function updateUser (userId, changes) {
   return result.value
 }
 
+function updatePassword (userId, newPassword) {
+  if (!userId || !newPassword) return false
+
+  const hashedPass = passwordHasher.generate(newPassword, { algorithm: 'SHA256' })
+  const changes = {
+    password: hashedPass
+  }
+  return updateUser(userId, changes)
+}
+
 module.exports = {
   getUserById,
   getUserByEmail,
   getUserbyEmailAndPass,
   getUserPrefs,
   addUser,
-  updateUser
+  updateUser,
+  updatePassword
 }

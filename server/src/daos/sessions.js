@@ -25,8 +25,16 @@ async function getSession (token) {
   return geoffrey.getSessions().findOne({ token: token })
 }
 
+function invalidateSessions (userId) {
+  if (!userId) return false
+
+  geoffrey.getSessions().deleteMany({ userId })
+  return true
+}
+
 module.exports = {
   createSession,
   deleteSession,
-  getSession
+  getSession,
+  invalidateSessions
 }

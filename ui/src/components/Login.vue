@@ -1,44 +1,49 @@
 <template>
   <div>
-    <img
-      id="logo"
-      class="mt-4"
-      :src="Logo"
-      alt="logo" />
-    <h1 class="m-4">Read It Now</h1>
-    <form>
-      <div class="shadow-sm rounded overflow-hidden mb-3">
-        <input
-          v-if="registering"
-          v-model="name"
-          type="text"
-          placeholder="Name"
-          class="lg" />
-        <input
-          v-model="email"
-          type="text"
-          placeholder="Email"
-          @keyup.enter="loginBtnClicked"
-          class="lg"
-          :class="{ error: error && !validEmail }" />
-        <input
-          v-model="password"
-          type="password"
-          placeholder="Password"
-          @keyup.enter="loginBtnClicked"
-          class="lg"
-          :class="{ error: error && !validPass }" />
-      </div>
-      <button id="loginButton" class="btn-lg text-lg shadow-sm rounded mb-4 p-3" type="button" @click="loginBtnClicked" :disabled="loading">
-        <b-spinner v-if="loading"/>
-        <span v-else>
-          {{ registering ? 'SIGN UP' : 'LOGIN' }}
-        </span>
-      </button>
-      <a href="#" @click="registering = !registering">
-        {{ registering ? 'CANCEL' : 'SIGN UP' }}
-      </a>
-    </form>
+    <div class="content">
+      <img
+        id="logo"
+        class="mt-4"
+        :src="Logo"
+        alt="logo" />
+      <h1 class="m-4">Read It Now</h1>
+      <form>
+        <div class="shadow-sm rounded overflow-hidden mb-3">
+          <input
+            v-if="registering"
+            v-model="name"
+            type="text"
+            placeholder="Name"
+            class="lg" />
+          <input
+            v-model="email"
+            type="text"
+            placeholder="Email"
+            @keyup.enter="loginBtnClicked"
+            class="lg"
+            :class="{ error: error && !validEmail }" />
+          <input
+            v-model="password"
+            type="password"
+            placeholder="Password"
+            @keyup.enter="loginBtnClicked"
+            class="lg"
+            :class="{ error: error && !validPass }" />
+        </div>
+        <button id="loginButton" class="btn-lg text-lg shadow-sm rounded mb-4 p-3" type="button" @click="loginBtnClicked" :disabled="loading">
+          <b-spinner v-if="loading"/>
+          <span v-else>
+            {{ registering ? 'SIGN UP' : 'LOGIN' }}
+          </span>
+        </button>
+        <a href="#" @click="registering = !registering">
+          {{ registering ? 'CANCEL' : 'SIGN UP' }}
+        </a>
+      </form>
+    </div>
+    <div class="bottom-container">
+      <router-link :to="{ name: RouteNames.ResetRequest }"> Forgot your password?</router-link>
+    </div>
   </div>
 </template>
 
@@ -62,7 +67,8 @@ export default {
       registering: false,
       error: '',
       loading: false,
-      Logo
+      Logo,
+      RouteNames
     }
   },
   computed: {
@@ -131,7 +137,14 @@ export default {
 </script>
 
 <style scoped>
+.content {
+  min-height: calc(100vh - 50px);
+}
 #logo {
   width: 125px;
+}
+
+.bottom-container {
+  height: 50px;
 }
 </style>

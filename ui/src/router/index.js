@@ -5,6 +5,7 @@ import List from '../components/List'
 export const RouteNames = {
   List: 'List',
   Login: 'Login',
+  ResetRequest: 'ResetRequest',
   PasswordReset: 'PasswordReset',
   PasswordResetSuccess: 'PasswordResetSuccess'
 }
@@ -24,6 +25,11 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "login" */ '../components/Login.vue')
+  },
+  {
+    path: '/resetRequest',
+    name: RouteNames.ResetRequest,
+    component: () => import(/* webpackChunkName: "passwordreset" */ '../components/PasswordReset/Request')
   },
   {
     path: '/passwordReset',

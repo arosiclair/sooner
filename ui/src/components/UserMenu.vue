@@ -8,7 +8,7 @@
       <HoverOverlay class="dd-item text-lg" @click="showSettings">
         Settings
       </HoverOverlay>
-      <HoverOverlay class="dd-item text-lg" @click="dispatchLogout">
+      <HoverOverlay class="dd-item text-lg" @click="logout">
         Logout
       </HoverOverlay>
     </div>
@@ -17,6 +17,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { RouteNames } from '../router'
 import HoverOverlay from './utils/HoverOverlay'
 
 export default {
@@ -58,6 +59,10 @@ export default {
     showSettings () {
       this.toggleOpen()
       this.$bvModal.show('settings-modal')
+    },
+    async logout () {
+      await this.dispatchLogout()
+      this.$router.push({ name: RouteNames.Login })
     },
     ...mapActions({
       dispatchLogout: 'user/logout'

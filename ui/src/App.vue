@@ -3,6 +3,7 @@
     <Header v-if="loggedIn"></Header>
     <div class="container content my-0 my-md-5">
       <router-view v-if="ready"></router-view>
+      <b-spinner v-else class="m-5" />
       <Settings />
     </div>
     <DebugLayer v-if="isDebug" />
@@ -21,6 +22,7 @@ import './styles/inputs.css'
 import './styles/text.css'
 import './styles/layout.css'
 import './styles/misc.css'
+import { RouteNames } from './router'
 
 export default {
   name: 'App',
@@ -60,12 +62,11 @@ export default {
   },
 
   updated () {
-    // login/logout routing
-    if (this.currentPath !== '/passwordReset') {
-      if (!this.loggedIn && this.currentPath !== '/login') {
-        this.$router.push('/login')
-      } else if (this.loggedIn && this.currentPath !== '/list') {
-        this.$router.push('/list')
+    if (this.currentPath === '/') {
+      if (!this.loggedIn) {
+        this.$router.push({ name: RouteNames.Login })
+      } else {
+        this.$router.push({ name: RouteNames.List })
       }
     }
   }

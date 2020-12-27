@@ -43,11 +43,17 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Logo from '../assets/logo-rounded.png'
+import { RouteNames } from '../router'
 
 export default {
   name: 'Login',
+  mounted () {
+    if (this.loggedIn) {
+      this.$router.push({ name: RouteNames.List })
+    }
+  },
   data () {
     return {
       name: '',
@@ -65,7 +71,10 @@ export default {
     },
     validPass: function () {
       return this.password.length > 0
-    }
+    },
+    ...mapGetters({
+      loggedIn: 'user/loggedIn'
+    })
   },
   methods: {
     async loginBtnClicked (event) {
@@ -100,6 +109,8 @@ export default {
       if (!result.success) {
         this.error = true
         this.$toast.error(result.reason)
+      } else {
+        this.$router.push({ name: RouteNames.List })
       }
     },
     validateLogin () {

@@ -37,6 +37,7 @@ import api from '../modules/api'
 import Link from './Link/Link'
 import { getDomainFromUrl, debounce } from '../modules/utilities'
 import { mapGetters } from 'vuex'
+import { RouteNames } from '../router'
 
 export default {
   name: 'List',
@@ -72,11 +73,17 @@ export default {
       }
     },
     ...mapGetters({
-      userPrefs: 'user/prefs'
+      userPrefs: 'user/prefs',
+      loggedIn: 'user/loggedIn'
     })
   },
   mounted: function () {
-    this.refresh()
+    if (!this.loggedIn) {
+      this.$toast.error("Doesn't look like you're logged in anymore")
+      this.$router.push({ name: RouteNames.Login })
+    } else {
+      this.refresh()
+    }
   },
   methods: {
     refresh: async function () {
@@ -86,7 +93,7 @@ export default {
         var result = await api.get('/list/')
       } catch (error) {
         if (error.response.status === 401) {
-          this.$toast.error("Doesn't look like you're logged in")
+          this.$toast.error("Doesn't look like you're logged in anymore")
         } else {
           this.$toast.error('There was an issue getting your links')
         }

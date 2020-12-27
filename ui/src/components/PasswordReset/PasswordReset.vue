@@ -93,6 +93,7 @@ export default {
         } else {
           this.$toast.error('There was an issue updating your password. Try again.', { timeout: false })
         }
+        return
       }
 
       this.$router.push({ name: RouteNames.PasswordResetSuccess })

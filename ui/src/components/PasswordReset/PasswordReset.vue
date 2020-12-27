@@ -1,13 +1,10 @@
 <template>
   <div>
-    <div class="centered-container justify-content-center m-4">
-      <img id="logo" :src="Logo" class="mr-3"/>
-      <span class="text-lg">Read It Now</span>
-    </div>
+    <letter-head />
     <h3 class="mb-4">Password Reset</h3>
     <b-row align-h="center">
       <b-col cols="12" sm="6">
-        <PasswordRequirements/>
+        <password-reqs />
       </b-col>
     </b-row>
     <div class="shadow-sm rounded overflow-hidden mb-3">
@@ -26,29 +23,26 @@
         class="lg"
         :class="{ error: error && !passwordsMatch }" />
     </div>
-    <button class="btn-lg text-lg shadow-sm rounded p-3" type="button" @click="submit" :disabled="loading">
-      <b-spinner v-if="loading"/>
-      <span v-else>
-        SUBMIT
-      </span>
-    </button>
+    <big-submit-btn label="SUBMIT" :loading="loading" :onSubmit="submit" />
   </div>
 </template>
 
 <script>
-import Logo from '../../assets/logo-rounded.png'
 import api from '../../modules/api'
-import PasswordRequirements from '../PasswordReqs'
 import { RouteNames } from '../../router'
+import LetterHead from '../LetterHead.vue'
+import PasswordReqs from '../PasswordReqs.vue'
+import BigSubmitBtn from '../BigSubmitBtn.vue'
 
 export default {
   components: {
-    PasswordRequirements
+    LetterHead,
+    PasswordReqs,
+    BigSubmitBtn
   },
 
   data () {
     return {
-      Logo,
       password: '',
       passwordConfirm: '',
       error: false,

@@ -27,17 +27,19 @@
         :class="{ error: error && !passwordsMatch }" />
     </div>
     <button class="btn-lg text-lg shadow-sm rounded p-3" type="button" @click="submit" :disabled="loading">
-        <b-spinner v-if="loading"/>
-        <span v-else>
-          SUBMIT
-        </span>
-      </button>
+      <b-spinner v-if="loading"/>
+      <span v-else>
+        SUBMIT
+      </span>
+    </button>
   </div>
 </template>
 
 <script>
-import Logo from '../assets/logo-rounded.png'
-import PasswordRequirements from './PasswordReqs'
+import Logo from '../../assets/logo-rounded.png'
+import api from '../../modules/api'
+import PasswordRequirements from '../PasswordReqs'
+import { RouteNames } from '../../router'
 
 export default {
   components: {
@@ -50,7 +52,8 @@ export default {
       password: '',
       passwordConfirm: '',
       error: false,
-      loading: false
+      loading: false,
+      success: false
     }
   },
 
@@ -69,12 +72,30 @@ export default {
   },
 
   methods: {
-    submit () {
+    async submit () {
       this.error = false
 
       if (!this.validPass || !this.passwordsMatch) {
         this.error = true
+        return
       }
+
+      const data = {
+        token: this.$route.query.token,
+        password: this.password
+      }
+
+      try {
+        await api.post('/user/updatePassword', data)
+      } catch (error) {
+        if (error.response.status === 400) {
+          this.$toast.error('This password reset link seems to be bad. Try again.', { timeout: false })
+        } else {
+          this.$toast.error('There was an issue updating your password. Try again.', { timeout: false })
+        }
+      }
+
+      this.$router.push({ name: RouteNames.PasswordResetSuccess })
     }
   }
 }

@@ -1,22 +1,29 @@
-let devOptions = {}
-if (process.env.NODE_ENV === 'development') {
-  devOptions = {
-    devServer: {
-      https: true,
-      proxy: {
-        '^/api': {
-          target: 'http://localhost:3000',
-          pathRewrite: { '^/api': '' },
-          ws: true,
-          changeOrigin: true
-        }
+const path = require('path')
+
+const config = {
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '~': path.resolve(__dirname, 'src/')
       }
-    },
-    configureWebpack: {
-      devtool: 'source-map'
     }
   }
 }
-module.exports = {
-  ...devOptions
+
+if (process.env.NODE_ENV === 'development') {
+  config.devServer = {
+    https: true,
+    proxy: {
+      '^/api': {
+        target: 'http://localhost:3000',
+        pathRewrite: { '^/api': '' },
+        ws: true,
+        changeOrigin: true
+      }
+    }
+  }
+
+  config.configureWebpack.devtool = 'source-map'
 }
+
+module.exports = config

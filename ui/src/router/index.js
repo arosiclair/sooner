@@ -29,12 +29,12 @@ const routes = [
   {
     path: '/resetRequest',
     name: RouteNames.ResetRequest,
-    component: () => import(/* webpackChunkName: "passwordreset" */ '../components/PasswordReset/Request')
+    component: () => import(/* webpackChunkName: "passwordresetrequest" */ '../components/PasswordReset/Request')
   },
   {
     path: '/passwordReset',
     name: RouteNames.PasswordReset,
-    component: () => import(/* webpackChunkName: "passwordreset" */ '../components/PasswordReset/PasswordReset')
+    component: () => import(/* webpackChunkName: "passwordreset" */ '../components/PasswordReset/Reset')
   },
   {
     path: '/passwordReset/success',

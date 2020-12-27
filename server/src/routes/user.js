@@ -7,16 +7,16 @@ const { InvalidJSONResponse, ErrorResponse } = require('../utils/errors')
 const { addUser, getUserById, updateUser, getUserbyEmailAndPass, updatePassword } = require('../daos/users')
 const { createSession, deleteSession, getSession, invalidateSessions } = require('../daos/sessions')
 const { createResetRequest, getResetRequestByToken, deleteResetRequest } = require('../daos/resetRequests')
+
 /*
   Endpoint for creating a user.
   Responds with a session token in payload and set's the token in a session cookie
 */
+const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const registerUserSchema = {
   name: (val) => typeof val === 'string' && val.length <= 30,
   email: (val) => {
-    return typeof val === 'string' &&
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        .test(val.toLowerCase())
+    return typeof val === 'string' && emailRegEx.test(val.toLowerCase())
   },
   password: (val) => isValidPassword(val)
 }

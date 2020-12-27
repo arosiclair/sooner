@@ -11,17 +11,17 @@
 </template>
 
 <script>
-import Header from './components/Header'
-import Settings from './components/Settings'
-import DebugLayer from './components/debug/DebugLayer'
-import { mapGetters, mapActions } from 'vuex'
-import { isDebug } from './modules/utilities'
-
 // global styling
 import './styles/inputs.css'
 import './styles/text.css'
 import './styles/layout.css'
 import './styles/misc.css'
+
+import Header from './components/Header'
+import Settings from './components/Settings'
+import DebugLayer from './components/debug/DebugLayer'
+import { mapGetters, mapActions } from 'vuex'
+import { isDebug } from './modules/utilities'
 import { RouteNames } from './router'
 
 export default {

@@ -6,6 +6,7 @@ export const RouteNames = {
   List: 'List',
   Login: 'Login',
   ResetRequest: 'ResetRequest',
+  ResetRequestSuccess: 'ResetRequestSuccess',
   PasswordReset: 'PasswordReset',
   PasswordResetSuccess: 'PasswordResetSuccess'
 }
@@ -29,7 +30,15 @@ const routes = [
   {
     path: '/resetRequest',
     name: RouteNames.ResetRequest,
-    component: () => import(/* webpackChunkName: "passwordresetrequest" */ '../components/PasswordReset/Request')
+    component: () => import(/* webpackChunkName: "passwordresetsuccess" */ '../components/PasswordReset/Request')
+  },
+  {
+    path: '/resetRequest/success',
+    name: RouteNames.ResetRequestSuccess,
+    component: () => import(/* webpackChunkName: "passwordresetsuccess" */ '../components/PasswordReset/Success'),
+    props: {
+      message: 'Check your email for more instructions.'
+    }
   },
   {
     path: '/passwordReset',
@@ -39,7 +48,10 @@ const routes = [
   {
     path: '/passwordReset/success',
     name: RouteNames.PasswordResetSuccess,
-    component: () => import(/* webpackChunkName: "passwordresetsuccess" */ '../components/PasswordReset/Success')
+    component: () => import(/* webpackChunkName: "passwordresetsuccess" */ '../components/PasswordReset/Success'),
+    props: {
+      message: 'Your password has been updated.'
+    }
   }
 ]
 

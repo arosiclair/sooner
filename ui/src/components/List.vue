@@ -22,7 +22,7 @@
         @input="onNewLinkChanged"
         @keyup.enter="addNewLink" />
     </div>
-    <div class="shadow-sm rounded overflow-hidden">
+    <div class="shadow-sm rounded overflow-hidden mb-3">
       <Link
         v-for="link in sortedLinks"
         :key="link._id"

@@ -4,8 +4,8 @@
     <div class="container content my-0 my-md-5">
       <router-view v-if="ready"></router-view>
       <b-spinner v-else class="m-5" />
-      <Settings />
     </div>
+    <Settings />
     <DebugLayer v-if="isDebug" />
   </div>
 </template>

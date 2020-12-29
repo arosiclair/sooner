@@ -3,7 +3,7 @@
   <div>
     <letter-head />
     <h3 class="mb-4">Password Reset</h3>
-    <form class="mb-4">
+    <div class="mb-4">
       <input
         v-model="email"
         type="email"
@@ -12,7 +12,7 @@
         class="lg rounded overflow-hidden shadow-sm mb-3"
         :class="{ error: error  }" />
       <big-submit-btn label="SUBMIT" :loading="loading" :onSubmit="submit" />
-  </form>
+    </div>
   </div>
 </template>
 
@@ -20,6 +20,8 @@
 import Logo from '@/assets/logo-rounded.png'
 import LetterHead from '../LetterHead.vue'
 import BigSubmitBtn from '../BigSubmitBtn.vue'
+import api from '../../modules/api'
+import { RouteNames } from '../../router'
 
 export default {
   components: {
@@ -31,7 +33,8 @@ export default {
     return {
       Logo,
       email: '',
-      error: false
+      error: false,
+      loading: false
     }
   },
 
@@ -44,8 +47,26 @@ export default {
   },
 
   methods: {
-    submit () {
-      return true
+    async submit () {
+      this.error = false
+
+      if (!this.validEmail) {
+        this.error = true
+        return
+      }
+
+      const data = {
+        email: this.email
+      }
+
+      try {
+        await api.post('/user/resetPassword', data)
+      } catch (error) {
+        this.$toast.error("Couldn't reset the password for this user")
+        return
+      }
+
+      this.$router.push({ name: RouteNames.ResetRequestSuccess })
     }
   }
 }

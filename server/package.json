@@ -4,7 +4,7 @@
   "private": true,
   "main": "src/main.js",
   "scripts": {
-    "start": "cross-env DEBUG=myapp:* node ./src/main"
+    "start": "node ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

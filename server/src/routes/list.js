@@ -40,7 +40,7 @@ const addLinkSchema = {
   siteName: (val) => typeof val === 'string' && val.length <= 140,
   link: (val) => typeof val === 'string'
 }
-router.put('/', async function (req, res) {
+router.post('/', async function (req, res) {
   const errorKeys = validateStrict(req.body, addLinkSchema)
   if (errorKeys.length) {
     res.status(400).json(new InvalidJSONResponse(errorKeys))

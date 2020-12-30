@@ -133,7 +133,7 @@ export default {
       }
 
       try {
-        await api.put('/list/', newLink)
+        await api.post('/list/', newLink)
       } catch (error) {
         if (error.response.status === 401) {
           this.$toast.error('Your session expired')

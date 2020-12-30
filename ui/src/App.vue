@@ -1,12 +1,14 @@
 <template>
   <div id="app">
     <Header v-if="loggedIn"></Header>
-    <div class="container content my-0 my-md-5">
-      <router-view v-if="ready"></router-view>
-      <b-spinner v-else class="m-5" />
+    <div class="content">
+        <div class="container padded-content py-0 py-md-4">
+        <router-view v-if="ready"></router-view>
+        <b-spinner v-else class="m-5" />
+      </div>
     </div>
-    <Settings />
     <DebugLayer v-if="isDebug" />
+    <Settings />
   </div>
 </template>
 
@@ -77,6 +79,10 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+html, body {
+  height: 100%;
+}
+
 body {
   background-color: #f5f5f5;
   color: #212121;
@@ -86,10 +92,22 @@ body {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
+  flex: 1;
+  overflow: auto;
+}
+
+.padded-content {
   text-align: center;
   max-width: 750px;
+  height: 100%;
 }
 </style>

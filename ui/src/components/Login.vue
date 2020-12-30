@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="content">
+  <div class="content">
+    <div class="top-container">
       <img
         id="logo"
         class="mt-4"
@@ -37,7 +37,7 @@
           </span>
         </button>
         <a href="#" @click="registering = !registering">
-          {{ registering ? 'CANCEL' : 'SIGN UP' }}
+          {{ registering ? 'Cancel' : 'Sign Up' }}
         </a>
       </form>
     </div>
@@ -138,12 +138,16 @@ export default {
 
 <style scoped>
 .content {
-  min-height: calc(100vh - 50px);
+  height: 100%;
 }
+
 #logo {
   width: 125px;
 }
 
+.top-container {
+  min-height: calc(100% - 50px);
+}
 .bottom-container {
   height: 50px;
 }

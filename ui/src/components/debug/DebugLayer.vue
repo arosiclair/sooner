@@ -20,7 +20,7 @@ export default {
 
 <style>
 #debug-container {
-  position: sticky;
+  position: absolute;
   text-align: right;
   bottom: 0;
   right: 0;

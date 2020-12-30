@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="py-3">
     <div class="shadow-sm rounded overflow-hidden mb-4">
       <div class="link-preview-container" :class="{ hidden: !newLinkPreview && !newLinkLoading }">
         <b-spinner small v-if="newLinkLoading" />
@@ -22,7 +22,7 @@
         @input="onNewLinkChanged"
         @keyup.enter="addNewLink" />
     </div>
-    <div class="shadow-sm rounded overflow-hidden mb-3">
+    <div class="shadow-sm rounded overflow-hidden">
       <Link
         v-for="link in sortedLinks"
         :key="link._id"
@@ -188,9 +188,5 @@ export default {
 
 .hidden {
   display: none;
-}
-
-.group {
-  margin-bottom: 20px;
 }
 </style>

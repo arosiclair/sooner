@@ -1,5 +1,5 @@
 <template>
-  <div id="header">
+  <div id="header" class="px-3 py-2">
     <div class="header-left">
       <img
         id="logo"
@@ -34,8 +34,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  padding: 20px;
+  border-bottom: 1px solid lightgray;
 }
 
 #header-title {

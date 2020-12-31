@@ -44,7 +44,7 @@ export default {
         const link = mockLinks[i]
 
         link.addedOn = subDays(new Date(), i)
-        api.put('/list/', link)
+        api.post('/list/', link)
       }
     }
   }

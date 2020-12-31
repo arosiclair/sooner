@@ -1,6 +1,6 @@
 <template>
   <div class="paper-bg" :class="backgroundStyle">
-    <div class="centered-container split item py-3" @click="goToLink">
+    <div class="centered-container split item py-3" @click="goToLink" role="button">
       <!-- Favicon section -->
       <LinkIcon class="favicon mx-3" :linkUrl="data.link" />
       <!-- Text section -->
@@ -15,8 +15,8 @@
         </div>
       </div>
       <!-- Done section -->
-      <div class="text-center mx-3">
-        <i class="material-icons actionable done-btn" @click="remove">done</i>
+      <div class="text-center mx-3" @click="remove" role="button">
+        <i class="material-icons actionable done-btn">done</i>
       </div>
     </div>
   </div>

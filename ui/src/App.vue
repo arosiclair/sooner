@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div class="content">
-        <div class="container padded-content py-0 py-md-4">
-        <router-view v-if="ready"></router-view>
+      <div class="container padded-content py-0 py-md-4">
+        <transition-page v-if="ready"></transition-page>
         <b-spinner v-else class="m-5" />
       </div>
     </div>
@@ -23,12 +23,15 @@ import DebugLayer from './components/debug/DebugLayer'
 import { mapGetters, mapActions } from 'vuex'
 import { isDebug } from './modules/utilities'
 import { RouteNames } from './router'
+import TransitionPage from './components/TransitionPage.vue'
+import 'animate.css'
 
 export default {
   name: 'App',
   components: {
     DebugLayer,
-    Settings
+    Settings,
+    TransitionPage
   },
   data () {
     return {

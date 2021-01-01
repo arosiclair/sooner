@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import List from '../components/List'
+import UserList from '../components/List/UserList'
 
 export const RouteNames = {
   List: 'List',
@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/list',
     name: RouteNames.List,
-    component: List
+    component: UserList
   },
   {
     path: '/login',

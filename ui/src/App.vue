@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <Header v-if="loggedIn"></Header>
     <div class="content">
         <div class="container padded-content py-0 py-md-4">
         <router-view v-if="ready"></router-view>
@@ -19,7 +18,6 @@ import './styles/text.css'
 import './styles/layout.css'
 import './styles/misc.css'
 
-import Header from './components/Header'
 import Settings from './components/Settings'
 import DebugLayer from './components/debug/DebugLayer'
 import { mapGetters, mapActions } from 'vuex'
@@ -29,7 +27,6 @@ import { RouteNames } from './router'
 export default {
   name: 'App',
   components: {
-    Header,
     DebugLayer,
     Settings
   },

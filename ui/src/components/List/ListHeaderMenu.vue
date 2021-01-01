@@ -17,8 +17,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { RouteNames } from '../router'
-import HoverOverlay from './utils/HoverOverlay'
+import { RouteNames } from '../../router'
+import HoverOverlay from '../utils/HoverOverlay'
 
 export default {
   name: 'UserMenu',

@@ -104,6 +104,22 @@ body {
   flex: 1;
   overflow: auto;
 }
+.content::-webkit-scrollbar-track
+{
+  background-color: transparent;
+}
+
+.content::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: transparent;
+}
+
+.content::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: #aaaaaa;
+}
 
 .padded-content {
   text-align: center;

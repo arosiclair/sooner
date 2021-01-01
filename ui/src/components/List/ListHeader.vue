@@ -1,5 +1,5 @@
 <template>
-  <div id="header" class="px-3 py-2">
+  <div id="header" class="px-2 py-2">
     <div class="header-left">
       <img
         id="logo"
@@ -8,18 +8,18 @@
       <span id="header-title" class="d-none d-sm-inline text-xl mx-2">Read It Now</span>
     </div>
     <div class="header-right">
-      <UserMenu />
+      <list-header-menu />
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '../assets/logo-rounded.png'
-import UserMenu from './UserMenu'
+import Logo from '@/assets/logo-rounded.png'
+import ListHeaderMenu from './ListHeaderMenu'
 export default {
   name: 'Header',
   components: {
-    UserMenu
+    ListHeaderMenu
   },
   data () {
     return {
@@ -34,7 +34,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid lightgray;
+  /* border-bottom: 1px solid lightgray; */
 }
 
 #header-title {

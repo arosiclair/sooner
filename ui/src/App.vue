@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <Header v-if="loggedIn"></Header>
     <div class="content">
-        <div class="container padded-content py-0 py-md-4">
-        <router-view v-if="ready"></router-view>
+      <div class="container padded-content py-0 py-md-4">
+        <transition-page v-if="ready"></transition-page>
         <b-spinner v-else class="m-5" />
       </div>
     </div>
@@ -19,19 +18,20 @@ import './styles/text.css'
 import './styles/layout.css'
 import './styles/misc.css'
 
-import Header from './components/Header'
 import Settings from './components/Settings'
 import DebugLayer from './components/debug/DebugLayer'
 import { mapGetters, mapActions } from 'vuex'
 import { isDebug } from './modules/utilities'
 import { RouteNames } from './router'
+import TransitionPage from './components/TransitionPage.vue'
+import 'animate.css'
 
 export default {
   name: 'App',
   components: {
-    Header,
     DebugLayer,
-    Settings
+    Settings,
+    TransitionPage
   },
   data () {
     return {
@@ -103,6 +103,22 @@ body {
 .content {
   flex: 1;
   overflow: auto;
+}
+.content::-webkit-scrollbar-track
+{
+  background-color: transparent;
+}
+
+.content::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: transparent;
+}
+
+.content::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: #aaaaaa;
 }
 
 .padded-content {

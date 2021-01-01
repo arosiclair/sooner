@@ -1,48 +1,53 @@
 <template>
-  <div class="py-3">
-    <div class="shadow-sm rounded overflow-hidden mb-4">
-      <div class="link-preview-container" :class="{ hidden: !newLinkPreview && !newLinkLoading }">
-        <b-spinner small v-if="newLinkLoading" />
-        <div v-else class="centered-container split">
-          <div>
-            {{ newLinkPreview }}
-          </div>
-          <div @click="addNewLink">
-            <i class="material-icons actionable">add_circle_outline</i>
+  <div>
+    <list-header />
+    <div class="py-3">
+      <div class="shadow-sm rounded overflow-hidden mb-4">
+        <div class="link-preview-container" :class="{ hidden: !newLinkPreview && !newLinkLoading }">
+          <b-spinner small v-if="newLinkLoading" />
+          <div v-else class="centered-container split">
+            <div>
+              {{ newLinkPreview }}
+            </div>
+            <div @click="addNewLink">
+              <i class="material-icons actionable">add_circle_outline</i>
+            </div>
           </div>
         </div>
+        <input
+          id="new-link-input"
+          v-model="newLink"
+          placeholder="Enter a link here"
+          type="text"
+          class="lg"
+          :class="{ error: error }"
+          @input="onNewLinkChanged"
+          @keyup.enter="addNewLink" />
       </div>
-      <input
-        id="new-link-input"
-        v-model="newLink"
-        placeholder="Enter a link here"
-        type="text"
-        class="lg"
-        :class="{ error: error }"
-        @input="onNewLinkChanged"
-        @keyup.enter="addNewLink" />
-    </div>
-    <div class="shadow-sm rounded overflow-hidden">
-      <Link
-        v-for="link in sortedLinks"
-        :key="link._id"
-        :data="link"
-        @list-updated="refresh" />
+      <div class="shadow-sm rounded overflow-hidden">
+        <Link
+          v-for="link in sortedLinks"
+          :key="link._id"
+          :data="link"
+          @list-updated="refresh" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import api from '../modules/api'
-import Link from './Link/Link'
-import { getDomainFromUrl, debounce } from '../modules/utilities'
 import { mapGetters } from 'vuex'
-import { RouteNames } from '../router'
+import api from '../../modules/api'
+import { getDomainFromUrl, debounce } from '../../modules/utilities'
+import { RouteNames } from '../../router'
+import ListHeader from './ListHeader.vue'
+import Link from '../Link/Link'
 
 export default {
   name: 'List',
   components: {
-    Link
+    Link,
+    ListHeader
   },
   data () {
     return {

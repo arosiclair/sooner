@@ -38,7 +38,11 @@ async function addUser (name, email, password, prefs) {
   }
 
   const result = await geoffrey.getUsers().insertOne(newUser)
-  return result.insertedCount === 1
+  if (result.insertedCount === 1) {
+    return result.insertedId
+  } else {
+    return null
+  }
 }
 
 async function updateUser (userId, changes) {

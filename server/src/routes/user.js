@@ -27,9 +27,7 @@ router.post('/register', async (req, res) => {
     return
   }
 
-  const userId = await addUser(req.body.name, req.body.email, req.body.password, {
-    linkTTL: 5 // days until link expires
-  })
+  const userId = await addUser(req.body.name, req.body.email, req.body.password, { linkTTL: 5 })
 
   if (userId) {
     req.session.token = await createSession(userId)

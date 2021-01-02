@@ -37,12 +37,13 @@ async function addUser (name, email, password, prefs) {
     password: passwordHasher.generate(password, { algorithm: 'SHA256' })
   }
 
-  const result = await geoffrey.getUsers().insertOne(newUser)
-  if (result.insertedCount === 1) {
-    return result.insertedId
-  } else {
+  try {
+    var result = await geoffrey.getUsers().insertOne(newUser)
+  } catch (error) {
     return null
   }
+
+  return result.insertedId
 }
 
 async function updateUser (userId, changes) {

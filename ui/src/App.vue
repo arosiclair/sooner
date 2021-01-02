@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div class="content">
-      <div class="container padded-content py-0 py-md-4">
+    <div class="content py-md-4">
+      <div class="container padded-content">
         <transition-page v-if="ready"></transition-page>
         <b-spinner v-else class="m-5" />
       </div>

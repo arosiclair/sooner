@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div class="content">
-      <div class="container padded-content py-0 py-md-4">
+    <div class="content py-md-4">
+      <div class="container padded-content">
         <transition-page v-if="ready"></transition-page>
         <b-spinner v-else class="m-5" />
       </div>
@@ -111,14 +111,14 @@ body {
 
 .content::-webkit-scrollbar
 {
-  width: 10px;
+  width: 8px;
   background-color: transparent;
 }
 
 .content::-webkit-scrollbar-thumb
 {
   border-radius: 10px;
-  background-color: #aaaaaa;
+  background-color: #c5c5c5;
 }
 
 .padded-content {

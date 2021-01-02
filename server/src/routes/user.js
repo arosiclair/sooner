@@ -27,12 +27,10 @@ router.post('/register', async (req, res) => {
     return
   }
 
-  const result = await addUser(req.body.name, req.body.email, req.body.password, {
-    linkTTL: 5 // days until link expires
-  })
+  const userId = await addUser(req.body.name, req.body.email, req.body.password, { linkTTL: 5 })
 
-  if (result) {
-    req.session.token = await createSession(result.insertedId)
+  if (userId) {
+    req.session.token = await createSession(userId)
     res.json({
       result: 'success',
       name: req.body.name,

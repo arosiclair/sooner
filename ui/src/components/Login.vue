@@ -112,6 +112,8 @@ export default {
       if (result.error) {
         this.error = true
         this.$toast.error(result.reason)
+      } else {
+        this.$router.push({ name: RouteNames.List })
       }
     },
     async login () {

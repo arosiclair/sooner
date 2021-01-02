@@ -24,13 +24,16 @@
           @input="onNewLinkChanged"
           @keyup.enter="addNewLink" />
       </div>
-      <div class="shadow-sm rounded overflow-hidden">
-        <Link
-          v-for="link in sortedLinks"
-          :key="link._id"
-          :data="link"
-          @list-updated="refresh" />
-      </div>
+      <fade-in-up height='100px' v-if="sortedLinks">
+        <div class="shadow-sm rounded overflow-hidden">
+          <Link
+            v-for="link in sortedLinks"
+            :key="link._id"
+            :data="link"
+            @list-updated="refresh" />
+        </div>
+      </fade-in-up>
+      <b-spinner v-else></b-spinner>
     </div>
   </div>
 </template>
@@ -42,12 +45,14 @@ import { getDomainFromUrl, debounce } from '../../modules/utilities'
 import { RouteNames } from '../../router'
 import ListHeader from './ListHeader.vue'
 import Link from '../Link/Link'
+import FadeInUp from '../utils/FadeInUp.vue'
 
 export default {
   name: 'List',
   components: {
     Link,
-    ListHeader
+    ListHeader,
+    FadeInUp
   },
   data () {
     return {
@@ -61,6 +66,10 @@ export default {
   },
   computed: {
     sortedLinks () {
+      if (!this.links) {
+        return null
+      }
+
       const result = [...this.links]
       return result.sort((a, b) => {
         if (this.userPrefs.linkOrder === 'desc') {

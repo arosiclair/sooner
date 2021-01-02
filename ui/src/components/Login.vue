@@ -9,28 +9,30 @@
           alt="logo" />
         <h1 class="m-4">Read It Now</h1>
         <form>
-          <div class="shadow-sm rounded overflow-hidden mb-3">
-            <input
-              v-if="registering"
-              v-model="name"
-              type="text"
-              placeholder="Name"
-              class="lg" />
-            <input
-              v-model="email"
-              type="text"
-              placeholder="Email"
-              @keyup.enter="loginBtnClicked"
-              class="lg"
-              :class="{ error: error && !validEmail }" />
-            <input
-              v-model="password"
-              type="password"
-              placeholder="Password"
-              @keyup.enter="loginBtnClicked"
-              class="lg"
-              :class="{ error: error && !validPass }" />
-          </div>
+          <transition-height>
+            <div class="input-container paper-bg shadow-sm rounded overflow-hidden mb-3" :key="registering">
+              <input
+                v-if="registering"
+                v-model="name"
+                type="text"
+                placeholder="Name"
+                class="lg" />
+              <input
+                v-model="email"
+                type="text"
+                placeholder="Email"
+                @keyup.enter="loginBtnClicked"
+                class="lg"
+                :class="{ error: error && !validEmail }" />
+              <input
+                v-model="password"
+                type="password"
+                placeholder="Password"
+                @keyup.enter="loginBtnClicked"
+                class="lg"
+                :class="{ error: error && !validPass }" />
+            </div>
+          </transition-height>
           <button id="loginButton" class="btn-lg text-lg shadow-sm rounded mb-4 p-3" type="button" @click="loginBtnClicked" :disabled="loading">
             <b-spinner v-if="loading"/>
             <span v-else>
@@ -54,11 +56,13 @@ import { mapActions, mapGetters } from 'vuex'
 import Logo from '../assets/logo-rounded.png'
 import { RouteNames } from '../router'
 import FadeInDown from './utils/FadeInDown.vue'
+import TransitionHeight from './utils/TransitionHeight.vue'
 
 export default {
   name: 'Login',
   components: {
-    FadeInDown
+    FadeInDown,
+    TransitionHeight
   },
   mounted () {
     if (this.loggedIn) {
@@ -149,6 +153,10 @@ export default {
 
 #logo {
   width: 125px;
+}
+
+.input-container {
+  transition: 300ms ease;
 }
 
 .top-container {

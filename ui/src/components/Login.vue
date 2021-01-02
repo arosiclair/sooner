@@ -21,24 +21,19 @@
                 v-model="email"
                 type="text"
                 placeholder="Email"
-                @keyup.enter="loginBtnClicked"
+                @keyup.enter="submit"
                 class="lg"
                 :class="{ error: error && !validEmail }" />
               <input
                 v-model="password"
                 type="password"
                 placeholder="Password"
-                @keyup.enter="loginBtnClicked"
+                @keyup.enter="submit"
                 class="lg"
                 :class="{ error: error && !validPass }" />
             </div>
           </transition-height>
-          <button id="loginButton" class="btn-lg text-lg shadow-sm rounded mb-4 p-3" type="button" @click="loginBtnClicked" :disabled="loading">
-            <b-spinner v-if="loading"/>
-            <span v-else>
-              {{ registering ? 'SIGN UP' : 'LOGIN' }}
-            </span>
-          </button>
+          <big-submit-btn :label="submitLabel" :onSubmit="submit" :loading="loading" class="mb-4" />
           <a href="#" @click="registering = !registering">
             {{ registering ? 'Cancel' : 'Sign Up' }}
           </a>
@@ -55,6 +50,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import Logo from '../assets/logo-rounded.png'
 import { RouteNames } from '../router'
+import BigSubmitBtn from './BigSubmitBtn.vue'
 import FadeInDown from './utils/FadeInDown.vue'
 import TransitionHeight from './utils/TransitionHeight.vue'
 
@@ -62,7 +58,8 @@ export default {
   name: 'Login',
   components: {
     FadeInDown,
-    TransitionHeight
+    TransitionHeight,
+    BigSubmitBtn
   },
   mounted () {
     if (this.loggedIn) {
@@ -82,6 +79,9 @@ export default {
     }
   },
   computed: {
+    submitLabel () {
+      return this.registering ? 'Sign Up' : 'Login'
+    },
     validEmail: function () {
       return this.email.length > 0
     },
@@ -93,7 +93,7 @@ export default {
     })
   },
   methods: {
-    async loginBtnClicked (event) {
+    async submit (event) {
       this.loading = true
       if (this.registering) {
         await this.register()

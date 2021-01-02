@@ -1,45 +1,47 @@
 <template>
   <div class="content">
     <div class="top-container">
-      <img
-        id="logo"
-        class="mt-4"
-        :src="Logo"
-        alt="logo" />
-      <h1 class="m-4">Read It Now</h1>
-      <form>
-        <div class="shadow-sm rounded overflow-hidden mb-3">
-          <input
-            v-if="registering"
-            v-model="name"
-            type="text"
-            placeholder="Name"
-            class="lg" />
-          <input
-            v-model="email"
-            type="text"
-            placeholder="Email"
-            @keyup.enter="loginBtnClicked"
-            class="lg"
-            :class="{ error: error && !validEmail }" />
-          <input
-            v-model="password"
-            type="password"
-            placeholder="Password"
-            @keyup.enter="loginBtnClicked"
-            class="lg"
-            :class="{ error: error && !validPass }" />
-        </div>
-        <button id="loginButton" class="btn-lg text-lg shadow-sm rounded mb-4 p-3" type="button" @click="loginBtnClicked" :disabled="loading">
-          <b-spinner v-if="loading"/>
-          <span v-else>
-            {{ registering ? 'SIGN UP' : 'LOGIN' }}
-          </span>
-        </button>
-        <a href="#" @click="registering = !registering">
-          {{ registering ? 'Cancel' : 'Sign Up' }}
-        </a>
-      </form>
+      <fade-in-down>
+        <img
+          id="logo"
+          class="mt-4"
+          :src="Logo"
+          alt="logo" />
+        <h1 class="m-4">Read It Now</h1>
+        <form>
+          <div class="shadow-sm rounded overflow-hidden mb-3">
+            <input
+              v-if="registering"
+              v-model="name"
+              type="text"
+              placeholder="Name"
+              class="lg" />
+            <input
+              v-model="email"
+              type="text"
+              placeholder="Email"
+              @keyup.enter="loginBtnClicked"
+              class="lg"
+              :class="{ error: error && !validEmail }" />
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Password"
+              @keyup.enter="loginBtnClicked"
+              class="lg"
+              :class="{ error: error && !validPass }" />
+          </div>
+          <button id="loginButton" class="btn-lg text-lg shadow-sm rounded mb-4 p-3" type="button" @click="loginBtnClicked" :disabled="loading">
+            <b-spinner v-if="loading"/>
+            <span v-else>
+              {{ registering ? 'SIGN UP' : 'LOGIN' }}
+            </span>
+          </button>
+          <a href="#" @click="registering = !registering">
+            {{ registering ? 'Cancel' : 'Sign Up' }}
+          </a>
+        </form>
+      </fade-in-down>
     </div>
     <div class="bottom-container">
       <router-link :to="{ name: RouteNames.ResetRequest }"> Forgot your password?</router-link>
@@ -51,9 +53,13 @@
 import { mapActions, mapGetters } from 'vuex'
 import Logo from '../assets/logo-rounded.png'
 import { RouteNames } from '../router'
+import FadeInDown from './utils/FadeInDown.vue'
 
 export default {
   name: 'Login',
+  components: {
+    FadeInDown
+  },
   mounted () {
     if (this.loggedIn) {
       this.$router.push({ name: RouteNames.List })

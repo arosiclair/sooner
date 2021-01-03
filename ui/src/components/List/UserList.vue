@@ -5,11 +5,13 @@
       <list-input class="mb-3" @link-added="refresh" />
       <fade-in-up height='100px' v-if="sortedLinks">
         <div class="shadow-sm rounded overflow-hidden">
-          <Link
-            v-for="link in sortedLinks"
-            :key="link._id"
-            :data="link"
-            @list-updated="refresh" />
+          <list-transitions :ready="ready">
+            <Link
+              v-for="link in sortedLinks"
+              :key="link._id"
+              :data="link"
+              @list-updated="refresh" />
+          </list-transitions>
         </div>
       </fade-in-up>
       <b-spinner v-else></b-spinner>
@@ -25,6 +27,7 @@ import ListHeader from './ListHeader.vue'
 import Link from '../Link/Link'
 import FadeInUp from '../utils/FadeInUp.vue'
 import ListInput from './ListInput.vue'
+import ListTransitions from './ListTransitions.vue'
 
 export default {
   name: 'List',
@@ -32,10 +35,12 @@ export default {
     Link,
     ListHeader,
     FadeInUp,
-    ListInput
+    ListInput,
+    ListTransitions
   },
   data () {
     return {
+      ready: false,
       loading: true,
       error: false,
       links: []
@@ -61,12 +66,17 @@ export default {
       loggedIn: 'user/loggedIn'
     })
   },
-  mounted: function () {
+  async mounted () {
     if (!this.loggedIn) {
       this.$toast.error("Doesn't look like you're logged in anymore")
       this.$router.push({ name: RouteNames.Login })
     } else {
-      this.refresh()
+      await this.refresh()
+
+      // prevent the list-transition from animating the initial render with ready flag
+      setTimeout(() => {
+        this.ready = true
+      }, 1000) // render is done an arbitrary amount of time after the first paint
     }
   },
   methods: {

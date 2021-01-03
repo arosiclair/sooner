@@ -1,5 +1,5 @@
 <template>
-  <div class="animate__animated animate__fadeInDown" :style="style">
+  <div class="animate__animated animate__fadeInUp" :style="style">
     <slot />
   </div>
 </template>

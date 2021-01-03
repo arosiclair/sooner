@@ -75,13 +75,13 @@ export default {
 #username-container {
   cursor: pointer;
   position: relative;
-  z-index: 1;
 }
 
 #dd-container {
   position: absolute;
   right: 0;
   transition: opacity 200ms ease-in-out, top 200ms ease-in-out;
+  z-index: 1;
 }
 
 #dd-container.show {

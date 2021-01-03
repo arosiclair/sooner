@@ -1,5 +1,5 @@
 <template>
-  <div id="header" class="px-2 py-2">
+  <div id="header" class="p-2">
     <div class="header-left">
       <img
         id="logo"
@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #header {
   display: flex;
   justify-content: space-between;

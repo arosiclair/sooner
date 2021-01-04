@@ -1,27 +1,29 @@
 <template>
-  <div class="container" v-on="$listeners">
+  <div class="content" v-on="$listeners" @mouseenter="showOverlay" @mouseleave="hideOverlay">
     <slot />
-    <div class="overlay" :style="backgroundStyle" />
+    <div ref="overlay" class="overlay" :class="{ light }" />
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    light: Boolean
+    light: Boolean,
+    overlayEl: null
   },
-  computed: {
-    backgroundStyle () {
-      return {
-        backgroundColor: this.light ? 'white' : 'gray'
-      }
+  methods: {
+    showOverlay () {
+      this.$refs.overlay.style.opacity = 1
+    },
+    hideOverlay () {
+      this.$refs.overlay.style.opacity = 0
     }
   }
 }
 </script>
 
 <style scoped>
-.container {
+.content {
   position: relative;
 }
 .overlay {
@@ -33,8 +35,16 @@ export default {
 
   opacity: 0%;
   transition: opacity 200ms ease-in-out;
+
+  background-color: gray;
+  background-color: rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+}
+.overlay.light {
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 .overlay:hover {
-  opacity: 10%
+  opacity: 10%;
 }
 </style>

@@ -1,25 +1,27 @@
 <template>
-  <div class="paper-bg" :class="backgroundStyle">
-    <div class="centered-container split item py-3" @click="goToLink" role="button">
-      <!-- Favicon section -->
-      <LinkIcon class="favicon mx-3" :linkUrl="data.link" />
-      <!-- Text section -->
-      <div class="text-container">
-        <div class="title" ref="title">{{ data.name }}</div>
-        <div class="centered-container split">
-          <span class="site-name">{{ data.siteName }}</span>
-          <div class="time-left-container">
-            <i class="material-icons expiration-icon">schedule</i>
-            <span class="time-left-text">{{ timeLeft }}</span>
+  <ripple-hover-overlay :light="shouldWarn">
+    <div class="paper-bg" :class="backgroundStyle">
+      <div class="centered-container split item py-3" @click="openLink" role="button">
+        <!-- Favicon section -->
+        <LinkIcon class="favicon mx-3" :linkUrl="data.link" />
+        <!-- Text section -->
+        <div class="text-container">
+          <div class="title" ref="title">{{ data.name }}</div>
+          <div class="centered-container split">
+            <span class="site-name">{{ data.siteName }}</span>
+            <div class="time-left-container">
+              <i class="material-icons expiration-icon">schedule</i>
+              <span class="time-left-text">{{ timeLeft }}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Done section -->
-      <div class="text-center mx-3" @click="remove" role="button">
-        <i class="material-icons actionable done-btn">done</i>
+        <!-- Done section -->
+        <div class="text-center mx-3" @click="remove" role="button">
+          <i class="material-icons actionable done-btn">done</i>
+        </div>
       </div>
     </div>
-  </div>
+  </ripple-hover-overlay>
 </template>
 
 <script>
@@ -28,10 +30,12 @@ import { addDays, formatDistance, differenceInDays } from 'date-fns'
 import { mapGetters } from 'vuex'
 import Dotdotdot from 'dotdotdot-js'
 import LinkIcon from './LinkIcon'
+import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
 
 export default {
   components: {
-    LinkIcon
+    LinkIcon,
+    RippleHoverOverlay
   },
   props: ['data'],
   data () {
@@ -51,17 +55,28 @@ export default {
       const expirationDts = addDays(new Date(this.data.addedOn), this.userPrefs.linkTTL)
       return formatDistance(new Date(), expirationDts)
     },
-    backgroundStyle: function () {
+    ttl () {
       if (!this.userPrefs.linkTTL) {
-        return {}
+        return null
       }
 
       const expirationDts = addDays(new Date(this.data.addedOn), this.userPrefs.linkTTL)
-      const ttl = differenceInDays(expirationDts, new Date())
+      return differenceInDays(expirationDts, new Date())
+    },
+    shouldWarn () {
+      return this.ttl < 2
+    },
+    shouldAlert () {
+      return this.ttl < 1
+    },
+    backgroundStyle: function () {
+      if (this.ttl === null) {
+        return {}
+      }
 
       return {
-        'expiration-warn': ttl < 2,
-        'expiration-alert': ttl < 1
+        'expiration-warn': this.shouldWarn,
+        'expiration-alert': this.shouldAlert
       }
     },
     ...mapGetters({
@@ -69,9 +84,11 @@ export default {
     })
   },
   methods: {
-    goToLink: function () {
-      var win = window.open(this.data.link, '_blank')
-      win.focus()
+    openLink: function () {
+      setTimeout(() => {
+        var win = window.open(this.data.link, '_blank')
+        win.focus()
+      }, 300)
     },
     remove: async function (event) {
       event.stopPropagation()
@@ -90,9 +107,6 @@ div {
 
 .item {
     cursor: pointer;
-}
-.item:hover {
-    background-color: #eeeeee7e;
 }
 
 .favicon {
@@ -136,9 +150,6 @@ div {
 .expiration-warn {
   background-color: #ffd54f;
 }
-.expiration-warn .item:hover {
-    background-color: #fafafa5c;
-}
 .expiration-warn .site-name {
   color: #212121;
 }
@@ -152,9 +163,6 @@ div {
 
 .expiration-alert {
   background-color: #ef5350;
-}
-.expiration-alert .item:hover {
-    background-color: #fafafa21;
 }
 .expiration-alert .site-name {
   color: #212121;

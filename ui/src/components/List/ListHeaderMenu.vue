@@ -5,12 +5,16 @@
       <b-avatar class="m-1" />
     </div>
     <div id="dd-container" class="rounded text-center paper-bg shadow-sm" :class="dropdownClass">
-      <HoverOverlay class="dd-item text-lg" @click="showSettings">
-        Settings
-      </HoverOverlay>
-      <HoverOverlay class="dd-item text-lg" @click="logout">
-        Logout
-      </HoverOverlay>
+      <ripple-hover-overlay>
+        <div class="dd-item text-lg" @click="showSettings">
+          Settings
+        </div>
+      </ripple-hover-overlay>
+      <ripple-hover-overlay>
+        <div class="dd-item text-lg" @click="logout">
+          Logout
+        </div>
+      </ripple-hover-overlay>
     </div>
   </div>
 </template>
@@ -18,12 +22,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { RouteNames } from '../../router'
-import HoverOverlay from '../utils/HoverOverlay'
+import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
 
 export default {
   name: 'UserMenu',
   components: {
-    HoverOverlay
+    RippleHoverOverlay
   },
   data () {
     return {

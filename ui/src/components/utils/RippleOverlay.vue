@@ -52,7 +52,7 @@ span.ripple {
   background-color: rgba(0, 0, 0, 0.1);
 }
 span.ripple.light {
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 @keyframes ripple {

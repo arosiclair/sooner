@@ -1,27 +1,27 @@
 <template>
-<ripple-overlay :light="shouldAlert">
-  <div class="paper-bg" :class="backgroundStyle">
-    <div class="centered-container split item py-3" @click="openLink" role="button">
-      <!-- Favicon section -->
-      <LinkIcon class="favicon mx-3" :linkUrl="data.link" />
-      <!-- Text section -->
-      <div class="text-container">
-        <div class="title" ref="title">{{ data.name }}</div>
-        <div class="centered-container split">
-          <span class="site-name">{{ data.siteName }}</span>
-          <div class="time-left-container">
-            <i class="material-icons expiration-icon">schedule</i>
-            <span class="time-left-text">{{ timeLeft }}</span>
+  <ripple-hover-overlay :light="shouldWarn">
+    <div class="paper-bg" :class="backgroundStyle">
+      <div class="centered-container split item py-3" @click="openLink" role="button">
+        <!-- Favicon section -->
+        <LinkIcon class="favicon mx-3" :linkUrl="data.link" />
+        <!-- Text section -->
+        <div class="text-container">
+          <div class="title" ref="title">{{ data.name }}</div>
+          <div class="centered-container split">
+            <span class="site-name">{{ data.siteName }}</span>
+            <div class="time-left-container">
+              <i class="material-icons expiration-icon">schedule</i>
+              <span class="time-left-text">{{ timeLeft }}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Done section -->
-      <div class="text-center mx-3" @click="remove" role="button">
-        <i class="material-icons actionable done-btn">done</i>
+        <!-- Done section -->
+        <div class="text-center mx-3" @click="remove" role="button">
+          <i class="material-icons actionable done-btn">done</i>
+        </div>
       </div>
     </div>
-  </div>
-</ripple-overlay>
+  </ripple-hover-overlay>
 </template>
 
 <script>
@@ -30,12 +30,12 @@ import { addDays, formatDistance, differenceInDays } from 'date-fns'
 import { mapGetters } from 'vuex'
 import Dotdotdot from 'dotdotdot-js'
 import LinkIcon from './LinkIcon'
-import RippleOverlay from '../utils/RippleOverlay.vue'
+import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
 
 export default {
   components: {
     LinkIcon,
-    RippleOverlay
+    RippleHoverOverlay
   },
   props: ['data'],
   data () {
@@ -108,9 +108,6 @@ div {
 .item {
     cursor: pointer;
 }
-.item:hover {
-    background-color: #eeeeee7e;
-}
 
 .favicon {
     width: 32px;
@@ -153,9 +150,6 @@ div {
 .expiration-warn {
   background-color: #ffd54f;
 }
-.expiration-warn .item:hover {
-    background-color: #fafafa5c;
-}
 .expiration-warn .site-name {
   color: #212121;
 }
@@ -169,9 +163,6 @@ div {
 
 .expiration-alert {
   background-color: #ef5350;
-}
-.expiration-alert .item:hover {
-    background-color: #fafafa21;
 }
 .expiration-alert .site-name {
   color: #212121;

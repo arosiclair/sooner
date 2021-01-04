@@ -2,7 +2,6 @@
   <transition-group
     name="list-complete"
     tag="div"
-    @enter="enter"
     @after-enter="afterEnter">
     <slot />
   </transition-group>
@@ -13,25 +12,17 @@ export default {
   props: [
     'ready'
   ],
-  data () {
-    return {
-      container: null,
-      height: 0
-    }
-  },
   methods: {
-    enter (element) {
-    },
     afterEnter (element) {
       element.classList.add('list-transition')
-      this.height = getComputedStyle(element).height
+      const fullHeight = getComputedStyle(element).height
 
       if (this.ready) {
         element.style.height = 0
       }
 
       setTimeout(() => {
-        element.style.height = this.height
+        element.style.height = fullHeight
       })
     }
   }

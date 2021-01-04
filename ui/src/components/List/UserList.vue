@@ -3,7 +3,7 @@
     <list-header />
     <div class="py-3">
       <list-input class="mb-3" @link-added="refresh" />
-      <fade-in-up height='100px' v-if="sortedLinks">
+      <fade-in-up height='75px' v-if="sortedLinks">
         <div class="shadow-sm rounded overflow-hidden">
           <list-transitions :ready="ready">
             <Link

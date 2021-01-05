@@ -4,8 +4,8 @@ const router = express.Router()
 const urlMetadata = require('url-metadata')
 const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('../daos/lists')
 const { getUserPrefs } = require('../daos/users')
-const { ErrorResponse, InvalidJSONResponse } = require('../utils/errors')
-const { validateStrict } = require('../utils/validation')
+const { ErrorResponse } = require('../utils/errors')
+const { jsonValidation } = require('../utils/validation')
 
 router.get('/', async function (req, res) {
   const listId = await getListIdForUser(req.userId)
@@ -38,15 +38,10 @@ router.get('/', async function (req, res) {
 const addLinkSchema = {
   linkName: (val) => typeof val === 'string' && val.length <= 140,
   siteName: (val) => typeof val === 'string' && val.length <= 140,
-  link: (val) => typeof val === 'string'
+  link: (val) => typeof val === 'string',
+  addedOn: (val) => val === undefined || (typeof val === 'string' && new Date(val).toString().toLowerCase() !== 'invalid date')
 }
-router.post('/', async function (req, res) {
-  const errorKeys = validateStrict(req.body, addLinkSchema)
-  if (errorKeys.length) {
-    res.status(400).json(new InvalidJSONResponse(errorKeys))
-    return
-  }
-
+router.post('/', jsonValidation(addLinkSchema), async function (req, res) {
   const newLinkId = await addLink(req.userId, req.body.linkName, req.body.siteName, req.body.link, req.body.addedOn)
   res.json({
     result: 'success',

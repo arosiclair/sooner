@@ -2,8 +2,8 @@
 var express = require('express')
 var router = express.Router()
 
-const { sanitize, sanitizeAndValidate, sanitizeAndValidateStrict } = require('../utils/validation')
-const { InvalidJSONResponse, ErrorResponse } = require('../utils/errors')
+const { sanitize, sanitizeAndValidate, jsonValidation } = require('../utils/validation')
+const { ErrorResponse } = require('../utils/errors')
 const { addUser, getUserById, updateUser, getUserbyEmailAndPass, updatePassword } = require('../daos/users')
 const { createSession, deleteSession, getSession, invalidateSessions } = require('../daos/sessions')
 const { createResetRequest, getResetRequestByToken, deleteResetRequest } = require('../daos/resetRequests')
@@ -20,13 +20,7 @@ const registerUserSchema = {
   },
   password: (val) => isValidPassword(val)
 }
-router.post('/register', async (req, res) => {
-  const errorParams = sanitizeAndValidateStrict(req.body, registerUserSchema)
-  if (errorParams.length) {
-    res.status(400).json(new InvalidJSONResponse(errorParams))
-    return
-  }
-
+router.post('/register', jsonValidation(registerUserSchema), async (req, res) => {
   const userId = await addUser(req.body.name, req.body.email, req.body.password, { linkTTL: 5 })
 
   if (userId) {
@@ -50,13 +44,7 @@ const loginSchema = {
   email: (val) => typeof val === 'string',
   password: (val) => typeof val === 'string'
 }
-router.post('/login', async function (req, res) {
-  const invalidProps = sanitizeAndValidateStrict(req.body, loginSchema)
-  if (invalidProps.length) {
-    res.status(400).json(new InvalidJSONResponse(invalidProps))
-    return
-  }
-
+router.post('/login', jsonValidation(loginSchema), async function (req, res) {
   const user = await getUserbyEmailAndPass(req.body.email, req.body.password)
   if (!user) {
     res.status(401).json(new ErrorResponse('Email/password is incorrect'))
@@ -113,15 +101,8 @@ const userPrefsSchema = {
   linkOrder: value => typeof value === 'string' && ['asc', 'desc'].includes(value)
 }
 
-router.patch('/data', async function (req, res) {
-  const data = req.body
-  const errorKeys = sanitizeAndValidate(data, userDataSchema)
-  if (errorKeys.length) {
-    res.json(new InvalidJSONResponse(errorKeys))
-    return
-  }
-
-  const updatedUser = await updateUser(req.userId, data)
+router.patch('/data', jsonValidation(userDataSchema, true, false), async function (req, res) {
+  const updatedUser = await updateUser(req.userId, req.body)
   if (updateUser) {
     res.json({
       result: 'success',
@@ -135,12 +116,7 @@ router.patch('/data', async function (req, res) {
 const resetPasswordSchema = {
   email: (val) => typeof val === 'string'
 }
-router.post('/resetPassword', async (req, res) => {
-  const errorKeys = sanitizeAndValidateStrict(req.body, resetPasswordSchema)
-  if (errorKeys.length) {
-    return res.json(new InvalidJSONResponse(errorKeys))
-  }
-
+router.post('/resetPassword', jsonValidation(resetPasswordSchema), async (req, res) => {
   const token = await createResetRequest(req.body.email)
   if (!token) {
     return res.status(400).json(new ErrorResponse('cannot create a reset request for this user'))
@@ -159,12 +135,7 @@ const updatePasswordSchema = {
   token: (val) => typeof val === 'string',
   password: (val) => isValidPassword(val)
 }
-router.post('/updatePassword', async (req, res) => {
-  const errorKeys = sanitizeAndValidateStrict(req.body, updatePasswordSchema)
-  if (errorKeys.length) {
-    return res.status(400).json(new InvalidJSONResponse(errorKeys))
-  }
-
+router.post('/updatePassword', jsonValidation(updatePasswordSchema), async (req, res) => {
   const resetRequest = await getResetRequestByToken(req.body.token)
   if (!resetRequest) {
     return res.status(400).json(new ErrorResponse('bad token'))

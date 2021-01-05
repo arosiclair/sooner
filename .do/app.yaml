@@ -1,8 +1,10 @@
-name: read-it-now
+name: sooner
 
 domains:
-  - domain: www.readitnow.app
+  - domain: www.sooner.app
     type: PRIMARY
+  - domain: www.readitnow.app
+    type: ALIAS
 
 services:
   - name: api

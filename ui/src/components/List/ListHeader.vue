@@ -5,7 +5,7 @@
         id="logo"
         :src="Logo"
         alt="logo" />
-      <span id="header-title" class="d-none d-sm-inline text-xl mx-2">Read It Now</span>
+      <span id="header-title" class="d-none d-sm-inline text-xl mx-2">Sooner</span>
     </div>
     <div class="header-right">
       <list-header-menu />

@@ -3,7 +3,7 @@
     <list-header />
     <div class="py-3">
       <list-input class="mb-3" @link-added="refresh" />
-      <fade-in-up height='75px' v-if="sortedLinks">
+      <fade-in-up height='75px' :hidden="empty">
         <div class="shadow-sm rounded overflow-hidden">
           <list-transitions :ready="ready">
             <Link
@@ -14,7 +14,9 @@
           </list-transitions>
         </div>
       </fade-in-up>
-      <b-spinner v-else></b-spinner>
+      <fade-in-up v-if="empty">
+        <img :src="PlaceHolderIcon" class="my-2 placeholder-icon" />
+      </fade-in-up>
     </div>
   </div>
 </template>
@@ -28,6 +30,7 @@ import Link from '../Link/Link'
 import FadeInUp from '../utils/FadeInUp.vue'
 import ListInput from './ListInput.vue'
 import ListTransitions from './ListTransitions.vue'
+import PlaceHolderIcon from '@/assets/list-placeholder.svg'
 
 export default {
   name: 'List',
@@ -40,6 +43,7 @@ export default {
   },
   data () {
     return {
+      PlaceHolderIcon,
       ready: false,
       loading: true,
       error: false,
@@ -48,7 +52,7 @@ export default {
   },
   computed: {
     sortedLinks () {
-      if (!this.links) {
+      if (this.empty) {
         return null
       }
 
@@ -60,6 +64,9 @@ export default {
           return new Date(a.addedOn) - new Date(b.addedOn)
         }
       })
+    },
+    empty () {
+      return this.links && !this.links.length
     },
     ...mapGetters({
       userPrefs: 'user/prefs',
@@ -107,3 +114,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.placeholder-icon {
+  width: 75%;
+}
+</style>

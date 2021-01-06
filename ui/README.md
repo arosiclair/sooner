@@ -1,4 +1,4 @@
-# ui
+# Sooner Web App UI
 
 ## Project setup
 ```

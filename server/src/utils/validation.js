@@ -1,3 +1,5 @@
+const { InvalidJSONResponse } = require('./errors')
+
 // removes properties on object that are not defined in the schema
 const sanitize = (object, schema) => {
   if (!object || !schema) { return }
@@ -44,10 +46,32 @@ const sanitizeAndValidateStrict = (object, schema) => {
   return validateStrict(object, schema)
 }
 
+function jsonValidation (schema, sanitizeJson = true, strict = true) {
+  return function (req, res, next) {
+    if (sanitizeJson) {
+      sanitize(req.body, schema)
+    }
+
+    let errKeys
+    if (strict) {
+      errKeys = validateStrict(req.body, schema)
+    } else {
+      errKeys = validate(req.body, schema)
+    }
+
+    if (errKeys.length) {
+      res.status(400).json(new InvalidJSONResponse(errKeys))
+    } else {
+      next()
+    }
+  }
+}
+
 module.exports = {
   sanitize,
   validate,
   validateStrict,
   sanitizeAndValidate,
-  sanitizeAndValidateStrict
+  sanitizeAndValidateStrict,
+  jsonValidation
 }

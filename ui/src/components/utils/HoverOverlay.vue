@@ -13,10 +13,14 @@ export default {
   },
   methods: {
     showOverlay () {
-      this.$refs.overlay.style.opacity = 1
+      if (this.$refs.overlay) {
+        this.$refs.overlay.style.opacity = 1
+      }
     },
     hideOverlay () {
-      this.$refs.overlay.style.opacity = 0
+      if (this.$refs.overlay) {
+        this.$refs.overlay.style.opacity = 0
+      }
     }
   }
 }

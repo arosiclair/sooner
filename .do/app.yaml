@@ -9,8 +9,8 @@ domains:
 services:
   - name: api
     github:
-      repo: arosiclair/read-it-now
-      branch: master
+      repo: arosiclair/sooner
+      branch: production
       deploy_on_push: true
     source_dir: server
     environment_slug: node-js
@@ -20,8 +20,8 @@ services:
 static_sites:
   - name: ui
     github:
-      repo: arosiclair/read-it-now
-      branch: master
+      repo: arosiclair/sooner
+      branch: production
       deploy_on_push: true
     source_dir: ui
     environment_slug: node-js

@@ -1,4 +1,4 @@
-Read-It-Now
+Sooner
 ==========
 
 A web app and soon-to-be Chrome extension for saving links that should be read sooner rather than later. Old links are deleted automatically.

@@ -7,7 +7,7 @@
           class="mt-4"
           :src="Logo"
           alt="logo" />
-        <h1 class="m-4">Read It Now</h1>
+        <h1 class="m-4">Sooner</h1>
         <form>
           <transition-height>
             <div class="input-container paper-bg shadow-sm rounded overflow-hidden mb-3" :key="registering">

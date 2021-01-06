@@ -1,5 +1,5 @@
 /* eslint-disable no-prototype-builtins */
-// Data access for ReadItNow
+// Data access for Sooner
 const bson = require('bson')
 const mongoClient = require('mongodb').MongoClient
 const { delay } = require('./utils/misc')

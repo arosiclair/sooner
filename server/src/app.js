@@ -21,7 +21,7 @@ if (!process.env.SECRET_SESSION_KEY) {
 }
 
 app.use(cookieSession({
-  name: 'readItNowSession',
+  name: 'soonerSession',
   secret: process.env.SECRET_SESSION_KEY
 }))
 

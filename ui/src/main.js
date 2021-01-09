@@ -6,6 +6,7 @@ import './plugins/vue-toastification'
 import App from './App.vue'
 import store from './store'
 import router from './router'
+import './modules/registerServiceWorker'
 
 Vue.config.productionTip = false
 

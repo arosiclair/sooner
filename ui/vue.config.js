@@ -1,5 +1,6 @@
 const path = require('path')
 const { InjectManifest } = require('workbox-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 const config = {
   configureWebpack: {
@@ -9,6 +10,11 @@ const config = {
       }
     },
     plugins: [
+      new CopyPlugin({
+        patterns: [
+          { from: 'public/', to: './' }
+        ]
+      }),
       new InjectManifest({
         swSrc: './src/service-worker.js'
       })

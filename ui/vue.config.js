@@ -24,8 +24,6 @@ const config = {
 
 if (process.env.NODE_ENV === 'development') {
   config.devServer = {
-    https: true,
-    disableHostCheck: true,
     proxy: {
       '^/api': {
         target: 'http://localhost:3000',

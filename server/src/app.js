@@ -27,7 +27,7 @@ app.use(cookieSession({
 
 // CORS setup
 var corsOptions = {
-  origin: ['https://localhost:3000', 'https://localhost:8080'],
+  origin: ['https://localhost', 'https://localhost:3000', 'https://localhost:8080'],
   credentials: true
 }
 app.use(cors(corsOptions))

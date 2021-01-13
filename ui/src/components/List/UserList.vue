@@ -52,8 +52,8 @@ export default {
   },
   computed: {
     sortedLinks () {
-      if (this.empty) {
-        return null
+      if (!this.links || this.empty) {
+        return []
       }
 
       const result = [...this.links]

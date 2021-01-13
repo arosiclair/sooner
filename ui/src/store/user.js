@@ -32,7 +32,7 @@ export default {
       try {
         await api.post('/user/login', loginData)
       } catch (error) {
-        if (error.response.status === 401) {
+        if (error.response?.status === 401) {
           return {
             error: true,
             reason: 'Incorrect email or password'

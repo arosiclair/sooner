@@ -2,7 +2,8 @@
   <transition-group
     name="list-complete"
     tag="div"
-    @after-enter="afterEnter">
+    @after-enter="afterEnter"
+    @before-leave="beforeLeave">
     <slot />
   </transition-group>
 </template>
@@ -23,7 +24,15 @@ export default {
 
       setTimeout(() => {
         element.style.height = fullHeight
+
+        // reset the height back to auto after the transition finishes
+        setTimeout(() => {
+          element.style.height = 'auto'
+        }, 325)
       })
+    },
+    beforeLeave (element) {
+      element.style.height = getComputedStyle(element).height
     }
   }
 }

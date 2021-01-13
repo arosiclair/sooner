@@ -6,5 +6,9 @@ precacheAndRoute(self.__WB_MANIFEST)
 
 // route all navigation requests to cached index.html page containing the SPA
 const handler = createHandlerBoundToURL('/index.html')
-const navigationRoute = new NavigationRoute(handler)
+const navigationRoute = new NavigationRoute(handler, {
+  denylist: [
+    new RegExp('/api/.*')
+  ]
+})
 registerRoute(navigationRoute)

@@ -28,5 +28,15 @@
     ],
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#FFFFFF"
+    "background_color": "#FFFFFF",
+    "share_target": {
+      "action": "/api/list/share",
+      "method": "POST",
+      "enctype": "multipart/form-data",
+      "params": {
+        "title": "title",
+        "text": "text",
+        "url": "url"
+      }
+    }
 }

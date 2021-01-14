@@ -1,9 +1,9 @@
 const { InjectManifest } = require('workbox-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
-let config
+let config = {}
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.VUE_APP_DEV_SERVICE_WORKER) {
   config = {
     configureWebpack: {
       plugins: [
@@ -18,9 +18,13 @@ if (process.env.NODE_ENV === 'production') {
       ]
     }
   }
-} else {
+}
+
+if (process.env.NODE_ENV === 'development') {
   config = {
+    ...config,
     devServer: {
+      disableHostCheck: true,
       proxy: {
         '^/api': {
           target: 'http://localhost:3000',
@@ -31,6 +35,7 @@ if (process.env.NODE_ENV === 'production') {
       }
     },
     configureWebpack: {
+      ...config.configureWebpack,
       devtool: 'source-map'
     }
   }

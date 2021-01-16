@@ -46,7 +46,7 @@ async function createListForUser (userId) {
   return result.insertedId
 }
 
-async function addLink (userId, name, siteName, link, addedOn) {
+async function addLink (userId, name, siteName, link, addedOn = new Date()) {
   if (!userId || !name || !siteName || !link) return false
 
   const newLink = {

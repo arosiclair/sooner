@@ -6,6 +6,9 @@ const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = requ
 const { getUserPrefs } = require('../daos/users')
 const { ErrorResponse } = require('../utils/errors')
 const { jsonValidation } = require('../utils/validation')
+const multer = require('multer')
+const { getTitleAndSite } = require('../utils/metadata')
+const upload = multer()
 
 router.get('/', async function (req, res) {
   const listId = await getListIdForUser(req.userId)
@@ -47,6 +50,33 @@ router.post('/', jsonValidation(addLinkSchema), async function (req, res) {
     result: 'success',
     linkId: newLinkId
   })
+})
+
+const shareLinkSchema = {
+  title: (val) => val === undefined || (typeof val === 'string' && val.length <= 140),
+  url: (val) => val === undefined || typeof val === 'string',
+  text: (val) => val === undefined || typeof val === 'string'
+}
+router.post('/share', upload.none(), jsonValidation(shareLinkSchema), async function (req, res) {
+  try {
+    const link = req.body.url || req.body.text
+    const { title, site } = await getTitleAndSite(link)
+
+    if (!link) {
+      throw new Error('No link provided')
+    } else if (!title || !site) {
+      throw new Error("Couldn't find metadata")
+    } else {
+      const newLinkId = await addLink(req.userId, title, site, link)
+      if (!newLinkId) {
+        throw new Error('Add link DB error')
+      }
+
+      res.redirect('/list?share=true&success=true')
+    }
+  } catch {
+    res.redirect('/list?share=true&success=false')
+  }
 })
 
 router.delete('/:linkId', async function (req, res) {

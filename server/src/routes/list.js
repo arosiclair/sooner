@@ -75,7 +75,7 @@ router.post('/share', upload.none(), jsonValidation(shareLinkSchema), async func
       res.redirect('/list?share=true&success=true')
     }
   } catch {
-    res.redirect('/list?share=true&success=false')
+    res.redirect('/list?share=true&failed=true')
   }
 })
 

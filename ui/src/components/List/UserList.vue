@@ -77,14 +77,18 @@ export default {
     if (!this.loggedIn) {
       this.$toast.error("Doesn't look like you're logged in anymore")
       this.$router.push({ name: RouteNames.Login })
-    } else {
-      await this.refresh()
-
-      // prevent the list-transition from animating the initial render with ready flag
-      setTimeout(() => {
-        this.ready = true
-      }, 1000) // render is done an arbitrary amount of time after the first paint
+      return
     }
+
+    await this.refresh()
+
+    // toast if this was a redirect from a share attempt
+    this.sharePrompt()
+
+    // prevent the list-transition from animating the initial render with ready flag
+    setTimeout(() => {
+      this.ready = true
+    }, 1000) // render is done an arbitrary amount of time after the first paint
   },
   methods: {
     refresh: async function () {
@@ -110,6 +114,15 @@ export default {
       }
 
       this.loading = false
+    },
+    sharePrompt () {
+      if (this.$route.query.share) {
+        if (this.$route.query.success) {
+          this.$toast.info('Shared link successfully added!')
+        } else {
+          this.$toast.error("Sorry, we couldn't add the link you tried to share", { timeout: false })
+        }
+      }
     }
   }
 }

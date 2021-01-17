@@ -47,7 +47,8 @@ export default {
       ready: false,
       loading: true,
       error: false,
-      links: []
+      links: [],
+      empty: false
     }
   },
   computed: {
@@ -64,9 +65,6 @@ export default {
           return new Date(a.addedOn) - new Date(b.addedOn)
         }
       })
-    },
-    empty () {
-      return this.links && !this.links.length
     },
     ...mapGetters({
       userPrefs: 'user/prefs',
@@ -106,6 +104,9 @@ export default {
       }
 
       this.links = result.data.list
+      if (this.links.length === 0) {
+        this.empty = true
+      }
 
       const numExpired = result.data.numExpired
       if (numExpired) {

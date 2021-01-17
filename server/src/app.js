@@ -1,19 +1,18 @@
-var express = require('express')
-var path = require('path')
-// var cookieParser = require('cookie-parser')
-var logger = require('morgan')
-var cookieSession = require('cookie-session')
-var cors = require('cors')
+const express = require('express')
+const path = require('path')
+const logger = require('morgan')
+const cookieSession = require('cookie-session')
+const cors = require('cors')
 
 // routes
-var user = require('./routes/user')
-var list = require('./routes/list')
+const user = require('./routes/user')
+const list = require('./routes/list')
 
-var app = express()
+const app = express()
 
 app.use(logger('dev'))
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 
 // Cookies
 if (!process.env.SECRET_SESSION_KEY) {
@@ -26,7 +25,7 @@ app.use(cookieSession({
 }))
 
 // CORS setup
-var corsOptions = {
+const corsOptions = {
   origin: ['https://localhost', 'https://localhost:3000', 'https://localhost:8080'],
   credentials: true
 }

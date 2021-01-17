@@ -10,7 +10,8 @@ async function getTitleAndSite (link) {
   let metadata
   try {
     metadata = await getMetadata(link)
-  } catch {
+  } catch (error) {
+    console.error(`metadata: failed to getMetadata for link: ${link} error: ${error.Error}`)
     return { title: null, site: null }
   }
 
@@ -36,7 +37,19 @@ function getHostname (link) {
   return url.hostname
 }
 
+function parseLink (text) {
+  // eslint-disable-next-line no-useless-escape
+  const urlRegEx = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+  const results = urlRegEx.exec(text)
+  if (results) {
+    return results[0]
+  } else {
+    return null
+  }
+}
+
 module.exports = {
   getMetadata,
-  getTitleAndSite
+  getTitleAndSite,
+  parseLink
 }

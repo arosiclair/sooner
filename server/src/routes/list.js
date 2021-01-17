@@ -7,7 +7,7 @@ const { getUserPrefs } = require('../daos/users')
 const { ErrorResponse } = require('../utils/errors')
 const { jsonValidation } = require('../utils/validation')
 const multer = require('multer')
-const { getTitleAndSite } = require('../utils/metadata')
+const { getTitleAndSite, parseLink } = require('../utils/metadata')
 const upload = multer()
 
 router.get('/', async function (req, res) {
@@ -59,7 +59,7 @@ const shareLinkSchema = {
 }
 router.post('/share', upload.none(), jsonValidation(shareLinkSchema), async function (req, res) {
   try {
-    const link = req.body.url || req.body.text
+    const link = req.body.url || parseLink(req.body.text)
     const { title, site } = await getTitleAndSite(link)
 
     if (!link) {

@@ -12,3 +12,17 @@ const navigationRoute = new NavigationRoute(handler, {
   ]
 })
 registerRoute(navigationRoute)
+
+/*
+  if user attempts to share with expired session,
+  catch 401 response and redirect to list
+*/
+const shareCb = async ({ url, request, event, params }) => {
+  const response = await fetch(request)
+  if (response.status === 401) {
+    return Response.redirect('/list')
+  } else {
+    return response
+  }
+}
+registerRoute('/api/list/share', shareCb, 'POST')

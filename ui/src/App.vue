@@ -111,7 +111,7 @@ body {
 
 .content::-webkit-scrollbar
 {
-  width: 8px;
+  width: 6px;
   background-color: transparent;
 }
 

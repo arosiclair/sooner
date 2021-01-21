@@ -1,9 +1,9 @@
 <template>
   <div>
     <list-header />
-    <div class="py-3">
-      <list-input class="mb-3" @link-added="refresh" />
-      <fade-in-up height='75px' :hidden="empty">
+    <list-input class="mb-3" @link-added="refresh" />
+    <fade-in-up height='75px' :hidden="empty">
+      <div class="pb-3">
         <div class="shadow-sm rounded overflow-hidden">
           <list-transitions :ready="ready">
             <Link
@@ -13,11 +13,15 @@
               @list-updated="refresh" />
           </list-transitions>
         </div>
-      </fade-in-up>
-      <fade-in-up v-if="empty">
-        <img :src="PlaceHolderIcon" class="my-2 placeholder-icon" />
-      </fade-in-up>
-    </div>
+      </div>
+    </fade-in-up>
+    <fade-in-up v-if="empty">
+      <b-container fluid class="p-0">
+        <b-col xs="12" sm="9" class="mx-auto p-0">
+          <img :src="PlaceHolderIcon" class="my-2 placeholder-icon" />
+        </b-col>
+      </b-container>
+    </fade-in-up>
   </div>
 </template>
 
@@ -46,9 +50,9 @@ export default {
       PlaceHolderIcon,
       ready: false,
       loading: true,
+      empty: false,
       error: false,
-      links: [],
-      empty: false
+      links: []
     }
   },
   computed: {
@@ -103,9 +107,11 @@ export default {
         return
       }
 
-      this.links = result.data.list
+      this.links = result.data.list || []
       if (this.links.length === 0) {
         this.empty = true
+      } else {
+        this.empty = false
       }
 
       const numExpired = result.data.numExpired
@@ -131,6 +137,6 @@ export default {
 
 <style scoped>
 .placeholder-icon {
-  width: 75%;
+  width: 100%;
 }
 </style>

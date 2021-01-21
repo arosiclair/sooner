@@ -1,5 +1,5 @@
 <template>
-  <div id="header" class="p-2">
+  <div id="header" class=" pt-3 mb-3">
     <div class="header-left">
       <img
         id="logo"

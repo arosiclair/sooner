@@ -46,9 +46,9 @@ export default {
       PlaceHolderIcon,
       ready: false,
       loading: true,
+      empty: false,
       error: false,
-      links: [],
-      empty: false
+      links: []
     }
   },
   computed: {
@@ -103,9 +103,11 @@ export default {
         return
       }
 
-      this.links = result.data.list
+      this.links = result.data.list || []
       if (this.links.length === 0) {
         this.empty = true
+      } else {
+        this.empty = false
       }
 
       const numExpired = result.data.numExpired

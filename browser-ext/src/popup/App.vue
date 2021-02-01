@@ -1,19 +1,58 @@
 <template>
-  <hello-world />
+  <div class="content">
+    <div v-if="loggedIn">
+      <h1>Logged In!</h1>
+      <button @click="logout">Logout</button>
+    </div>
+    <login v-else @logged-in="onLoggedIn" />
+  </div>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue'
+import Login from '../components/Login.vue'
+import api from '../api'
 
 export default {
   name: 'App',
-  components: { HelloWorld }
+  components: { Login },
+  data () {
+    return {
+      loggedIn: false
+    }
+  },
+  mounted () {
+    this.tryLogin()
+  },
+  methods: {
+    async tryLogin () {
+      try {
+        await api.get('/user/data')
+        this.loggedIn = true
+      } catch (error) {
+        this.loggedIn = false
+      }
+    },
+    onLoggedIn () {
+      this.loggedIn = true
+    },
+    logout () {
+      api.post('/user/logout')
+    }
+  }
 }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 html {
   width: 400px;
-  height: 400px;
+  height: auto;
+}
+
+.content {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f5f5;
+  color: #212121;
 }
 </style>

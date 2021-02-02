@@ -5,8 +5,9 @@
   "description": "A Vue Browser Extension",
   "default_locale": "en",
   "permissions": [
-    "<all_urls>",
-    "*://*/*"
+    "activeTab",
+    "https://www.sooner.app/*",
+    "http://localhost:3000/*"
   ],
   "icons": {
     "16": "icons/16.png",

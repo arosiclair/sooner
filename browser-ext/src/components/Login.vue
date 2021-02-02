@@ -1,8 +1,8 @@
 <template>
-  <div class="p-3">
+  <div class="text-center p-3">
     <letter-head />
     <b-alert :show="showErrorMsg" variant="danger">{{ errorMsg }}</b-alert>
-    <form>
+    <form class="mb-3">
       <div class="paper-bg shadow-sm rounded overflow-hidden mb-3">
         <input
           v-model="email"
@@ -19,11 +19,12 @@
           class="lg"
           :class="{ error: error && !validPass }" />
       </div>
+      <button class="shadow-sm rounded p-3" type="button" @click="submit" :disabled="loading">
+        <b-spinner v-if="loading" />
+        <span v-else>Login</span>
+      </button>
     </form>
-    <button class="shadow-sm rounded p-3" type="button" @click="submit" :disabled="loading">
-      <b-spinner v-if="loading" />
-      <span v-else>Login</span>
-    </button>
+    <a href="https://www.sooner.app" target="_blank" rel="noopener noreferrer">Don't have an account?</a>
   </div>
 </template>
 

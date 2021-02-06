@@ -4,7 +4,7 @@ const router = express.Router()
 const urlMetadata = require('url-metadata')
 const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('../daos/lists')
 const { getUserPrefs } = require('../daos/users')
-const { ErrorResponse } = require('../utils/errors')
+const { ErrorResponse, InvalidJSONResponse } = require('../utils/errors')
 const { jsonValidation } = require('../utils/validation')
 const multer = require('multer')
 const { getTitleAndSite, parseLink } = require('../utils/metadata')
@@ -39,13 +39,27 @@ router.get('/', async function (req, res) {
   Creates a document in the list collection for the user if they do not already have one
 */
 const addLinkSchema = {
-  linkName: (val) => typeof val === 'string' && val.length <= 140,
-  siteName: (val) => typeof val === 'string' && val.length <= 140,
+  linkName: (val) => val === undefined || (typeof val === 'string' && val.length <= 140),
+  siteName: (val) => val === undefined || (typeof val === 'string' && val.length <= 140),
   link: (val) => typeof val === 'string',
   addedOn: (val) => val === undefined || (typeof val === 'string' && new Date(val).toString().toLowerCase() !== 'invalid date')
 }
 router.post('/', jsonValidation(addLinkSchema), async function (req, res) {
-  const newLinkId = await addLink(req.userId, req.body.linkName, req.body.siteName, req.body.link, req.body.addedOn)
+  const link = req.body.link
+  let linkName = req.body.linkName
+  let siteName = req.body.siteName
+
+  if (!linkName || !siteName) {
+    try {
+      const { title, site } = await getTitleAndSite(link)
+      linkName = title
+      siteName = site
+    } catch (error) {
+      return res.status(400).json(new InvalidJSONResponse(['link']))
+    }
+  }
+
+  const newLinkId = await addLink(req.userId, linkName, siteName, link, req.body.addedOn)
   res.json({
     result: 'success',
     linkId: newLinkId

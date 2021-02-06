@@ -1,9 +1,10 @@
 <template>
   <div class="content">
-    <div v-if="loggedIn">
+    <!-- <div v-if="loggedIn">
       <h1>Logged In!</h1>
       <button @click="logout">Logout</button>
-    </div>
+    </div> -->
+    <add-link v-if="loggedIn" />
     <login v-else @logged-in="onLoggedIn" />
   </div>
 </template>
@@ -11,10 +12,11 @@
 <script>
 import Login from '../components/Login.vue'
 import api from '../api'
+import AddLink from '../components/AddLink.vue'
 
 export default {
   name: 'App',
-  components: { Login },
+  components: { Login, AddLink },
   data () {
     return {
       loggedIn: false

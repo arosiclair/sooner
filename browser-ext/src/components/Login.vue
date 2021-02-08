@@ -29,8 +29,8 @@
 </template>
 
 <script>
+import { login } from '../api'
 import LetterHead from '../components/LetterHead.vue'
-import api from '../api'
 
 export default {
   components: { LetterHead },
@@ -65,10 +65,7 @@ export default {
       this.loading = true
 
       try {
-        await api.post('/user/login', {
-          email: this.email,
-          password: this.password
-        })
+        await login(this.email, this.password)
         this.$emit('logged-in')
       } catch (error) {
         this.error = true

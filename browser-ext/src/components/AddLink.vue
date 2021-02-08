@@ -25,7 +25,7 @@
 
 <script>
 import Logo from '@/assets/logo.png'
-import api from '../api'
+import { addLink } from '../api'
 
 export default {
   data () {
@@ -57,7 +57,11 @@ export default {
     }
 
     if (this.isValidUrl) {
-      await this.addLink()
+      try {
+        await addLink(this.currentUrl)
+      } catch (error) {
+        this.errorMsg = 'Sorry, there was an issue saving this page'
+      }
     } else {
       this.errorMsg = "Sorry, this kind of page isn't supported"
     }
@@ -75,13 +79,6 @@ export default {
       }
       console.log(tabs)
       this.currentUrl = tabs[0].url
-    },
-    async addLink () {
-      try {
-        await api.post('/list', { link: this.currentUrl })
-      } catch (error) {
-        this.errorMsg = 'Sorry, there was an issue saving this page'
-      }
     }
   }
 }

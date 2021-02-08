@@ -11,7 +11,7 @@
 
 <script>
 import Login from '../components/Login.vue'
-import api from '../api'
+import { checkLogin } from '../api'
 import AddLink from '../components/AddLink.vue'
 
 export default {
@@ -28,7 +28,7 @@ export default {
   methods: {
     async tryLogin () {
       try {
-        await api.get('/user/data')
+        await checkLogin()
         this.loggedIn = true
       } catch (error) {
         this.loggedIn = false
@@ -36,9 +36,6 @@ export default {
     },
     onLoggedIn () {
       this.loggedIn = true
-    },
-    logout () {
-      api.post('/user/logout')
     }
   }
 }

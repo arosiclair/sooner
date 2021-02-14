@@ -6,6 +6,7 @@
   "default_locale": "en",
   "permissions": [
     "activeTab",
+    "contextMenus",
     "https://www.sooner.app/*",
     "http://localhost:3000/*"
   ],

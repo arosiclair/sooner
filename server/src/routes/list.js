@@ -59,11 +59,15 @@ router.post('/', jsonValidation(addLinkSchema), async function (req, res) {
     }
   }
 
-  const newLinkId = await addLink(req.userId, linkName, siteName, link, req.body.addedOn)
-  res.json({
-    result: 'success',
-    linkId: newLinkId
-  })
+  try {
+    const newLinkId = await addLink(req.userId, linkName, siteName, link, req.body.addedOn)
+    res.json({
+      result: 'success',
+      linkId: newLinkId
+    })
+  } catch (error) {
+    res.status(500).json(new ErrorResponse('db error'))
+  }
 })
 
 const shareLinkSchema = {

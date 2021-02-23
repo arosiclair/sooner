@@ -58,7 +58,13 @@ async function addLink (userId, name, siteName, link, addedOn = new Date()) {
   }
 
   const listId = await getListIdForUser(userId)
-  geoffrey.getLists().updateOne({ _id: listId }, { $push: { links: newLink } })
+  try {
+    await geoffrey.getLists().updateOne({ _id: listId }, { $push: { links: newLink } })
+  } catch (error) {
+    console.error('addLink() - db error: ' + error)
+    return null
+  }
+
   return newLink._id
 }
 

@@ -31,6 +31,7 @@
 <script>
 import { login } from '../api'
 import LetterHead from '../components/LetterHead.vue'
+import { RouteNames } from '../popup/router'
 
 export default {
   components: { LetterHead },
@@ -66,7 +67,7 @@ export default {
 
       try {
         await login(this.email, this.password)
-        this.$emit('logged-in')
+        this.$router.push({ name: RouteNames.Adding })
       } catch (error) {
         this.error = true
         if (error.response && error.response.status === 401) {

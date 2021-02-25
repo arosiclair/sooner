@@ -1,23 +1,19 @@
 <template>
-  <transition-height>
-    <div class="content" :key="state">
-      <add-link v-if="state === 'loggedIn'" />
-      <login v-else-if="state === 'login'" @logged-in="onLoggedIn" />
-    </div>
-  </transition-height>
+  <div class="content">
+    <transition-height>
+      <router-view></router-view>
+    </transition-height>
+  </div>
 </template>
 
 <script>
-import Login from '../components/Login.vue'
 import { checkLogin } from '../api'
-import AddLink from '../components/AddLink.vue'
 import TransitionHeight from '../components/TransitionHeight.vue'
+import { RouteNames } from '../popup/router'
 
 export default {
   name: 'App',
   components: {
-    Login,
-    AddLink,
     TransitionHeight
   },
   data () {
@@ -32,13 +28,10 @@ export default {
     async tryLogin () {
       try {
         await checkLogin()
-        this.state = 'loggedIn'
+        this.$router.push({ name: RouteNames.Adding })
       } catch (error) {
-        this.state = 'login'
+        this.$router.push({ name: RouteNames.Login })
       }
-    },
-    onLoggedIn () {
-      this.state = 'loggedIn'
     }
   }
 }

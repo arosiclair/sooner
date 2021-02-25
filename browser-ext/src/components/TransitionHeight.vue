@@ -31,7 +31,7 @@ export default {
 
         setTimeout(() => {
           element.style.height = 'auto'
-        }, 325)
+        }, 300)
       })
     }
   }

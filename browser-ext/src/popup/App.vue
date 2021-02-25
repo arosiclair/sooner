@@ -1,25 +1,28 @@
 <template>
-  <div class="content">
-    <!-- <div v-if="loggedIn">
-      <h1>Logged In!</h1>
-      <button @click="logout">Logout</button>
-    </div> -->
-    <add-link v-if="loggedIn" />
-    <login v-else @logged-in="onLoggedIn" />
-  </div>
+  <transition-height>
+    <div class="content" :key="state">
+      <add-link v-if="state === 'loggedIn'" />
+      <login v-else-if="state === 'login'" @logged-in="onLoggedIn" />
+    </div>
+  </transition-height>
 </template>
 
 <script>
 import Login from '../components/Login.vue'
 import { checkLogin } from '../api'
 import AddLink from '../components/AddLink.vue'
+import TransitionHeight from '../components/TransitionHeight.vue'
 
 export default {
   name: 'App',
-  components: { Login, AddLink },
+  components: {
+    Login,
+    AddLink,
+    TransitionHeight
+  },
   data () {
     return {
-      loggedIn: false
+      state: ''
     }
   },
   mounted () {
@@ -29,13 +32,13 @@ export default {
     async tryLogin () {
       try {
         await checkLogin()
-        this.loggedIn = true
+        this.state = 'loggedIn'
       } catch (error) {
-        this.loggedIn = false
+        this.state = 'login'
       }
     },
     onLoggedIn () {
-      this.loggedIn = true
+      this.state = 'loggedIn'
     }
   }
 }

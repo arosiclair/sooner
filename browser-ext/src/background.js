@@ -1,4 +1,4 @@
-import { addLink } from './api'
+import { addLink, logout } from './api'
 
 browser.contextMenus.create({
   id: 'add-link-to-sooner',
@@ -6,15 +6,28 @@ browser.contextMenus.create({
   contexts: ['link']
 })
 
-browser.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId === 'add-link-to-sooner') {
-    const linkUrl = info.linkUrl
-    console.log('[sooner-ext] context menu link: ' + linkUrl)
+browser.contextMenus.create({
+  id: 'logout',
+  title: 'Log out',
+  contexts: ['browser_action']
+})
 
-    try {
-      addLink(linkUrl)
-    } catch (error) {
-      console.error('[sooner-ext] failed to add a link')
-    }
+browser.contextMenus.onClicked.addListener(async (info, tab) => {
+  switch (info.menuItemId) {
+    case 'add-link-to-sooner':
+      console.log('[sooner-ext] context menu link: ' + info.linkUrl)
+      try {
+        await addLink(info.linkUrl)
+      } catch (error) {
+        console.error('[sooner-ext] failed to add a link')
+      }
+      break
+    case 'logout':
+      try {
+        await logout()
+      } catch (error) {
+        console.error('[sooner-ext] failed to logout')
+      }
+      break
   }
 })

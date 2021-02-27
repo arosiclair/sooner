@@ -3,7 +3,6 @@
     :css='false'
     @beforeLeave="beforeLeave"
     @enter="enter"
-    @afterEnter="afterEnter"
   >
     <slot />
   </transition>

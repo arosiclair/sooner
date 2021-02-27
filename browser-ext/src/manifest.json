@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "__MSG_extName__",
-  "homepage_url": "http://localhost:8080/",
-  "description": "A Vue Browser Extension",
+  "name": "Add to Sooner",
+  "homepage_url": "https://www.sooner.app",
+  "description": "A browser extension for quickly adding pages to your Sooner list",
   "default_locale": "en",
   "permissions": [
     "activeTab",

@@ -1,10 +1,7 @@
 <template>
-  <div class="p-3">
+  <div>
     <small-header />
-    <div class="d-flex justify-content-center align-items-center text-center">
-      <b-spinner class="mr-3" show/>
-      <h5 class="mb-0">Saving...</h5>
-    </div>
+    <loading-message message="Adding page..." />
   </div>
 </template>
 
@@ -12,9 +9,10 @@
 import { addLink } from '../api'
 import SmallHeader from './SmallHeader.vue'
 import { RouteNames } from '../popup/router'
+import LoadingMessage from './LoadingMessage.vue'
 
 export default {
-  components: { SmallHeader },
+  components: { SmallHeader, LoadingMessage },
   data () {
     return {
       currentUrl: ''

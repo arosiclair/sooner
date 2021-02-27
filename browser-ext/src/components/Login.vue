@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center p-3">
+  <div class="text-center">
     <letter-head />
     <b-alert :show="showErrorMsg" variant="danger">{{ errorMsg }}</b-alert>
     <form class="mb-3">

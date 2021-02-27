@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3">
+  <div>
     <small-header />
     <div class="d-flex justify-content-center align-items-center">
       <b-icon class="h4 mb-0 mr-3" icon="exclamation-circle-fill" variant="danger" />

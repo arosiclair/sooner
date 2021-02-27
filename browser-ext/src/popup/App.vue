@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="p-3 content">
     <transition-height>
       <router-view></router-view>
     </transition-height>
@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { checkLogin } from '../api'
 import TransitionHeight from '../components/TransitionHeight.vue'
 import { RouteNames } from '../popup/router'
 
@@ -22,18 +21,7 @@ export default {
     }
   },
   mounted () {
-    this.tryLogin()
-  },
-  methods: {
-    async tryLogin () {
-      try {
-        await checkLogin()
-        browser.runtime.sendMessage('logged-in')
-        this.$router.push({ name: RouteNames.Adding })
-      } catch (error) {
-        this.$router.push({ name: RouteNames.Login })
-      }
-    }
+    this.$router.push({ name: RouteNames.TryLogin })
   }
 }
 </script>

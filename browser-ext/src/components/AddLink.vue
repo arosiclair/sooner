@@ -38,8 +38,8 @@ export default {
 
     if (this.isValidUrl) {
       try {
-        await addLink(this.currentUrl)
-        this.$router.push({ name: RouteNames.AddSuccess })
+        const result = await addLink(this.currentUrl)
+        this.$router.push({ name: RouteNames.AddSuccess, params: { linkId: result.data.linkId } })
       } catch (error) {
         this.$router.push({ name: RouteNames.AddFailed, params: { message: 'Sorry, there was an issue saving this page' } })
       }

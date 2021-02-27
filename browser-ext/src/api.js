@@ -14,3 +14,5 @@ export const checkLogin = () => api.get('/user/data')
 export const login = (email, password) => api.post('/user/login', { email, password })
 
 export const logout = () => api.post('/user/logout')
+
+export const deleteLink = (linkId) => api.delete(`/list/${linkId}`)

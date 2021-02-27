@@ -41,7 +41,8 @@ const routes = [
   {
     path: '/addSuccess',
     name: RouteNames.AddSuccess,
-    component: AddSuccess
+    component: AddSuccess,
+    props: true
   }
 ]
 

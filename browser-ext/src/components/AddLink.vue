@@ -56,7 +56,6 @@ export default {
         console.error(error)
         throw new Error('There was an issue getting the current tab')
       }
-      console.log(tabs)
       this.currentUrl = tabs[0].url
     }
   }

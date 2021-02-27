@@ -67,6 +67,7 @@ export default {
 
       try {
         await login(this.email, this.password)
+        browser.runtime.sendMessage('logged-in')
         this.$router.push({ name: RouteNames.Adding })
       } catch (error) {
         this.error = true

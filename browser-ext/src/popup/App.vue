@@ -28,6 +28,7 @@ export default {
     async tryLogin () {
       try {
         await checkLogin()
+        browser.runtime.sendMessage('logged-in')
         this.$router.push({ name: RouteNames.Adding })
       } catch (error) {
         this.$router.push({ name: RouteNames.Login })

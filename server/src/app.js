@@ -3,6 +3,7 @@ const path = require('path')
 const logger = require('morgan')
 const cookieSession = require('cookie-session')
 const cors = require('cors')
+const helmet = require('helmet')
 
 // routes
 const user = require('./routes/user')
@@ -10,6 +11,7 @@ const list = require('./routes/list')
 
 const app = express()
 
+app.use(helmet())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

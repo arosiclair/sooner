@@ -2,12 +2,11 @@
   <div id="app">
     <div class="content py-md-4">
       <div class="container padded-content">
-        <transitioned-router v-if="ready"></transitioned-router>
-        <b-spinner v-else class="m-5" />
+        <TransitionedRouter />
       </div>
     </div>
     <DebugLayer v-if="isDebug" />
-    <Settings />
+    <UserSettings />
   </div>
 </template>
 
@@ -19,23 +18,22 @@ import './styles/layout.css'
 import './styles/misc.css'
 import 'animate.css'
 
-import Settings from './components/Settings'
-import DebugLayer from './components/debug/DebugLayer'
+import TransitionedRouter from './components/TransitionedRouter.vue'
+import DebugLayer from './components/debug/DebugLayer.vue'
+import UserSettings from './components/UserSettings.vue'
 import { mapGetters, mapActions } from 'vuex'
 import { isDebug } from './modules/utilities'
 import { RouteNames } from './router'
-import TransitionedRouter from './components/TransitionedRouter.vue'
 
 export default {
   name: 'App',
   components: {
+    TransitionedRouter,
     DebugLayer,
-    Settings,
-    TransitionedRouter
+    UserSettings
   },
   data () {
     return {
-      ready: false,
       isDebug: isDebug()
     }
   },
@@ -60,7 +58,6 @@ export default {
 
   mounted: async function () {
     await this.updateUserData()
-    this.ready = true
   },
 
   updated () {

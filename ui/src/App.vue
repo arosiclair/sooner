@@ -21,9 +21,7 @@ import 'animate.css'
 import TransitionedRouter from './components/TransitionedRouter.vue'
 import DebugLayer from './components/debug/DebugLayer.vue'
 import UserSettings from './components/UserSettings.vue'
-import { mapGetters, mapActions } from 'vuex'
 import { isDebug } from './modules/utilities'
-import { RouteNames } from './router'
 
 export default {
   name: 'App',
@@ -35,38 +33,6 @@ export default {
   data () {
     return {
       isDebug: isDebug()
-    }
-  },
-  computed: {
-    currentPath () {
-      if (this.$route.path !== '/') {
-        return this.$route.path
-      } else if (document.location.pathname !== '/') {
-        return document.location.pathname
-      } else {
-        return '/'
-      }
-    },
-    ...mapGetters({
-      loggedIn: 'user/loggedIn'
-    })
-  },
-
-  methods: mapActions({
-    updateUserData: 'user/refreshData'
-  }),
-
-  mounted: async function () {
-    await this.updateUserData()
-  },
-
-  updated () {
-    if (this.currentPath === '/') {
-      if (!this.loggedIn) {
-        this.$router.push({ name: RouteNames.Login })
-      } else {
-        this.$router.push({ name: RouteNames.List })
-      }
     }
   }
 }

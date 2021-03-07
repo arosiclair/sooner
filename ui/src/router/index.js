@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import UserList from '../components/List/UserList'
+import LandingPage from '../components/LandingPage'
 
 export const RouteNames = {
+  Landing: 'Landing',
   List: 'List',
   Login: 'Login',
   ResetRequest: 'ResetRequest',
@@ -15,16 +16,21 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    name: RouteNames.Landing,
+    component: LandingPage
+  },
+  {
     path: '/list',
     name: RouteNames.List,
-    component: UserList
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "list" */ '../components/List/UserList.vue')
   },
   {
     path: '/login',
     name: RouteNames.Login,
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "login" */ '../components/Login.vue')
   },
   {

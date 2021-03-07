@@ -61,7 +61,8 @@ export default {
     TransitionHeight,
     BigSubmitBtn
   },
-  mounted () {
+  async mounted () {
+    await this.updateUserData()
     if (this.loggedIn) {
       this.$router.push({ name: RouteNames.List })
     }
@@ -141,6 +142,7 @@ export default {
       }
     },
     ...mapActions({
+      updateUserData: 'user/refreshData',
       dispatchLogin: 'user/login',
       dispatchRegister: 'user/register'
     })

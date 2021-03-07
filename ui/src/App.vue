@@ -2,7 +2,7 @@
   <div id="app">
     <div class="content py-md-4">
       <div class="container padded-content">
-        <transition-page v-if="ready"></transition-page>
+        <transitioned-router v-if="ready"></transitioned-router>
         <b-spinner v-else class="m-5" />
       </div>
     </div>
@@ -17,21 +17,21 @@ import './styles/inputs.css'
 import './styles/text.css'
 import './styles/layout.css'
 import './styles/misc.css'
+import 'animate.css'
 
 import Settings from './components/Settings'
 import DebugLayer from './components/debug/DebugLayer'
 import { mapGetters, mapActions } from 'vuex'
 import { isDebug } from './modules/utilities'
 import { RouteNames } from './router'
-import TransitionPage from './components/TransitionPage.vue'
-import 'animate.css'
+import TransitionedRouter from './components/TransitionedRouter.vue'
 
 export default {
   name: 'App',
   components: {
     DebugLayer,
     Settings,
-    TransitionPage
+    TransitionedRouter
   },
   data () {
     return {

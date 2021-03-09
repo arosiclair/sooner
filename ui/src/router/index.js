@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import LandingPage from '../components/LandingPage'
+import LandingPage from '../components/LandingPage.vue'
 
 export const RouteNames = {
   Landing: 'Landing',

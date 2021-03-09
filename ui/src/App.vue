@@ -73,7 +73,6 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 html, body {

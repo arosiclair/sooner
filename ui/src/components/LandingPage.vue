@@ -44,8 +44,7 @@
       <p>Yes, deleted. Like gone... <em>forever</em>.</p>
       <h5>🤨 How could this possibly be a good thing?</h5>
       <p>
-        First, we must face the facts. You're probably never going to get back to those pages! Instead of
-        clutching onto your never-ending list of tabs, bookmarks or articles forever, <a href="#">you should let them go</a>.
+        First, we must face the facts. You're probably never going to get back to those pages! Instead of clutching onto your never-ending list of tabs, bookmarks or articles forever, <a href="https://twitter.com/zakiyajamal/status/1328431305240043520">you should let them go</a>.
       </p>
       <h5>😭 But my stuff!</h5>
       <p>

@@ -9,7 +9,10 @@
       >
       <h1>Sooner</h1>
     </div>
-    <section id="intro-section">
+    <section
+      id="intro-section"
+      class="mb-5"
+    >
       <img
         id="hero-image"
         src="https://via.placeholder.com/600x300"
@@ -29,10 +32,11 @@
         </b-button>
       </router-link>
     </section>
-    <section id="qa-section">
-      <h5 class="mt-5">
-        🤔 Self-cleaning?
-      </h5>
+    <section
+      id="qa-section"
+      class="mb-5"
+    >
+      <h5>🤔 Self-cleaning?</h5>
       <p>
         Sooner works in a simple way. Every unread item you put on your list is deleted after a few days.
       </p>
@@ -62,6 +66,11 @@
         </router-link>
       </div>
     </section>
+    <footer>
+      <hr>
+      <div>Created by <a href="https://github.com/arosiclair">Andrew Rosiclair</a></div>
+      <div>Source on <a href="https://github.com/arosiclair/sooner">GitHub</a></div>
+    </footer>
   </div>
 </template>
 

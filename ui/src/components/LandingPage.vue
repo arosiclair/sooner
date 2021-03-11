@@ -1,6 +1,6 @@
 <template>
   <div class="pb-3">
-    <div class="title-container p-3">
+    <header class="p-3">
       <img
         id="logo"
         src="img/logo-rounded.png"
@@ -8,7 +8,7 @@
         class="mr-4"
       >
       <h1>Sooner</h1>
-    </div>
+    </header>
     <section
       id="intro-section"
       class="mb-5"
@@ -87,7 +87,7 @@ export default {
 </script>
 
 <style scoped>
-.title-container {
+header {
   display: flex;
   align-items: center;
   justify-content: center;

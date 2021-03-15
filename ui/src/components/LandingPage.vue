@@ -24,13 +24,18 @@
         Sooner is your self-cleaning reading list that never grows unweildy like your bookmarks or read-it-later list
         probably is right now. Sooner is your place for everything on the web you care about right now.
       </p>
-      <router-link :to="loginRoute">
-        <b-button
-          variant="primary"
-        >
-          Sign Up | Log In
-        </b-button>
-      </router-link>
+      <div id="cta-container">
+        <router-link :to="loginRoute">
+          <b-button variant="primary">
+            Sign Up | Log In
+          </b-button>
+        </router-link>
+        <router-link :to="appsRoute">
+          <b-button variant="primary">
+            Get the apps
+          </b-button>
+        </router-link>
+      </div>
     </section>
     <section
       id="qa-section"
@@ -80,6 +85,9 @@ export default {
     return {
       loginRoute: {
         name: RouteNames.Login
+      },
+      appsRoute: {
+        name: RouteNames.Apps
       }
     }
   }
@@ -108,6 +116,10 @@ h1, h3, h5 {
 #intro-section p {
   font-size: 1.2rem;
   text-align: start;
+}
+
+#cta-container > a {
+  margin: 0.3rem;
 }
 
 #qa-section > * {

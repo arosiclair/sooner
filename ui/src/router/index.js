@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LandingPage from '../components/LandingPage.vue'
+import AppsPage from '../components/AppsPage.vue'
 
 export const RouteNames = {
   Landing: 'Landing',
+  Apps: 'Apps',
   List: 'List',
   Login: 'Login',
   ResetRequest: 'ResetRequest',
@@ -19,6 +21,11 @@ const routes = [
     path: '/',
     name: RouteNames.Landing,
     component: LandingPage
+  },
+  {
+    path: '/apps',
+    name: RouteNames.Apps,
+    component: AppsPage
   },
   {
     path: '/list',

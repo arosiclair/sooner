@@ -2,12 +2,11 @@
   <div id="app">
     <div class="content py-md-4">
       <div class="container padded-content">
-        <transition-page v-if="ready"></transition-page>
-        <b-spinner v-else class="m-5" />
+        <TransitionedRouter />
       </div>
     </div>
     <DebugLayer v-if="isDebug" />
-    <Settings />
+    <UserSettings />
   </div>
 </template>
 
@@ -17,66 +16,29 @@ import './styles/inputs.css'
 import './styles/text.css'
 import './styles/layout.css'
 import './styles/misc.css'
-
-import Settings from './components/Settings'
-import DebugLayer from './components/debug/DebugLayer'
-import { mapGetters, mapActions } from 'vuex'
-import { isDebug } from './modules/utilities'
-import { RouteNames } from './router'
-import TransitionPage from './components/TransitionPage.vue'
 import 'animate.css'
+
+import TransitionedRouter from './components/TransitionedRouter.vue'
+import DebugLayer from './components/debug/DebugLayer.vue'
+import UserSettings from './components/UserSettings.vue'
+import { isDebug } from './modules/utilities'
 
 export default {
   name: 'App',
   components: {
+    TransitionedRouter,
     DebugLayer,
-    Settings,
-    TransitionPage
+    UserSettings
   },
   data () {
     return {
-      ready: false,
       isDebug: isDebug()
-    }
-  },
-  computed: {
-    currentPath () {
-      if (this.$route.path !== '/') {
-        return this.$route.path
-      } else if (document.location.pathname !== '/') {
-        return document.location.pathname
-      } else {
-        return '/'
-      }
-    },
-    ...mapGetters({
-      loggedIn: 'user/loggedIn'
-    })
-  },
-
-  methods: mapActions({
-    updateUserData: 'user/refreshData'
-  }),
-
-  mounted: async function () {
-    await this.updateUserData()
-    this.ready = true
-  },
-
-  updated () {
-    if (this.currentPath === '/') {
-      if (!this.loggedIn) {
-        this.$router.push({ name: RouteNames.Login })
-      } else {
-        this.$router.push({ name: RouteNames.List })
-      }
     }
   }
 }
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 html, body {

@@ -7,7 +7,9 @@
         alt="Sooner logo"
         class="mr-4"
       >
-      <h1>Sooner</h1>
+      <h1 class="m-0">
+        Sooner
+      </h1>
     </header>
     <section
       id="intro-section"
@@ -15,9 +17,9 @@
     >
       <img
         id="hero-image"
-        src="https://via.placeholder.com/600x300"
-        alt=""
-        class="mb-4"
+        src="img/landing-hero.png"
+        alt="Sooner working on mobile, desktop, and tablet devices"
+        class="mb-4 rounded"
       >
       <h3>The problem of overwhelming reading lists is solved</h3>
       <p>
@@ -110,7 +112,7 @@ h1, h3, h5 {
 }
 
 #hero-image {
-  width: 80%;
+  width: 100%;
 }
 
 #intro-section p {

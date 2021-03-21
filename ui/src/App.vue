@@ -22,6 +22,7 @@ import TransitionedRouter from './components/TransitionedRouter.vue'
 import DebugLayer from './components/debug/DebugLayer.vue'
 import UserSettings from './components/UserSettings.vue'
 import { isDebug } from './modules/utilities'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -34,6 +35,14 @@ export default {
     return {
       isDebug: isDebug()
     }
+  },
+  mounted () {
+    this.updateUserData()
+  },
+  methods: {
+    ...mapActions({
+      updateUserData: 'user/refreshData'
+    })
   }
 }
 </script>

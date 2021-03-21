@@ -1,8 +1,14 @@
 <template>
   <div>
     <list-header />
-    <list-input class="mb-3" @link-added="refresh" />
-    <fade-in-up height='75px' :hidden="empty">
+    <list-input
+      class="mb-3"
+      @link-added="refresh"
+    />
+    <fade-in-up
+      height="75px"
+      :hidden="empty"
+    >
       <div class="pb-3">
         <div class="shadow-sm rounded overflow-hidden">
           <list-transitions :ready="ready">
@@ -10,15 +16,26 @@
               v-for="link in sortedLinks"
               :key="link._id"
               :data="link"
-              @list-updated="refresh" />
+              @list-updated="refresh"
+            />
           </list-transitions>
         </div>
       </div>
     </fade-in-up>
     <fade-in-up v-if="empty">
-      <b-container fluid class="p-0">
-        <b-col xs="12" sm="9" class="mx-auto p-0">
-          <img :src="PlaceHolderIcon" class="my-2 placeholder-icon" />
+      <b-container
+        fluid
+        class="p-0"
+      >
+        <b-col
+          xs="12"
+          sm="9"
+          class="mx-auto p-0"
+        >
+          <img
+            :src="PlaceHolderIcon"
+            class="my-2 placeholder-icon"
+          >
         </b-col>
       </b-container>
     </fade-in-up>
@@ -49,7 +66,6 @@ export default {
     return {
       PlaceHolderIcon,
       ready: false,
-      loading: true,
       empty: false,
       error: false,
       links: []
@@ -76,12 +92,6 @@ export default {
     })
   },
   async mounted () {
-    if (!this.loggedIn) {
-      this.$toast.error("Doesn't look like you're logged in anymore")
-      this.$router.push({ name: RouteNames.Login })
-      return
-    }
-
     await this.refresh()
 
     // toast if this was a redirect from a share attempt
@@ -94,13 +104,11 @@ export default {
   },
   methods: {
     refresh: async function () {
-      this.loading = true
-
       try {
         var result = await api.get('/list/')
       } catch (error) {
         if (error.response.status === 401) {
-          this.$toast.error("Doesn't look like you're logged in anymore")
+          this.goToLogin()
         } else {
           this.$toast.error('There was an issue getting your links')
         }
@@ -119,8 +127,6 @@ export default {
         const links = numExpired > 1 ? 'links' : 'link'
         this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
       }
-
-      this.loading = false
     },
     sharePrompt () {
       if (this.$route.query.share) {
@@ -130,6 +136,10 @@ export default {
           this.$toast.error("Sorry, we couldn't add the link you tried to share", { timeout: false })
         }
       }
+    },
+    goToLogin () {
+      this.$toast.error("Doesn't look like you're logged in anymore")
+      this.$router.push({ name: RouteNames.Login })
     }
   }
 }

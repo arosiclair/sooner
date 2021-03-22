@@ -1,7 +1,8 @@
 <template>
   <transition
-    :css='false'
+    :css="false"
     @beforeLeave="beforeLeave"
+    @beforeEnter="beforeEnter"
     @enter="enter"
     @afterEnter="afterEnter"
   >
@@ -17,6 +18,9 @@ export default {
     }
   },
   methods: {
+    beforeEnter (element) {
+      element.classList.add('height-transition')
+    },
     beforeLeave (element) {
       this.prevHeight = getComputedStyle(element).height
     },
@@ -36,3 +40,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.height-transition {
+  transition: height 300ms ease;
+  overflow: hidden;
+}
+</style>

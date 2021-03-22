@@ -1,21 +1,18 @@
 <template>
   <div class="content">
     <div class="top-container">
-      <fade-in-down>
-        <img
-          id="logo"
-          class="mt-4"
-          :src="Logo"
-          alt="logo"
-        >
-        <h1 class="m-4">
-          Sooner
-        </h1>
+      <FadeInDown>
+        <LetterHead />
         <form>
-          <transition-height>
+          <TransitionHeight>
+            <div :key="registering">
+              <PasswordReqs v-if="registering" />
+            </div>
+          </TransitionHeight>
+          <TransitionHeight>
             <div
               :key="registering"
-              class="input-container paper-bg shadow-sm rounded overflow-hidden mb-3"
+              class="paper-bg shadow-sm rounded overflow-hidden mb-3"
             >
               <input
                 v-if="registering"
@@ -41,8 +38,8 @@
                 @keyup.enter="submit"
               >
             </div>
-          </transition-height>
-          <big-submit-btn
+          </TransitionHeight>
+          <BigSubmitBtn
             :label="submitLabel"
             :on-submit="submit"
             :loading="loading"
@@ -55,7 +52,7 @@
             {{ registering ? 'Cancel' : 'Sign Up' }}
           </a>
         </form>
-      </fade-in-down>
+      </FadeInDown>
     </div>
     <div class="bottom-container">
       <router-link :to="{ name: RouteNames.ResetRequest }">
@@ -70,6 +67,8 @@ import { mapActions, mapGetters } from 'vuex'
 import Logo from '../assets/logo-rounded.png'
 import { RouteNames } from '../router'
 import BigSubmitBtn from './BigSubmitBtn.vue'
+import LetterHead from './LetterHead.vue'
+import PasswordReqs from './PasswordReqs.vue'
 import FadeInDown from './utils/FadeInDown.vue'
 import TransitionHeight from './utils/TransitionHeight.vue'
 
@@ -78,7 +77,9 @@ export default {
   components: {
     FadeInDown,
     TransitionHeight,
-    BigSubmitBtn
+    BigSubmitBtn,
+    LetterHead,
+    PasswordReqs
   },
   data () {
     return {
@@ -176,10 +177,6 @@ export default {
 
 #logo {
   width: 125px;
-}
-
-.input-container {
-  transition: 300ms ease;
 }
 
 .top-container {

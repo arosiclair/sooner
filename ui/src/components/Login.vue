@@ -6,42 +6,61 @@
           id="logo"
           class="mt-4"
           :src="Logo"
-          alt="logo" />
-        <h1 class="m-4">Sooner</h1>
+          alt="logo"
+        >
+        <h1 class="m-4">
+          Sooner
+        </h1>
         <form>
           <transition-height>
-            <div class="input-container paper-bg shadow-sm rounded overflow-hidden mb-3" :key="registering">
+            <div
+              :key="registering"
+              class="input-container paper-bg shadow-sm rounded overflow-hidden mb-3"
+            >
               <input
                 v-if="registering"
                 v-model="name"
                 type="text"
                 placeholder="Name"
-                class="lg" />
+                class="lg"
+              >
               <input
                 v-model="email"
                 type="text"
                 placeholder="Email"
-                @keyup.enter="submit"
                 class="lg"
-                :class="{ error: error && !validEmail }" />
+                :class="{ error: error && !validEmail }"
+                @keyup.enter="submit"
+              >
               <input
                 v-model="password"
                 type="password"
                 placeholder="Password"
-                @keyup.enter="submit"
                 class="lg"
-                :class="{ error: error && !validPass }" />
+                :class="{ error: error && !validPass }"
+                @keyup.enter="submit"
+              >
             </div>
           </transition-height>
-          <big-submit-btn :label="submitLabel" :onSubmit="submit" :loading="loading" class="mb-4" />
-          <a href="#" @click="registering = !registering">
+          <big-submit-btn
+            :label="submitLabel"
+            :on-submit="submit"
+            :loading="loading"
+            class="mb-4"
+          />
+          <a
+            href="#"
+            @click="registering = !registering"
+          >
             {{ registering ? 'Cancel' : 'Sign Up' }}
           </a>
         </form>
       </fade-in-down>
     </div>
     <div class="bottom-container">
-      <router-link :to="{ name: RouteNames.ResetRequest }"> Forgot your password?</router-link>
+      <router-link :to="{ name: RouteNames.ResetRequest }">
+        Forgot your password?
+      </router-link>
     </div>
   </div>
 </template>
@@ -60,12 +79,6 @@ export default {
     FadeInDown,
     TransitionHeight,
     BigSubmitBtn
-  },
-  async mounted () {
-    await this.updateUserData()
-    if (this.loggedIn) {
-      this.$router.push({ name: RouteNames.List })
-    }
   },
   data () {
     return {
@@ -92,6 +105,12 @@ export default {
     ...mapGetters({
       loggedIn: 'user/loggedIn'
     })
+  },
+  async mounted () {
+    await this.updateUserData()
+    if (this.loggedIn) {
+      this.$router.push({ name: RouteNames.List })
+    }
   },
   methods: {
     async submit (event) {

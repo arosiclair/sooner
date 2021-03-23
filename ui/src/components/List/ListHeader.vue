@@ -1,11 +1,18 @@
 <template>
-  <div id="header" class=" pt-3 mb-3">
+  <div
+    id="header"
+    class=" pt-3 mb-3"
+  >
     <div class="header-left">
       <img
         id="logo"
         :src="Logo"
-        alt="logo" />
-      <span id="header-title" class="d-none d-sm-inline text-xl mx-2">Sooner</span>
+        alt="logo"
+      >
+      <span
+        id="header-title"
+        class="d-none d-sm-inline text-xl mx-2"
+      >Sooner</span>
     </div>
     <div class="header-right">
       <list-header-menu />

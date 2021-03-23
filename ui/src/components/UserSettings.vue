@@ -7,39 +7,66 @@
     footer-class="settings-footer"
     title="Settings"
     centered
-    @show="onShow">
-  <template #default>
-    <div>
-      <h6>Display Name</h6>
-      <b-form-input v-model="displayName" class="form"/>
-    </div>
-    <div>
-      <h6>Email</h6>
-      <b-form-input v-model="email" class="form" disabled />
-    </div>
-    <div>
-      <h6>Link Time Limit</h6>
-      <b-form-input v-model="ttl" type="range" min="1" max="10" />
-      <div class="text-center">
-        {{ ttlStr }}
+    @show="onShow"
+  >
+    <template #default>
+      <div>
+        <h6>Display Name</h6>
+        <b-form-input
+          v-model="displayName"
+          class="form"
+        />
       </div>
-    </div>
-    <div>
-      <h6>Sort Links</h6>
-      <b-form-group class="text-center">
-        <b-form-radio-group v-model="linkOrder" name="link-order">
-          <b-form-radio value="asc">Oldest first</b-form-radio>
-          <b-form-radio value="desc">Newest first</b-form-radio>
-        </b-form-radio-group>
-      </b-form-group>
-    </div>
-  </template>
-  <template #modal-footer>
-    <b-button variant="primary" @click="save" class="save-btn">
-      <b-spinner v-if="saving" small />
-      <span v-else>Save</span>
-    </b-button>
-  </template>
+      <div>
+        <h6>Email</h6>
+        <b-form-input
+          v-model="email"
+          class="form"
+          disabled
+        />
+      </div>
+      <div>
+        <h6>Link Time Limit</h6>
+        <b-form-input
+          v-model="ttl"
+          type="range"
+          min="1"
+          max="10"
+        />
+        <div class="text-center">
+          {{ ttlStr }}
+        </div>
+      </div>
+      <div>
+        <h6>Sort Links</h6>
+        <b-form-group class="text-center">
+          <b-form-radio-group
+            v-model="linkOrder"
+            name="link-order"
+          >
+            <b-form-radio value="asc">
+              Oldest first
+            </b-form-radio>
+            <b-form-radio value="desc">
+              Newest first
+            </b-form-radio>
+          </b-form-radio-group>
+        </b-form-group>
+      </div>
+    </template>
+    <template #modal-footer>
+      <b-button
+        variant="primary"
+        class="save-btn"
+        @click="save"
+      >
+        <b-spinner
+          v-if="saving"
+          small
+        />
+        <span v-else>Save</span>
+      </b-button>
+    </template>
   </b-modal>
 </template>
 

@@ -11,7 +11,7 @@
       >
       <span
         id="header-title"
-        class="d-none d-sm-inline text-xl mx-2"
+        class="d-none d-sm-inline text-xl text-xbold mx-3"
       >Sooner</span>
     </div>
     <div class="header-right">
@@ -45,7 +45,7 @@ export default {
 }
 
 #header-title {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 #logo {

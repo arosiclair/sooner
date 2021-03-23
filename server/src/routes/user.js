@@ -2,7 +2,7 @@
 var express = require('express')
 var router = express.Router()
 
-const { sanitize, sanitizeAndValidate, jsonValidation } = require('../utils/validation')
+const { sanitizeAndValidate, jsonValidation } = require('../utils/validation')
 const { ErrorResponse } = require('../utils/errors')
 const { addUser, getUserById, updateUser, getUserbyEmailAndPass, updatePassword } = require('../daos/users')
 const { createSession, deleteSession, getSession, invalidateSessions } = require('../daos/sessions')
@@ -106,7 +106,11 @@ router.patch('/data', jsonValidation(userDataSchema, true, false), async functio
   if (updateUser) {
     res.json({
       result: 'success',
-      data: sanitize(updatedUser, userDataSchema)
+      data: {
+        name: updatedUser.name,
+        email: updatedUser.email,
+        prefs: updatedUser.prefs
+      }
     })
   } else {
     res.status(500).json(ErrorResponse('db error'))

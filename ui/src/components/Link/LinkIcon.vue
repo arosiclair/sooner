@@ -1,5 +1,5 @@
 <template>
-  <img :src="iconUrl" />
+  <img :src="iconUrl">
 </template>
 
 <script>
@@ -9,7 +9,12 @@ import NYTIcon from '@/assets/linkIcons/nytimes.png'
 import CNNIcon from '@/assets/linkIcons/cnn.png'
 
 export default {
-  props: ['linkUrl'],
+  props: {
+    linkUrl: {
+      type: String,
+      default: ''
+    }
+  },
   computed: {
     iconUrl () {
       if (this.linkUrl.includes('theverge')) {

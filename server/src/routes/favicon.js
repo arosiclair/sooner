@@ -5,8 +5,8 @@ const cheerio = require('cheerio')
 
 router.get('/:domain', async (req, res) => {
   const domainName = req.params.domain
-  const sizes = req.query.sizes?.split(',').map(Number).filter(Boolean)
-  res.json(await getFavicons(domainName, sizes))
+  const targetSizes = req.query.sizes?.split(',').map(Number).filter(Boolean) || []
+  res.json(await getFavicons(domainName, targetSizes))
 })
 
 async function getFavicons (domainName, targetSizes) {

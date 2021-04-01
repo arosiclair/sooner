@@ -133,12 +133,6 @@ div {
     cursor: pointer;
 }
 
-.favicon {
-    width: 32px;
-    height: 32px;
-    /* margin-right: 10px; */
-}
-
 .text-container {
   flex: 1;
   width: 100%;

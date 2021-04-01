@@ -56,7 +56,12 @@ export default {
     LinkIcon,
     RippleHoverOverlay
   },
-  props: ['data'],
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       dddTitle: null

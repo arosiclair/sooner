@@ -8,6 +8,7 @@ const helmet = require('helmet')
 // routes
 const user = require('./routes/user')
 const list = require('./routes/list')
+const favicon = require('./routes/favicon')
 
 const app = express()
 
@@ -40,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 // REST API routing
 app.use('/user', user.router)
 app.use('/list', user.auth, list)
+app.use('/favicon', favicon)
 
 // SPA (redirect any non-API requests)
 app.get('/*', function (req, res) {

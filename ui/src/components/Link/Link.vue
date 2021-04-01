@@ -1,12 +1,27 @@
 <template>
   <ripple-hover-overlay :light="shouldWarn">
-    <div class="paper-bg" :class="backgroundStyle">
-      <div class="centered-container split item py-3" @click="openLink" role="button">
+    <div
+      class="paper-bg"
+      :class="backgroundStyle"
+    >
+      <div
+        class="centered-container split item py-3"
+        role="button"
+        @click="openLink"
+      >
         <!-- Favicon section -->
-        <LinkIcon class="favicon mx-3" :linkUrl="data.link" />
+        <LinkIcon
+          class="favicon mx-3"
+          :link-url="data.link"
+        />
         <!-- Text section -->
         <div class="text-container">
-          <div class="title" ref="title">{{ data.name }}</div>
+          <div
+            ref="title"
+            class="title"
+          >
+            {{ data.name }}
+          </div>
           <div class="centered-container split">
             <span class="site-name">{{ data.siteName }}</span>
             <div class="time-left-container">
@@ -16,7 +31,11 @@
           </div>
         </div>
         <!-- Done section -->
-        <div class="text-center mx-3" @click="remove" role="button">
+        <div
+          class="text-center mx-3"
+          role="button"
+          @click="remove"
+        >
           <i class="material-icons actionable done-btn">done</i>
         </div>
       </div>
@@ -42,9 +61,6 @@ export default {
     return {
       dddTitle: null
     }
-  },
-  mounted () {
-    this.dddTitle = new Dotdotdot(this.$refs.title)
   },
   computed: {
     timeLeft: function () {
@@ -82,6 +98,9 @@ export default {
     ...mapGetters({
       userPrefs: 'user/prefs'
     })
+  },
+  mounted () {
+    this.dddTitle = new Dotdotdot(this.$refs.title)
   },
   methods: {
     openLink: function () {

@@ -4,11 +4,7 @@
     :to="homeRoute"
   >
     <div class="letter-head-container p-3">
-      <img
-        id="logo"
-        :src="Logo"
-        class="mr-4"
-      >
+      <Logo50 class="mr-4" />
       <h1 class="m-0">
         Sooner
       </h1>
@@ -17,12 +13,12 @@
 </template>
 
 <script>
-import Logo from '@/assets/logo-rounded.png'
 import { RouteNames } from '../router'
+import Logo50 from './Logo50.vue'
 export default {
+  components: { Logo50 },
   data () {
     return {
-      Logo,
       homeRoute: {
         name: RouteNames.Landing
       }

@@ -4,11 +4,7 @@
     class=" pt-3 mb-3"
   >
     <div class="header-left">
-      <img
-        id="logo"
-        :src="Logo"
-        alt="logo"
-      >
+      <Logo50 />
       <span
         id="header-title"
         class="d-none d-sm-inline text-xl text-xbold mx-3"
@@ -21,17 +17,13 @@
 </template>
 
 <script>
-import Logo from '@/assets/logo-rounded.png'
 import ListHeaderMenu from './ListHeaderMenu'
+import Logo50 from '../Logo50.vue'
 export default {
   name: 'Header',
   components: {
-    ListHeaderMenu
-  },
-  data () {
-    return {
-      Logo
-    }
+    ListHeaderMenu,
+    Logo50
   }
 }
 </script>
@@ -46,9 +38,5 @@ export default {
 
 #header-title {
   vertical-align: middle;
-}
-
-#logo {
-  width: 50px;
 }
 </style>

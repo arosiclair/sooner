@@ -3,8 +3,9 @@
     <header class="p-3">
       <img
         id="logo"
-        src="img/logo-rounded.png"
-        alt="Sooner logo"
+        srcset="img/logo-rounded-50.png 1x, img/logo-rounded-100.png 2x, img/logo-rounded-150.png 3x"
+        src="img/logo-rounded-150"
+        alt="Sooner's logo"
         class="mr-4"
       >
       <h1 class="m-0">
@@ -101,10 +102,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-#logo {
-  width: 50px;
 }
 
 h1, h3, h5 {

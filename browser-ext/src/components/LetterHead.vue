@@ -1,23 +1,18 @@
 <template>
   <div class="d-flex align-items-center justify-content-center p-3">
-    <img id="logo" :src="Logo" class="mr-3"/>
-    <h2 class="title">Sooner</h2>
+    <img
+      srcset="icons/48.png 1x, icons/96.png 2x"
+      src="icons/96.png"
+      class="logo mr-3"
+    >
+    <h2 class="m-0">
+      Sooner
+    </h2>
   </div>
 </template>
 
-<script>
-import Logo from '@/assets/logo.png'
-export default {
-  data () {
-    return {
-      Logo
-    }
-  }
-}
-</script>
-
 <style scoped>
-#logo {
-  width: 50px;
+.logo {
+  width: 48px;
 }
 </style>

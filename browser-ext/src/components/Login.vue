@@ -1,30 +1,46 @@
 <template>
   <div class="text-center">
-    <letter-head />
-    <b-alert :show="showErrorMsg" variant="danger">{{ errorMsg }}</b-alert>
+    <LetterHead />
+    <b-alert
+      :show="showErrorMsg"
+      variant="danger"
+    >
+      {{ errorMsg }}
+    </b-alert>
     <form class="mb-3">
       <div class="paper-bg shadow-sm rounded overflow-hidden mb-3">
         <input
           v-model="email"
           type="text"
           placeholder="Email"
-          @keyup.enter="submit"
           class="lg"
-          :class="{ error: error && !validEmail }" />
+          :class="{ error: error && !validEmail }"
+          @keyup.enter="submit"
+        >
         <input
           v-model="password"
           type="password"
           placeholder="Password"
-          @keyup.enter="submit"
           class="lg"
-          :class="{ error: error && !validPass }" />
+          :class="{ error: error && !validPass }"
+          @keyup.enter="submit"
+        >
       </div>
-      <button class="shadow-sm rounded p-3" type="button" @click="submit" :disabled="loading">
+      <button
+        class="shadow-sm rounded p-3"
+        type="button"
+        :disabled="loading"
+        @click="submit"
+      >
         <b-spinner v-if="loading" />
         <span v-else>Login</span>
       </button>
     </form>
-    <a href="https://www.sooner.app" target="_blank" rel="noopener noreferrer">Don't have an account?</a>
+    <a
+      href="https://www.sooner.app"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Don't have an account?</a>
   </div>
 </template>
 

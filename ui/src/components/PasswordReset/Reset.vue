@@ -1,9 +1,14 @@
 <template>
   <div>
     <letter-head />
-    <h3 class="mb-4">Password Reset</h3>
+    <h3 class="mb-4">
+      Password Reset
+    </h3>
     <b-row align-h="center">
-      <b-col cols="12" sm="6">
+      <b-col
+        cols="12"
+        sm="6"
+      >
         <password-reqs />
       </b-col>
     </b-row>
@@ -12,18 +17,24 @@
         v-model="password"
         type="password"
         placeholder="New password"
-        @keyup.enter="submit"
         class="lg"
-        :class="{ error: error && !validPass }" />
+        :class="{ error: error && !validPass }"
+        @keyup.enter="submit"
+      >
       <input
         v-model="passwordConfirm"
         type="password"
         placeholder="Confirm password"
-        @keyup.enter="submit"
         class="lg"
-        :class="{ error: error && !passwordsMatch }" />
+        :class="{ error: error && !passwordsMatch }"
+        @keyup.enter="submit"
+      >
     </div>
-    <big-submit-btn label="SUBMIT" :loading="loading" :onSubmit="submit" />
+    <big-submit-btn
+      label="SUBMIT"
+      :loading="loading"
+      :on-submit="submit"
+    />
   </div>
 </template>
 
@@ -95,9 +106,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-#logo {
-  width: 50px;
-}
-</style>

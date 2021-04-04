@@ -7,8 +7,9 @@
       >
         <img
           id="logo"
-          src="img/logo-rounded.png"
-          alt="Sooner logo"
+          srcset="img/logo-rounded-50.png 1x, img/logo-rounded-100.png 2x, img/logo-rounded-150.png 3x"
+          src="img/logo-rounded-150"
+          alt="Sooner's logo"
           class="mr-3"
         >
         <h3
@@ -82,10 +83,6 @@ h1, h2, h3, h4 {
 
   color: #212121;
   text-decoration: none;
-}
-
-#logo {
-  width: 40px;
 }
 
 li {

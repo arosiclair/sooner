@@ -2,22 +2,28 @@
 <template>
   <div>
     <letter-head />
-    <h3 class="mb-4">Password Reset</h3>
+    <h3 class="mb-4">
+      Password Reset
+    </h3>
     <div class="mb-4">
       <input
         v-model="email"
         type="email"
         placeholder="Email"
-        @keyup.enter="submit"
         class="lg rounded overflow-hidden shadow-sm mb-3"
-        :class="{ error: error  }" />
-      <big-submit-btn label="SUBMIT" :loading="loading" :onSubmit="submit" />
+        :class="{ error: error }"
+        @keyup.enter="submit"
+      >
+      <big-submit-btn
+        label="SUBMIT"
+        :loading="loading"
+        :on-submit="submit"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '@/assets/logo-rounded.png'
 import LetterHead from '../LetterHead.vue'
 import BigSubmitBtn from '../BigSubmitBtn.vue'
 import api from '../../modules/api'
@@ -31,7 +37,6 @@ export default {
 
   data () {
     return {
-      Logo,
       email: '',
       error: false,
       loading: false

@@ -64,7 +64,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Logo from '../assets/logo-rounded.png'
 import { RouteNames } from '../router'
 import BigSubmitBtn from './BigSubmitBtn.vue'
 import LetterHead from './LetterHead.vue'
@@ -89,7 +88,6 @@ export default {
       registering: false,
       error: '',
       loading: false,
-      Logo,
       RouteNames
     }
   },
@@ -173,10 +171,6 @@ export default {
 <style scoped>
 .content {
   height: 100%;
-}
-
-#logo {
-  width: 125px;
 }
 
 .top-container {

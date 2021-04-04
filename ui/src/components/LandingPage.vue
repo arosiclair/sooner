@@ -60,7 +60,7 @@
       </p>
       <h5>😕 Okay you're throwing my stuff away... what am I left with?</h5>
       <p>
-        Set up this way, your Sooner list is only ever filled with things you care about right now. It's easy to to add stuff you like so go crazy. If you really feel like something on your list is important, you should read it sooner rather than later.
+        Set up this way, your Sooner list is only ever filled with things you care about right now. It's easy to add stuff you like so go crazy. If you really feel like something on your list is important, you should read it sooner rather than later.
       </p>
       <p class="text-center">
         Still not convinced? Just try it, it's free:

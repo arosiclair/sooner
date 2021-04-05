@@ -18,7 +18,8 @@
     >
       <img
         id="hero-image"
-        src="img/landing-hero.png"
+        srcset="img/hero-720.png 1x, img/hero-1440.png 2x"
+        src="img/hero-1440.png 2x"
         alt="Sooner working on mobile, desktop, and tablet devices"
         class="mb-4 rounded"
       >

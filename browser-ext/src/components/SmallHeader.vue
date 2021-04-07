@@ -1,26 +1,24 @@
 <template>
   <div class="mb-2">
-    <a class="logo-link" href="https://www.sooner.app/list" target="_blank" rel="noopener noreferrer">
-      <img :src="Logo" class="logo" />
+    <a
+      class="logo-link"
+      href="https://www.sooner.app/list"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        srcset="icons/48.png 1x, icons/96.png 2x"
+        src="icons/96.png"
+        class="logo mr-1"
+      >
       Sooner
     </a>
   </div>
 </template>
 
-<script>
-import Logo from '@/assets/logo.png'
-export default {
-  data () {
-    return {
-      Logo
-    }
-  }
-}
-</script>
-
 <style>
 .logo {
-  width: 25px;
+  width: 24px;
 }
 
 .logo-link, .logo-link:hover {

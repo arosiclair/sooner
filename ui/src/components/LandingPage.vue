@@ -18,7 +18,8 @@
     >
       <img
         id="hero-image"
-        src="img/landing-hero.png"
+        srcset="img/hero-720.png 1x, img/hero-1440.png 2x"
+        src="img/hero-1440.png 2x"
         alt="Sooner working on mobile, desktop, and tablet devices"
         class="mb-4 rounded"
       >
@@ -60,7 +61,7 @@
       </p>
       <h5>😕 Okay you're throwing my stuff away... what am I left with?</h5>
       <p>
-        Set up this way, your Sooner list is only ever filled with things you care about right now. It's easy to to add stuff you like so go crazy. If you really feel like something on your list is important, you should read it sooner rather than later.
+        Set up this way, your Sooner list is only ever filled with things you care about right now. It's easy to add stuff you like so go crazy. If you really feel like something on your list is important, you should read it sooner rather than later.
       </p>
       <p class="text-center">
         Still not convinced? Just try it, it's free:

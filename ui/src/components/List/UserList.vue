@@ -102,6 +102,12 @@ export default {
       this.ready = true
     }, 1000) // render is done an arbitrary amount of time after the first paint
   },
+  created () {
+    window.addEventListener('focus', this.refresh)
+  },
+  destroyed () {
+    window.removeEventListener('focus', this.refresh)
+  },
   methods: {
     refresh: async function () {
       try {

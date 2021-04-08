@@ -78,6 +78,11 @@
       <hr>
       <div>Created by <a href="https://github.com/arosiclair">Andrew Rosiclair</a></div>
       <div>Source on <a href="https://github.com/arosiclair/sooner">GitHub</a></div>
+      <div>
+        <router-link :to="privacyRoute">
+          Privacy Policy
+        </router-link>
+      </div>
     </footer>
   </div>
 </template>
@@ -92,6 +97,9 @@ export default {
       },
       appsRoute: {
         name: RouteNames.Apps
+      },
+      privacyRoute: {
+        name: RouteNames.Privacy
       }
     }
   }

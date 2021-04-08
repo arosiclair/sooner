@@ -5,6 +5,7 @@ import LandingPage from '../components/LandingPage.vue'
 export const RouteNames = {
   Landing: 'Landing',
   Apps: 'Apps',
+  Privacy: 'Privacy',
   List: 'List',
   Login: 'Login',
   ResetRequest: 'ResetRequest',
@@ -28,6 +29,14 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "apps-page" */ '../components/AppsPage.vue')
+  },
+  {
+    path: '/privacy',
+    name: RouteNames.Privacy,
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "privacy-page" */ '../components/PrivacyPage.vue')
   },
   {
     path: '/list',

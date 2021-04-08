@@ -49,7 +49,8 @@
           Sooner User authentication
         </li>
       </ul>
-      <p>The above information collected from Sooner Users is kept in Sooner databases only for the minimal necessary time to provide core functionality for Sooner apps</p>
+      <p>Information collected from Sooner Users is kept in Sooner databases only for the minimal necessary time to provide core functionality for Sooner apps.</p>
+      <p>Information collected from Sooner Users is not shared with any third party.</p>
     </section>
   </div>
 </template>

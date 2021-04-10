@@ -2,25 +2,25 @@
 var express = require('express')
 var router = express.Router()
 
-const { sanitizeAndValidate, jsonValidation } = require('../utils/validation')
+const { validation } = require('../utils/validation')
 const { ErrorResponse } = require('../utils/errors')
 const { addUser, getUserById, updateUser, getUserbyEmailAndPass, updatePassword } = require('../daos/users')
 const { createSession, deleteSession, getSession, invalidateSessions } = require('../daos/sessions')
 const { createResetRequest, getResetRequestByToken, deleteResetRequest } = require('../daos/resetRequests')
+const { body, matchedData } = require('express-validator')
 
 /*
   Endpoint for creating a user.
   Responds with a session token in payload and set's the token in a session cookie
 */
-const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const registerUserSchema = {
-  name: (val) => typeof val === 'string' && val.length <= 30,
-  email: (val) => {
-    return typeof val === 'string' && emailRegEx.test(val.toLowerCase())
-  },
-  password: (val) => isValidPassword(val)
-}
-router.post('/register', jsonValidation(registerUserSchema), async (req, res) => {
+
+const registerValidation = [
+  body('name').isString().isLength({ max: 30 }),
+  body('email').isEmail(),
+  body('password').isStrongPassword(),
+  validation
+]
+router.post('/register', ...registerValidation, async (req, res) => {
   const userId = await addUser(req.body.name, req.body.email, req.body.password, { linkTTL: 5 })
 
   if (userId) {
@@ -40,11 +40,12 @@ router.post('/register', jsonValidation(registerUserSchema), async (req, res) =>
   Responds with a session token in payload and set's the token in a session cookie
   Expects json payload with following params:
 */
-const loginSchema = {
-  email: (val) => typeof val === 'string',
-  password: (val) => typeof val === 'string'
-}
-router.post('/login', jsonValidation(loginSchema), async function (req, res) {
+const loginValidation = [
+  body('email').isString(),
+  body('password').isString(),
+  validation
+]
+router.post('/login', ...loginValidation, async function (req, res) {
   const user = await getUserbyEmailAndPass(req.body.email, req.body.password)
   if (!user) {
     res.status(401).json(new ErrorResponse('Email/password is incorrect'))
@@ -91,18 +92,15 @@ router.get('/data', async function (req, res) {
   }
 })
 
-const userDataSchema = {
-  name: value => typeof value === 'string' && value.length <= 30,
-  // email: value => typeof value === 'string' && validateEmail(value),
-  prefs: value => typeof value === 'object' && !sanitizeAndValidate(value, userPrefsSchema).length
-}
-const userPrefsSchema = {
-  linkTTL: value => typeof value === 'number',
-  linkOrder: value => typeof value === 'string' && ['asc', 'desc'].includes(value)
-}
-
-router.patch('/data', jsonValidation(userDataSchema, true, false), async function (req, res) {
-  const updatedUser = await updateUser(req.userId, req.body)
+const userDataValidation = [
+  body('name').optional().isString().isLength({ min: 3, max: 30 }),
+  body('prefs.linkTTL').optional().isInt({ min: 1, max: 10 }),
+  body('prefs.linkOrder').optional().isIn(['asc', 'desc']),
+  validation
+]
+router.patch('/data', ...userDataValidation, async function (req, res) {
+  const changes = matchedData(req)
+  const updatedUser = await updateUser(req.userId, changes)
   if (updateUser) {
     res.json({
       result: 'success',
@@ -117,10 +115,11 @@ router.patch('/data', jsonValidation(userDataSchema, true, false), async functio
   }
 })
 
-const resetPasswordSchema = {
-  email: (val) => typeof val === 'string'
-}
-router.post('/resetPassword', jsonValidation(resetPasswordSchema), async (req, res) => {
+const resetPasswordValidation = [
+  body('email').isEmail(),
+  validation
+]
+router.post('/resetPassword', ...resetPasswordValidation, async (req, res) => {
   const token = await createResetRequest(req.body.email)
   if (!token) {
     return res.status(400).json(new ErrorResponse('cannot create a reset request for this user'))
@@ -135,11 +134,12 @@ router.post('/resetPassword', jsonValidation(resetPasswordSchema), async (req, r
   }
 })
 
-const updatePasswordSchema = {
-  token: (val) => typeof val === 'string',
-  password: (val) => isValidPassword(val)
-}
-router.post('/updatePassword', jsonValidation(updatePasswordSchema), async (req, res) => {
+const updatePasswordValidation = [
+  body('token').isString(),
+  body('password').isStrongPassword(),
+  validation
+]
+router.post('/updatePassword', updatePasswordValidation, async (req, res) => {
   const resetRequest = await getResetRequestByToken(req.body.token)
   if (!resetRequest) {
     return res.status(400).json(new ErrorResponse('bad token'))
@@ -156,13 +156,6 @@ router.post('/updatePassword', jsonValidation(updatePasswordSchema), async (req,
 })
 
 // helpers
-
-function isValidPassword (password) {
-  return typeof password === 'string' &&
-    password.length >= 8 &&
-    password.length <= 32 &&
-    /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(password)
-}
 
 function sendResetEmail (email, token) {
   // TODO: implement this after paying for mail service

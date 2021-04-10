@@ -1,5 +1,5 @@
 const geoffrey = require('../geoffrey')
-const { getUserById } = require('./users')
+const { getUserById, getUserPrefs } = require('./users')
 
 async function getListById (listId) {
   if (!listId) return null
@@ -61,12 +61,20 @@ async function addLink (userId, name, siteName, link, addedOn = new Date()) {
     return existingLink._id
   }
 
+  const userPrefs = await getUserPrefs(userId)
+  if (!userPrefs) return null
+
+  const addedDTS = addedOn || new Date()
+  const expireDTS = new Date(addedDTS)
+  expireDTS.setDate(addedDTS.getDate() + userPrefs.linkTTL)
+
   const newLink = {
     _id: geoffrey.getObjectId(),
     name,
     siteName,
     link,
-    addedOn: addedOn || new Date()
+    addedOn: addedDTS,
+    expiresOn: expireDTS
   }
 
   try {

@@ -4,11 +4,7 @@ const logger = require('morgan')
 const cookieSession = require('cookie-session')
 const cors = require('cors')
 const helmet = require('helmet')
-
-// routes
-const user = require('./routes/user')
-const list = require('./routes/list')
-const favicon = require('./routes/favicon')
+const routes = require('./routes')
 
 const app = express()
 
@@ -39,9 +35,7 @@ app.options('*', cors(corsOptions))
 app.use(express.static(path.join(__dirname, 'public')))
 
 // REST API routing
-app.use('/user', user.router)
-app.use('/list', user.auth, list)
-app.use('/favicon', user.auth, favicon)
+app.use(routes)
 
 // SPA (redirect any non-API requests)
 app.get('/*', function (req, res) {

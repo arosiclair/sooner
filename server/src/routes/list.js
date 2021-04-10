@@ -41,7 +41,7 @@ router.get('/', async function (req, res) {
 */
 const linkValidation = [
   body('url').isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
-  body('addedOn').optional().isDate(),
+  body('addedOn').optional().isISO8601(),
   validation
 ]
 router.post('/', ...linkValidation, async function (req, res) {

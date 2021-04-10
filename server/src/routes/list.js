@@ -1,14 +1,13 @@
 const express = require('express')
 const router = express.Router()
 
-const urlMetadata = require('url-metadata')
 const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('../daos/lists')
 const { getUserPrefs } = require('../daos/users')
 const { ErrorResponse, InvalidJSONResponse } = require('../utils/errors')
 const { validation } = require('../utils/validation')
 const multer = require('multer')
-const { getTitleAndSite, parseLink } = require('../utils/metadata')
-const { body, query } = require('express-validator')
+const { getMetadata, parseLink } = require('../utils/metadata')
+const { body } = require('express-validator')
 const upload = multer()
 
 router.get('/', async function (req, res) {
@@ -46,7 +45,7 @@ const linkValidation = [
 ]
 router.post('/', ...linkValidation, async function (req, res) {
   try {
-    var { title, site } = await getTitleAndSite(req.body.url)
+    var { title, site } = await getMetadata(req.body.url)
   } catch (error) {
     return res.status(400).json(new InvalidJSONResponse(['link']))
   }
@@ -71,7 +70,7 @@ const shareValidation = [
 router.post('/share', upload.none(), ...shareValidation, async function (req, res) {
   try {
     const link = req.body.url || parseLink(req.body.text)
-    const { title, site } = await getTitleAndSite(link)
+    const { title, site } = await getMetadata(link)
 
     if (!link) {
       throw new Error('No link provided')
@@ -96,22 +95,6 @@ router.delete('/:linkId', async function (req, res) {
   res.json({
     result: 'success'
   })
-})
-
-const metadataValidation = [
-  query('url').isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
-  validation
-]
-router.get('/linkMetadata', ...metadataValidation, async function (req, res) {
-  try {
-    var metadata = await urlMetadata(req.query.url)
-    res.json({
-      result: 'success',
-      metadata: metadata
-    })
-  } catch (error) {
-    res.status(406).json(new ErrorResponse('metadata not found'))
-  }
 })
 
 module.exports = router

@@ -1,6 +1,9 @@
 <template>
   <transition-height>
-    <div class="box paper-bg shadow-sm rounded overflow-hidden" :key="showPreview">
+    <div
+      :key="showPreview"
+      class="box paper-bg shadow-sm rounded overflow-hidden"
+    >
       <input
         v-model="newLink"
         placeholder="Enter a link here"
@@ -8,14 +11,24 @@
         class="lg"
         :class="{ error: error }"
         @input="onNewLinkChanged"
-        @keyup.enter="addNewLink" />
-      <div v-if="showPreview" class="px-3 py-2 text-left">
+        @keyup.enter="addNewLink"
+      >
+      <div
+        v-if="showPreview"
+        class="px-3 py-2 text-left"
+      >
         <b-spinner v-if="loading" />
-        <div v-else class="centered-container split">
+        <div
+          v-else
+          class="centered-container split"
+        >
           <div class="text-lg">
             {{ titlePreview }}
           </div>
-          <div @click="addNewLink" role="button">
+          <div
+            role="button"
+            @click="addNewLink"
+          >
             <i class="material-icons actionable">add_circle_outline</i>
           </div>
         </div>

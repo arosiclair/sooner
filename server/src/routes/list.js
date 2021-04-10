@@ -53,7 +53,7 @@ router.post('/', ...linkValidation, async function (req, res) {
 
   try {
     const newLinkId = await addLink(req.userId, title, site, req.body.url, req.body.addedOn)
-    res.json({
+    res.status(201).json({
       result: 'success',
       linkId: newLinkId
     })

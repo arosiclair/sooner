@@ -5,9 +5,10 @@ const urlMetadata = require('url-metadata')
 const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('../daos/lists')
 const { getUserPrefs } = require('../daos/users')
 const { ErrorResponse, InvalidJSONResponse } = require('../utils/errors')
-const { jsonValidation } = require('../utils/validation')
+const { validation } = require('../utils/validation')
 const multer = require('multer')
 const { getTitleAndSite, parseLink } = require('../utils/metadata')
+const { body, query } = require('express-validator')
 const upload = multer()
 
 router.get('/', async function (req, res) {
@@ -38,29 +39,20 @@ router.get('/', async function (req, res) {
   Endpoint for adding a link to a user's list
   Creates a document in the list collection for the user if they do not already have one
 */
-const addLinkSchema = {
-  linkName: (val) => val === undefined || (typeof val === 'string' && val.length <= 140),
-  siteName: (val) => val === undefined || (typeof val === 'string' && val.length <= 140),
-  link: (val) => typeof val === 'string',
-  addedOn: (val) => val === undefined || (typeof val === 'string' && new Date(val).toString().toLowerCase() !== 'invalid date')
-}
-router.post('/', jsonValidation(addLinkSchema), async function (req, res) {
-  const link = req.body.link
-  let linkName = req.body.linkName
-  let siteName = req.body.siteName
-
-  if (!linkName || !siteName) {
-    try {
-      const { title, site } = await getTitleAndSite(link)
-      linkName = title
-      siteName = site
-    } catch (error) {
-      return res.status(400).json(new InvalidJSONResponse(['link']))
-    }
+const linkValidation = [
+  body('url').isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
+  body('addedOn').optional().isDate(),
+  validation
+]
+router.post('/', ...linkValidation, async function (req, res) {
+  try {
+    var { title, site } = await getTitleAndSite(req.body.url)
+  } catch (error) {
+    return res.status(400).json(new InvalidJSONResponse(['link']))
   }
 
   try {
-    const newLinkId = await addLink(req.userId, linkName, siteName, link, req.body.addedOn)
+    const newLinkId = await addLink(req.userId, title, site, req.body.url, req.body.addedOn)
     res.json({
       result: 'success',
       linkId: newLinkId
@@ -70,12 +62,12 @@ router.post('/', jsonValidation(addLinkSchema), async function (req, res) {
   }
 })
 
-const shareLinkSchema = {
-  title: (val) => val === undefined || (typeof val === 'string' && val.length <= 140),
-  url: (val) => val === undefined || typeof val === 'string',
-  text: (val) => val === undefined || typeof val === 'string'
-}
-router.post('/share', upload.none(), jsonValidation(shareLinkSchema), async function (req, res) {
+const shareValidation = [
+  body('url').optional().isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
+  body('text').optional().isString(),
+  validation
+]
+router.post('/share', upload.none(), ...shareValidation, async function (req, res) {
   try {
     const link = req.body.url || parseLink(req.body.text)
     const { title, site } = await getTitleAndSite(link)
@@ -105,12 +97,11 @@ router.delete('/:linkId', async function (req, res) {
   })
 })
 
-router.get('/linkMetadata', async function (req, res) {
-  if (!req.query.url) {
-    res.status(400).json(new ErrorResponse('bad link'))
-    return
-  }
-
+const metadataValidation = [
+  query('url').isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
+  validation
+]
+router.get('/linkMetadata', ...metadataValidation, async function (req, res) {
   try {
     var metadata = await urlMetadata(req.query.url)
     res.json({

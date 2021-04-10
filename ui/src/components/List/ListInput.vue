@@ -54,11 +54,7 @@ export default {
 
   computed: {
     titlePreview () {
-      if (this.metadata) {
-        return this.metadata.title ? this.metadata.title : 'Title'
-      } else {
-        return null
-      }
+      return this.metadata ? this.metadata.title : ''
     },
     showPreview () {
       return this.titlePreview || this.loading
@@ -79,7 +75,7 @@ export default {
       }
 
       try {
-        var response = await api.get('/list/linkMetadata?url=' + url.trim())
+        var response = await api.get('/metadata?url=' + url.trim())
       } catch (error) {
         this.error = true
         if (!error.response) {
@@ -89,7 +85,7 @@ export default {
       }
 
       this.error = false
-      return response.data.metadata
+      return response.data
     },
 
     async submitLink () {

@@ -66,7 +66,7 @@ async function addLink (userId, name, siteName, link, addedOn = new Date()) {
 
   const addedDTS = addedOn || new Date()
   const expireDTS = new Date(addedDTS)
-  expireDTS.setDate(addedDTS.getDate() + userPrefs.linkTTL)
+  expireDTS.setDate(expireDTS.getDate() + userPrefs.linkTTL)
 
   const newLink = {
     _id: geoffrey.getObjectId(),

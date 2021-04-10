@@ -58,7 +58,8 @@ router.post('/', ...linkValidation, async function (req, res) {
       linkId: newLinkId
     })
   } catch (error) {
-    res.status(500).json(new ErrorResponse('db error'))
+    console.error(error)
+    res.status(500).json(new ErrorResponse('an unexpected error occurred'))
   }
 })
 

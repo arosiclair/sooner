@@ -7,7 +7,7 @@ const api = axios.create({
 
 export default api
 
-export const addLink = (url) => api.post('/list', { link: url })
+export const addLink = (url) => api.post('/list', { url })
 
 export const checkLogin = () => api.get('/user/data')
 

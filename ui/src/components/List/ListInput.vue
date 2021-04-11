@@ -1,39 +1,51 @@
 <template>
-  <transition-height>
-    <div class="box paper-bg shadow-sm rounded overflow-hidden" :key="showPreview">
+  <TransitionHeight>
+    <div
+      :key="showPreview"
+      class="box paper-bg shadow-sm rounded overflow-hidden"
+    >
       <input
-        v-model="newLink"
+        v-model="url"
         placeholder="Enter a link here"
         type="text"
         class="lg"
-        :class="{ error: error }"
-        @input="onNewLinkChanged"
-        @keyup.enter="addNewLink" />
-      <div v-if="showPreview" class="px-3 py-2 text-left">
+        :class="{ error }"
+        @input="onUrlChanged"
+      >
+      <div
+        v-if="showPreview"
+        class="px-3 py-2 text-left"
+      >
         <b-spinner v-if="loading" />
-        <div v-else class="centered-container split">
+        <div
+          v-else
+          class="centered-container split"
+        >
           <div class="text-lg">
             {{ titlePreview }}
           </div>
-          <div @click="addNewLink" role="button">
+          <div
+            role="button"
+            @click="submitLink"
+          >
             <i class="material-icons actionable">add_circle_outline</i>
           </div>
         </div>
       </div>
     </div>
-  </transition-height>
+  </TransitionHeight>
 </template>
 
 <script>
 import api from '../../modules/api'
-import { getDomainFromUrl, debounce } from '../../modules/utilities'
+import { debounce } from '../../modules/utilities'
 import TransitionHeight from '../utils/TransitionHeight.vue'
 
 export default {
   components: { TransitionHeight },
   data () {
     return {
-      newLink: '',
+      url: '',
       error: false,
       loading: false,
       metadata: null
@@ -42,11 +54,7 @@ export default {
 
   computed: {
     titlePreview () {
-      if (this.metadata) {
-        return this.metadata.title ? this.metadata.title : 'Title'
-      } else {
-        return null
-      }
+      return this.metadata ? this.metadata.title : ''
     },
     showPreview () {
       return this.titlePreview || this.loading
@@ -54,68 +62,55 @@ export default {
   },
 
   methods: {
-    onNewLinkChanged: debounce(async function (event) {
+    onUrlChanged: debounce(async function (event) {
       this.loading = true
-      this.badLink = false
-      this.metadata = await this.getMetadata(this.newLink)
+      this.metadata = await this.getMetadata(this.url)
       this.loading = false
     }, 750),
 
-    async addNewLink () {
-      var url = this.newLink.trim()
-      if (!url) {
+    async getMetadata (url) {
+      if (!url.trim()) {
         this.error = true
-        return
-      } else {
-        this.error = false
-      }
-
-      if (!this.metadata) {
-        this.metadata = await this.getMetadata(url)
-      }
-
-      var title = this.metadata.title || 'Title'
-      var siteName = this.metadata['og:site_name'] || getDomainFromUrl(this.newLink)
-
-      var newLink = {
-        linkName: title,
-        siteName: siteName,
-        link: url
+        return null
       }
 
       try {
-        await api.post('/list/', newLink)
+        var response = await api.get('/metadata?url=' + url.trim())
       } catch (error) {
+        this.error = true
+        if (!error.response) {
+          this.$toast.error('There was an issue getting info on your link')
+        }
+        return null
+      }
+
+      this.error = false
+      return response.data
+    },
+
+    async submitLink () {
+      const url = this.url.trim()
+      if (!url) {
+        this.error = true
+        return
+      }
+
+      try {
+        await api.post('/list/', { url })
+      } catch (error) {
+        this.error = true
         if (error.response.status === 401) {
           this.$toast.error('Your session expired')
         } else {
           this.$toast.error('There was an issue adding your link')
-          this.error = true
         }
       }
 
-      this.newLink = ''
-      this.error = null
+      this.url = ''
+      this.error = false
       this.metadata = null
 
       this.$emit('link-added')
-    },
-
-    async getMetadata (url) {
-      if (url) {
-        try {
-          var response = await api.get('/list/linkMetadata?url=' + url)
-        } catch (error) {
-          if (error.response.status === 406) {
-            this.error = true
-          } else {
-            this.$toast.error('There was an issue getting info on your link')
-          }
-          return null
-        }
-
-        return response.data.metadata
-      }
     }
   }
 }

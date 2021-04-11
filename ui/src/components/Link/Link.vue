@@ -11,8 +11,8 @@
       >
         <!-- Favicon section -->
         <LinkIcon
-          class="favicon mx-3"
-          :link-url="data.link"
+          class="mx-3"
+          :favicons="data.favicons"
         />
         <!-- Text section -->
         <div class="text-container">
@@ -45,8 +45,7 @@
 
 <script>
 import api from '../../modules/api'
-import { addDays, formatDistance, differenceInDays } from 'date-fns'
-import { mapGetters } from 'vuex'
+import { formatDistance, differenceInDays } from 'date-fns'
 import Dotdotdot from 'dotdotdot-js'
 import LinkIcon from './LinkIcon'
 import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
@@ -68,21 +67,11 @@ export default {
     }
   },
   computed: {
-    timeLeft: function () {
-      if (!this.userPrefs.linkTTL) {
-        return '...'
-      }
-
-      const expirationDts = addDays(new Date(this.data.addedOn), this.userPrefs.linkTTL)
-      return formatDistance(new Date(), expirationDts)
+    timeLeft () {
+      return formatDistance(new Date(), new Date(this.data.expiresOn))
     },
     ttl () {
-      if (!this.userPrefs.linkTTL) {
-        return null
-      }
-
-      const expirationDts = addDays(new Date(this.data.addedOn), this.userPrefs.linkTTL)
-      return differenceInDays(expirationDts, new Date())
+      return differenceInDays(new Date(this.data.expiresOn), new Date())
     },
     shouldWarn () {
       return this.ttl < 2
@@ -99,10 +88,7 @@ export default {
         'expiration-warn': this.shouldWarn,
         'expiration-alert': this.shouldAlert
       }
-    },
-    ...mapGetters({
-      userPrefs: 'user/prefs'
-    })
+    }
   },
   mounted () {
     this.dddTitle = new Dotdotdot(this.$refs.title)

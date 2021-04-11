@@ -4,7 +4,12 @@ const passwordHasher = require('password-hash')
 async function getUserById (userId) {
   if (!userId) return null
 
-  return geoffrey.getUsers().findOne({ _id: userId })
+  try {
+    return geoffrey.getUsers().findOne({ _id: userId })
+  } catch (error) {
+    console.error(error)
+    return null
+  }
 }
 
 async function getUserByEmail (email) {

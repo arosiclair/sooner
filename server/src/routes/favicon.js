@@ -2,8 +2,15 @@ const express = require('express')
 const router = express.Router()
 const axios = require('axios')
 const cheerio = require('cheerio')
+const { param, query } = require('express-validator')
+const { validation } = require('../utils/validation')
 
-router.get('/:domain', async (req, res) => {
+const faviconValidation = [
+  param('domain').isString(),
+  query('sizes').optional().matches(/\d+(,\d+)*/),
+  validation
+]
+router.get('/:domain', ...faviconValidation, async (req, res) => {
   const domainName = req.params.domain
   const targetSizes = req.query.sizes?.split(',').map(Number).filter(Boolean) || []
   res.json(await getFavicons(domainName, targetSizes))
@@ -109,4 +116,7 @@ function getClosestIcon (icons, targetSize) {
   return closestIcon
 }
 
-module.exports = router
+module.exports = {
+  router,
+  getFavicons
+}

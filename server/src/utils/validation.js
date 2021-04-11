@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator')
 const { InvalidJSONResponse } = require('./errors')
 
 // removes properties on object that are not defined in the schema
@@ -67,11 +68,21 @@ function jsonValidation (schema, sanitizeJson = true, strict = true) {
   }
 }
 
+function validation (req, res, next) {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  } else {
+    next()
+  }
+}
+
 module.exports = {
   sanitize,
   validate,
   validateStrict,
   sanitizeAndValidate,
   sanitizeAndValidateStrict,
-  jsonValidation
+  jsonValidation,
+  validation
 }

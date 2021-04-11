@@ -1,26 +1,18 @@
 const urlMetadata = require('url-metadata')
 
-async function getMetadata (link) {
-  if (!link) { return null }
+async function getMetadata (url) {
+  if (!url) return {}
 
-  return urlMetadata(link)
-}
-
-async function getTitleAndSite (link) {
-  let metadata
   try {
-    metadata = await getMetadata(link)
+    var metadata = await urlMetadata(url)
   } catch (error) {
-    console.error(`metadata: failed to getMetadata for link: ${link} error: ${error.Error}`)
-    return { title: null, site: null }
+    console.error(`metadata: failed to getMetadata for link: ${url} error: ${error.Error}`)
+    return {}
   }
 
-  const title = metadata.title || 'Sorry, title wasn\'t found'
-  const site = metadata['og:site_name'] || getHostname(link)
-
   return {
-    title,
-    site
+    title: metadata.title || "Sorry, title wasn't found",
+    site: metadata['og:site_name'] || getHostname(url)
   }
 }
 
@@ -50,6 +42,5 @@ function parseLink (text) {
 
 module.exports = {
   getMetadata,
-  getTitleAndSite,
   parseLink
 }

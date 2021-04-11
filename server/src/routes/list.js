@@ -1,84 +1,91 @@
 const express = require('express')
 const router = express.Router()
 
-const urlMetadata = require('url-metadata')
 const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('../daos/lists')
 const { getUserPrefs } = require('../daos/users')
 const { ErrorResponse, InvalidJSONResponse } = require('../utils/errors')
-const { jsonValidation } = require('../utils/validation')
+const { validation } = require('../utils/validation')
 const multer = require('multer')
-const { getTitleAndSite, parseLink } = require('../utils/metadata')
+const { getMetadata, parseLink } = require('../utils/metadata')
+const { body } = require('express-validator')
+const { getFavicons } = require('./favicon')
+const { getHostname } = require('../utils/misc')
 const upload = multer()
 
 router.get('/', async function (req, res) {
   const listId = await getListIdForUser(req.userId)
   const list = await getListById(listId)
 
-  if (list) {
-    // clean the list of expired links
-    const links = list.links
-    const { linkTTL } = await getUserPrefs(req.userId)
-
-    const unexpiredLinks = cleanExpiredLinks(links, linkTTL)
-    if (unexpiredLinks !== links) {
-      updateLinks(listId, unexpiredLinks)
-    }
-
-    res.json({
-      result: 'success',
-      list: unexpiredLinks,
-      numExpired: links.length - unexpiredLinks.length
-    })
-  } else {
-    res.status(500).json(new ErrorResponse('no list data found'))
+  if (!list) {
+    return res.status(500).json(new ErrorResponse('no list data found'))
   }
+
+  // clean the list of expired links
+  const links = list.links
+
+  // TODO: remove legacy support for links without expiresOn
+  const prefs = await getUserPrefs(req.userId)
+  const linkTTL = prefs ? prefs.linkTTL : 5
+  list.links.forEach(link => addExpiresOn(link, linkTTL))
+
+  const freshLinks = cleanExpiredLinks(links)
+  if (freshLinks !== links) {
+    updateLinks(listId, freshLinks)
+  }
+
+  res.json({
+    result: 'success',
+    list: freshLinks,
+    numExpired: links.length - freshLinks.length
+  })
 })
 
 /*
   Endpoint for adding a link to a user's list
   Creates a document in the list collection for the user if they do not already have one
 */
-const addLinkSchema = {
-  linkName: (val) => val === undefined || (typeof val === 'string' && val.length <= 140),
-  siteName: (val) => val === undefined || (typeof val === 'string' && val.length <= 140),
-  link: (val) => typeof val === 'string',
-  addedOn: (val) => val === undefined || (typeof val === 'string' && new Date(val).toString().toLowerCase() !== 'invalid date')
-}
-router.post('/', jsonValidation(addLinkSchema), async function (req, res) {
-  const link = req.body.link
-  let linkName = req.body.linkName
-  let siteName = req.body.siteName
-
-  if (!linkName || !siteName) {
-    try {
-      const { title, site } = await getTitleAndSite(link)
-      linkName = title
-      siteName = site
-    } catch (error) {
-      return res.status(400).json(new InvalidJSONResponse(['link']))
-    }
+const linkValidation = [
+  body('url').optional().isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
+  body('link').optional().isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
+  body('addedOn').optional().isISO8601(),
+  validation
+]
+router.post('/', ...linkValidation, async function (req, res) {
+  // TODO: remove legacy support for 'link'
+  const url = req.body.link || req.body.url
+  if (!url) {
+    return res.status(400).json(new InvalidJSONResponse(['url']))
   }
 
   try {
-    const newLinkId = await addLink(req.userId, linkName, siteName, link, req.body.addedOn)
-    res.json({
+    var { title, site } = await getMetadata(url)
+  } catch (error) {
+    return res.status(400).json(new InvalidJSONResponse(['url']))
+  }
+
+  const favicons = await getFavicons(getHostname(url), [])
+
+  try {
+    const newLinkId = await addLink(req.userId, title, site, url, favicons, req.body.addedOn)
+    res.status(201).json({
       result: 'success',
       linkId: newLinkId
     })
   } catch (error) {
-    res.status(500).json(new ErrorResponse('db error'))
+    console.error(error)
+    res.status(500).json(new ErrorResponse('an unexpected error occurred'))
   }
 })
 
-const shareLinkSchema = {
-  title: (val) => val === undefined || (typeof val === 'string' && val.length <= 140),
-  url: (val) => val === undefined || typeof val === 'string',
-  text: (val) => val === undefined || typeof val === 'string'
-}
-router.post('/share', upload.none(), jsonValidation(shareLinkSchema), async function (req, res) {
+const shareValidation = [
+  body('url').optional().isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
+  body('text').optional().isString(),
+  validation
+]
+router.post('/share', upload.none(), ...shareValidation, async function (req, res) {
   try {
     const link = req.body.url || parseLink(req.body.text)
-    const { title, site } = await getTitleAndSite(link)
+    const { title, site } = await getMetadata(link)
 
     if (!link) {
       throw new Error('No link provided')
@@ -105,46 +112,27 @@ router.delete('/:linkId', async function (req, res) {
   })
 })
 
-router.get('/linkMetadata', async function (req, res) {
-  if (!req.query.url) {
-    res.status(400).json(new ErrorResponse('bad link'))
-    return
-  }
-
-  try {
-    var metadata = await urlMetadata(req.query.url)
-    res.json({
-      result: 'success',
-      metadata: metadata
-    })
-  } catch (error) {
-    res.status(406).json(new ErrorResponse('metadata not found'))
-  }
-})
-
 module.exports = router
 
-function cleanExpiredLinks (links, linkTTL) {
-  var unexpiredLinks = []
-  var changed = false
-
-  for (var i = 0; i < links.length; i++) {
-    var link = links[i]
-
-    if (!link.addedOn) {
-      changed = true
-      continue
-    }
-
-    var expireTime = new Date(link.addedOn.valueOf())
-    expireTime.setDate(expireTime.getDate() + linkTTL)
-    if (new Date() > expireTime) {
-      changed = true
-      continue
-    }
-
-    unexpiredLinks.push(link)
+function cleanExpiredLinks (links) {
+  const hasExpiredLinks = links.some(linkExpired)
+  if (hasExpiredLinks) {
+    const freshLinks = links.filter(link => !linkExpired(link))
+    return freshLinks
+  } else {
+    return links
   }
+}
 
-  return changed ? unexpiredLinks : links
+function linkExpired (link) {
+  return new Date() > new Date(link.expiresOn.valueOf())
+}
+
+function addExpiresOn (link, linkTTL) {
+  if (link.expiresOn) return
+
+  const addedOn = new Date(link.addedOn.valueOf())
+  const expiresOn = new Date(addedOn)
+  expiresOn.setDate(expiresOn.getDate() + linkTTL)
+  link.expiresOn = expiresOn
 }

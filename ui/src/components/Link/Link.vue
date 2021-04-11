@@ -11,8 +11,8 @@
       >
         <!-- Favicon section -->
         <LinkIcon
-          class="favicon mx-3"
-          :link-url="data.link"
+          class="mx-3"
+          :favicons="data.favicons"
         />
         <!-- Text section -->
         <div class="text-container">

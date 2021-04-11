@@ -50,7 +50,7 @@ async function createListForUser (userId) {
   return result.insertedId
 }
 
-async function addLink (userId, name, siteName, link, addedOn = new Date()) {
+async function addLink (userId, name, siteName, link, favicons, addedOn = new Date()) {
   if (!userId || !name || !siteName || !link) return false
 
   const listId = await getListIdForUser(userId)
@@ -73,6 +73,7 @@ async function addLink (userId, name, siteName, link, addedOn = new Date()) {
     name,
     siteName,
     link,
+    favicons,
     addedOn: addedDTS,
     expiresOn: expireDTS
   }

@@ -8,6 +8,8 @@ const { validation } = require('../utils/validation')
 const multer = require('multer')
 const { getMetadata, parseLink } = require('../utils/metadata')
 const { body } = require('express-validator')
+const { getFavicons } = require('./favicon')
+const { getHostname } = require('../utils/misc')
 const upload = multer()
 
 router.get('/', async function (req, res) {
@@ -49,7 +51,11 @@ const linkValidation = [
   validation
 ]
 router.post('/', ...linkValidation, async function (req, res) {
-  const url = req.body.link || req.body.url // TODO: remove legacy support for 'link'
+  // TODO: remove legacy support for 'link'
+  const url = req.body.link || req.body.url
+  if (!url) {
+    return res.status(400).json(new InvalidJSONResponse(['url']))
+  }
 
   try {
     var { title, site } = await getMetadata(url)
@@ -57,8 +63,10 @@ router.post('/', ...linkValidation, async function (req, res) {
     return res.status(400).json(new InvalidJSONResponse(['url']))
   }
 
+  const favicons = await getFavicons(getHostname(url), [])
+
   try {
-    const newLinkId = await addLink(req.userId, title, site, url, req.body.addedOn)
+    const newLinkId = await addLink(req.userId, title, site, url, favicons, req.body.addedOn)
     res.status(201).json({
       result: 'success',
       linkId: newLinkId

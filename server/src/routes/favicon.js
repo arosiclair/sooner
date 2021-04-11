@@ -116,4 +116,7 @@ function getClosestIcon (icons, targetSize) {
   return closestIcon
 }
 
-module.exports = router
+module.exports = {
+  router,
+  getFavicons
+}

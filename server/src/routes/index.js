@@ -1,7 +1,7 @@
 
 const user = require('./user')
 const list = require('./list')
-const favicon = require('./favicon')
+const { router: favicon } = require('./favicon')
 const metadata = require('./metadata')
 
 var express = require('express')

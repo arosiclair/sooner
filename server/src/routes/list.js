@@ -43,19 +43,22 @@ router.get('/', async function (req, res) {
   Creates a document in the list collection for the user if they do not already have one
 */
 const linkValidation = [
-  body('url').isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
+  body('url').optional().isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
+  body('link').optional().isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
   body('addedOn').optional().isISO8601(),
   validation
 ]
 router.post('/', ...linkValidation, async function (req, res) {
+  const url = req.body.link || req.body.url // TODO: remove legacy support for 'link'
+
   try {
-    var { title, site } = await getMetadata(req.body.url)
+    var { title, site } = await getMetadata(url)
   } catch (error) {
-    return res.status(400).json(new InvalidJSONResponse(['link']))
+    return res.status(400).json(new InvalidJSONResponse(['url']))
   }
 
   try {
-    const newLinkId = await addLink(req.userId, title, site, req.body.url, req.body.addedOn)
+    const newLinkId = await addLink(req.userId, title, site, url, req.body.addedOn)
     res.status(201).json({
       result: 'success',
       linkId: newLinkId

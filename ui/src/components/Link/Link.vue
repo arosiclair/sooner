@@ -101,7 +101,8 @@ export default {
   methods: {
     openLink: function () {
       setTimeout(() => {
-        var win = window.open(this.data.link, '_blank')
+        // TODO: remove legacy data.link
+        var win = window.open(this.data.link || this.data.url, '_blank')
         win.focus()
       }, 300)
     },

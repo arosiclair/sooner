@@ -53,6 +53,15 @@
           </b-form-radio-group>
         </b-form-group>
       </div>
+      <div>
+        <h6>Done Sound</h6>
+        <b-form-checkbox
+          v-model="doneSound"
+          class="text-center align-middle"
+        >
+          Enabled
+        </b-form-checkbox>
+      </div>
     </template>
     <template #modal-footer>
       <b-button
@@ -79,6 +88,7 @@ export default {
       email: '',
       ttl: '',
       linkOrder: '',
+      doneSound: false,
       saving: false
     }
   },
@@ -94,7 +104,8 @@ export default {
         email: this.email,
         prefs: {
           linkTTL: parseInt(this.ttl),
-          linkOrder: this.linkOrder
+          linkOrder: this.linkOrder,
+          doneSound: this.doneSound
         }
       }
     },
@@ -108,6 +119,7 @@ export default {
       this.email = this.userData.email
       this.ttl = this.userData.prefs.linkTTL
       this.linkOrder = this.userData.prefs.linkOrder
+      this.doneSound = this.userData.prefs.doneSound
     },
     async save () {
       this.saving = true

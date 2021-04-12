@@ -21,7 +21,7 @@ const registerValidation = [
   validation
 ]
 router.post('/register', ...registerValidation, async (req, res) => {
-  const userId = await addUser(req.body.name, req.body.email, req.body.password, { linkTTL: 5 })
+  const userId = await addUser(req.body.name, req.body.email, req.body.password)
 
   if (userId) {
     req.session.token = await createSession(userId)
@@ -96,6 +96,7 @@ const userDataValidation = [
   body('name').optional().isString().isLength({ min: 3, max: 30 }),
   body('prefs.linkTTL').optional().isInt({ min: 1, max: 10 }),
   body('prefs.linkOrder').optional().isIn(['asc', 'desc']),
+  body('prefs.doneSound').optional().isBoolean({ strict: true }),
   validation
 ]
 router.patch('/data', ...userDataValidation, async function (req, res) {

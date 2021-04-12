@@ -51,6 +51,7 @@ import LinkIcon from './LinkIcon'
 import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
 import DoneSound from '@/assets/sounds/done.mp3'
 import { mapGetters } from 'vuex'
+import { delay } from '../../modules/utilities'
 
 export default {
   components: {
@@ -99,12 +100,12 @@ export default {
     this.dddTitle = new Dotdotdot(this.$refs.title)
   },
   methods: {
-    openLink: function () {
-      setTimeout(() => {
-        // TODO: remove legacy data.link
-        var win = window.open(this.data.link || this.data.url, '_blank')
-        win.focus()
-      }, 300)
+    openLink: async function () {
+      await delay(300)
+
+      // TODO: remove legacy data.link
+      var win = window.open(this.data.link || this.data.url, '_blank')
+      win.focus()
     },
     remove: async function (event) {
       if (this.userPrefs.doneSound) {

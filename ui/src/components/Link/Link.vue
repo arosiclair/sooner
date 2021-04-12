@@ -1,5 +1,5 @@
 <template>
-  <ripple-hover-overlay :light="shouldWarn">
+  <RippleHoverOverlay :light="shouldWarn">
     <div
       class="paper-bg"
       :class="backgroundStyle"
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-  </ripple-hover-overlay>
+  </RippleHoverOverlay>
 </template>
 
 <script>
@@ -49,6 +49,7 @@ import { formatDistance, differenceInDays } from 'date-fns'
 import Dotdotdot from 'dotdotdot-js'
 import LinkIcon from './LinkIcon'
 import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
+import DoneSound from '@/assets/sounds/done.mp3'
 
 export default {
   components: {
@@ -101,8 +102,8 @@ export default {
       }, 300)
     },
     remove: async function (event) {
+      new Audio(DoneSound).play()
       event.stopPropagation()
-
       await api.delete(`/list/${this.data._id}`)
       this.$emit('list-updated')
     }

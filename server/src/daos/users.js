@@ -34,7 +34,12 @@ async function getUserPrefs (userId) {
   }
 }
 
-async function addUser (name, email, password, prefs) {
+const defaultUserPrefs = {
+  linkTTL: 5,
+  linkOrder: 'asc',
+  doneSound: true
+}
+async function addUser (name, email, password, prefs = defaultUserPrefs) {
   const newUser = {
     name,
     email,

@@ -84,15 +84,16 @@ const shareValidation = [
 ]
 router.post('/share', upload.none(), ...shareValidation, async function (req, res) {
   try {
-    const link = req.body.url || parseLink(req.body.text)
-    const { title, site } = await getMetadata(link)
+    const url = req.body.url || parseLink(req.body.text)
+    const { title, site } = await getMetadata(url)
+    const favicons = await getFavicons(getHostname(url), [])
 
-    if (!link) {
+    if (!url) {
       throw new Error('No link provided')
     } else if (!title || !site) {
       throw new Error("Couldn't find metadata")
     } else {
-      const newLinkId = await addLink(req.userId, title, site, link)
+      const newLinkId = await addLink(req.userId, title, site, url, favicons)
       if (!newLinkId) {
         throw new Error('Add link DB error')
       }

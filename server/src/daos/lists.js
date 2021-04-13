@@ -50,13 +50,13 @@ async function createListForUser (userId) {
   return result.insertedId
 }
 
-async function addLink (userId, name, siteName, link, favicons, addedOn = new Date()) {
-  if (!userId || !name || !siteName || !link) return false
+async function addLink (userId, name, siteName, url, favicons, addedOn = new Date()) {
+  if (!userId || !name || !siteName || !url) return false
 
   const listId = await getListIdForUser(userId)
 
   // check for a dupe and return it instead
-  const existingLink = await checkExists(listId, link)
+  const existingLink = await checkExists(listId, url)
   if (existingLink) {
     return existingLink._id
   }
@@ -72,7 +72,7 @@ async function addLink (userId, name, siteName, link, favicons, addedOn = new Da
     _id: geoffrey.getObjectId(),
     name,
     siteName,
-    link,
+    url,
     favicons,
     addedOn: addedDTS,
     expiresOn: expireDTS

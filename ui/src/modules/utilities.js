@@ -19,8 +19,13 @@ function isDebug () {
   return process.env.NODE_ENV === 'development'
 }
 
+function delay (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 export {
   getDomainFromUrl,
   debounce,
-  isDebug
+  isDebug,
+  delay
 }

@@ -1,5 +1,5 @@
 <template>
-  <ripple-hover-overlay :light="shouldWarn">
+  <RippleHoverOverlay :light="shouldWarn">
     <div
       class="paper-bg"
       :class="backgroundStyle"
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-  </ripple-hover-overlay>
+  </RippleHoverOverlay>
 </template>
 
 <script>
@@ -49,6 +49,9 @@ import { formatDistance, differenceInDays } from 'date-fns'
 import Dotdotdot from 'dotdotdot-js'
 import LinkIcon from './LinkIcon'
 import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
+import DoneSound from '@/assets/sounds/done.mp3'
+import { mapGetters } from 'vuex'
+import { delay } from '../../modules/utilities'
 
 export default {
   components: {
@@ -88,21 +91,28 @@ export default {
         'expiration-warn': this.shouldWarn,
         'expiration-alert': this.shouldAlert
       }
-    }
+    },
+    ...mapGetters({
+      userPrefs: 'user/prefs'
+    })
   },
   mounted () {
     this.dddTitle = new Dotdotdot(this.$refs.title)
   },
   methods: {
-    openLink: function () {
-      setTimeout(() => {
-        var win = window.open(this.data.link, '_blank')
-        win.focus()
-      }, 300)
+    openLink: async function () {
+      await delay(300)
+
+      // TODO: remove legacy data.link
+      var win = window.open(this.data.link || this.data.url, '_blank')
+      win.focus()
     },
     remove: async function (event) {
-      event.stopPropagation()
+      if (this.userPrefs.doneSound) {
+        new Audio(DoneSound).play()
+      }
 
+      event.stopPropagation()
       await api.delete(`/list/${this.data._id}`)
       this.$emit('list-updated')
     }

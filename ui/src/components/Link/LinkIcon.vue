@@ -78,7 +78,8 @@ export default {
       return closestIcon
     },
     findLargestIcon () {
-      if (!this.favicons.length) return null
+      if (!this.favicons || !this.favicons.length) return null
+
       return this.favicons.reduce((a, b) => {
         if (!a.width) return b
         else if (!b.width) return a

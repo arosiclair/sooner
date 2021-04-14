@@ -97,13 +97,13 @@ async function deleteLink (userId, linkId) {
   return true
 }
 
-async function checkExists (listId, link) {
-  if (!listId || !link) return false
+async function checkExists (listId, url) {
+  if (!listId || !url) return false
 
   const list = await getListById(listId)
   if (!list) return false
 
-  return list.links.find(linkItem => linkItem.link === link)
+  return list.links.find(link => link.url === url || link.link === url)
 }
 
 module.exports = {

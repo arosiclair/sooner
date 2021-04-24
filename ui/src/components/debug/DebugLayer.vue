@@ -1,16 +1,22 @@
 <template>
-  <div id="debug-container" class="p-4">
+  <div
+    id="debug-container"
+    class="p-4"
+  >
+    <MockNotificationBtn />
     <MockLinkBtn v-if="loggedIn" />
   </div>
 </template>
 
 <script>
-import MockLinkBtn from './MockLinksBtn'
+import MockLinkBtn from './MockLinksBtn.vue'
 import { mapGetters } from 'vuex'
+import MockNotificationBtn from './MockNotificationBtn.vue'
 
 export default {
   components: {
-    MockLinkBtn
+    MockLinkBtn,
+    MockNotificationBtn
   },
   computed: mapGetters({
     loggedIn: 'user/loggedIn'

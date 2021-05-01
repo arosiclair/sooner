@@ -9,16 +9,21 @@
       ok-title="Send"
       @ok="showMockNotification"
     >
-      Title
-      <b-form-input v-model="title" />
-      Body
-      <b-form-input v-model="body" />
+      <b-button @click="onSubSubscribePush">
+        Subscribe Push
+      </b-button>
+      <div>
+        Title
+        <b-form-input v-model="title" />
+        Body
+        <b-form-input v-model="body" />
+      </div>
     </b-modal>
   </div>
 </template>
 
 <script>
-import { showNotification } from '../../modules/notification'
+import { showNotification, subscribeForPush } from '../../modules/notification'
 
 export default {
   data () {
@@ -28,8 +33,11 @@ export default {
     }
   },
   methods: {
-    async showMockNotification () {
+    showMockNotification () {
       showNotification(this.title, this.body)
+    },
+    onSubSubscribePush () {
+      subscribeForPush()
     }
   }
 }

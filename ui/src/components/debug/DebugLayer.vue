@@ -31,4 +31,8 @@ export default {
   bottom: 0;
   right: 0;
 }
+
+#debug-container > *:not(:last-child) {
+  margin-bottom: 10px;
+}
 </style>

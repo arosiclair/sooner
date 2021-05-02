@@ -60,8 +60,13 @@ async function updateUser (userId, changes) {
   if (!changes) return false
 
   const updateObj = geoffrey.flattenObject(changes)
-  const result = await geoffrey.getUsers().findOneAndUpdate({ _id: userId }, { '$set': updateObj }, { returnOriginal: false })
-  return result.value
+  try {
+    const result = await geoffrey.getUsers().findOneAndUpdate({ _id: userId }, { '$set': updateObj }, { returnOriginal: false })
+    return result.value
+  } catch (error) {
+    console.error('updateUser() - ' + error)
+    return null
+  }
 }
 
 function updatePassword (userId, newPassword) {

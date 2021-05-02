@@ -102,7 +102,7 @@ const userDataValidation = [
 router.patch('/data', ...userDataValidation, async function (req, res) {
   const changes = matchedData(req)
   const updatedUser = await updateUser(req.userId, changes)
-  if (updateUser) {
+  if (updatedUser) {
     res.json({
       result: 'success',
       data: {
@@ -112,7 +112,7 @@ router.patch('/data', ...userDataValidation, async function (req, res) {
       }
     })
   } else {
-    res.status(500).json(ErrorResponse('db error'))
+    res.status(500).json(new ErrorResponse('db error'))
   }
 })
 

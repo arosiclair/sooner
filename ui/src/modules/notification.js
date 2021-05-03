@@ -38,5 +38,10 @@ export async function subscribeForPush () {
   }
 
   const pushSubscription = await sw.pushManager.subscribe(pushOptions)
-  console.log('Web Push Subscription: ' + JSON.stringify(pushSubscription))
+  return sendPushSubscription(pushSubscription)
+}
+
+function sendPushSubscription (pushSub) {
+  console.log('Web Push Subscription: ' + JSON.stringify(pushSub))
+  return true
 }

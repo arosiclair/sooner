@@ -62,6 +62,22 @@
           Enabled
         </b-form-checkbox>
       </div>
+      <div>
+        <h6>Reminder Notifications</h6>
+        <div class="push-notifications-settings">
+          <b-form-checkbox
+            v-model="remindersEnabled"
+            class="text-center align-middle d-flex-1"
+            @change="onPushNotificationsChanged"
+          >
+            Enabled
+          </b-form-checkbox>
+          <b-form-timepicker
+            v-model="reminderTime"
+            :disabled="!remindersEnabled"
+          />
+        </div>
+      </div>
     </template>
     <template #modal-footer>
       <b-button
@@ -81,6 +97,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { subscribeForPush } from '../modules/notification'
 export default {
   data () {
     return {
@@ -89,7 +106,9 @@ export default {
       ttl: '',
       linkOrder: '',
       doneSound: false,
-      saving: false
+      saving: false,
+      remindersEnabled: false,
+      reminderTime: ''
     }
   },
   computed: {
@@ -98,6 +117,18 @@ export default {
       if (parseInt(this.ttl) > 1) { str += 's' }
       return str
     },
+    reminderHour () {
+      if (!this.reminderTime) return ''
+
+      const timeParts = this.reminderTime.split(':')
+      return timeParts[0]
+    },
+    reminderMinute () {
+      if (!this.reminderTime) return ''
+
+      const timeParts = this.reminderTime.split(':')
+      return timeParts[1]
+    },
     payload () {
       return {
         name: this.displayName,
@@ -105,7 +136,12 @@ export default {
         prefs: {
           linkTTL: parseInt(this.ttl),
           linkOrder: this.linkOrder,
-          doneSound: this.doneSound
+          doneSound: this.doneSound,
+          reminders: {
+            enabled: this.remindersEnabled,
+            reminderHour: this.reminderHour,
+            reminderMinute: this.reminderMinute
+          }
         }
       }
     },
@@ -114,12 +150,21 @@ export default {
     })
   },
   methods: {
+    ...mapActions({
+      updateUserData: 'user/updateData'
+    }),
     onShow () {
       this.displayName = this.userData.name
       this.email = this.userData.email
       this.ttl = this.userData.prefs.linkTTL
       this.linkOrder = this.userData.prefs.linkOrder
       this.doneSound = this.userData.prefs.doneSound
+
+      const reminders = this.userData.prefs.reminders
+      this.remindersEnabled = reminders.enabled
+      if (reminders.reminderHour && reminders.reminderMinute) {
+        this.reminderTime = `${reminders.reminderHour}:${reminders.reminderMinute}:00`
+      }
     },
     async save () {
       this.saving = true
@@ -132,9 +177,16 @@ export default {
         this.$bvModal.hide('settings-modal')
       }
     },
-    ...mapActions({
-      updateUserData: 'user/updateData'
-    })
+    async onPushNotificationsChanged (checked) {
+      if (checked) {
+        this.pushNotifications = await subscribeForPush()
+        if (!this.pushNotifications) {
+          this.$toast.error("Couldn't enable push notifications. Did you disable notifications?", { timeout: false })
+        }
+      } else {
+        // TODO: unsubscribe from push
+      }
+    }
   }
 }
 </script>
@@ -160,5 +212,14 @@ export default {
 <style scoped>
 .save-btn {
   width: 75px;
+}
+
+.push-notifications-settings {
+  display: flex;
+  align-items: center;
+}
+
+.push-notifications-settings > * {
+  flex: 1;
 }
 </style>

@@ -5,9 +5,10 @@ var router = express.Router()
 const { validation } = require('../utils/validation')
 const { ErrorResponse } = require('../utils/errors')
 const { addUser, getUserById, updateUser, getUserbyEmailAndPass, updatePassword } = require('../daos/users')
-const { createSession, deleteSession, getSession, invalidateSessions } = require('../daos/sessions')
+const { createSession, deleteSession, invalidateSessions } = require('../daos/sessions')
 const { createResetRequest, getResetRequestByToken, deleteResetRequest } = require('../daos/reset-requests')
 const { body, matchedData } = require('express-validator')
+const auth = require('../middleware/auth')
 
 /*
   Endpoint for creating a user.
@@ -77,7 +78,7 @@ router.post('/logout', async (req, res) => {
   }
 })
 
-router.all('/data', authMiddleware)
+router.all('/data', auth)
 router.get('/data', async function (req, res) {
   var user = await getUserById(req.userId)
   if (user) {
@@ -163,37 +164,4 @@ function sendResetEmail (email, token) {
   return true
 }
 
-/*
-  Authentication middleware to be used with user endpoints
-  expects either the session token to be present in the json payload
-  or the request's session to have the token
-*/
-module.exports.auth = authMiddleware
-
-async function authMiddleware (req, res, next) {
-  var error = await authImpl(req)
-  if (error) {
-    res.status(401).json(new ErrorResponse(error))
-  } else {
-    next()
-  }
-}
-
-async function authImpl (req) {
-  var token = req.body.token ? req.body.token : req.session.token
-
-  if (token) {
-    const session = await getSession(token)
-    if (session) {
-      // attach the user's mongo ID for easy access
-      req.userId = session.userId
-      req.sessionToken = session.token
-    } else {
-      return 'invalid session'
-    }
-  } else {
-    return 'invalid session'
-  }
-}
-
-module.exports.router = router
+module.exports = router

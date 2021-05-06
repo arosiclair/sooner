@@ -3,13 +3,14 @@ const user = require('./user')
 const list = require('./list')
 const { router: favicon } = require('./favicon')
 const metadata = require('./metadata')
+const auth = require('../middleware/auth')
 
 var express = require('express')
 var router = express.Router()
 
-router.use('/user', user.router)
-router.use('/list', user.auth, list)
-router.use('/favicon', user.auth, favicon)
-router.use('/metadata', user.auth, metadata)
+router.use('/user', user)
+router.use('/list', auth, list)
+router.use('/favicon', auth, favicon)
+router.use('/metadata', auth, metadata)
 
 module.exports = router

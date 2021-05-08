@@ -1,0 +1,132 @@
+openapi: 3.0.0
+
+# Define high-level metadata for the API
+info:
+  version: 1.0.0
+  title: Sooner Push API
+  description: API for managing an authenticated your Sooner push notification settings
+
+servers:
+  - url: http://localhost:3001/
+  - url: https://sooner.app/push
+
+paths:
+  /subscription:
+    get:
+      summary: get your subscription settings
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/subscription"
+        "401":
+          description: Unauthorized
+
+    patch:
+      summary: modify your subscription settings
+      requestBody:
+        description: changes to apply to your push subscription
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/subscription"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/subscription"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/bad-request-response"
+        "401":
+          description: Unauthorized
+
+  /subscription/devices:
+    get:
+      summary: get your subscribed devices
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/array-of-device"
+        "401":
+          description: Unauthorized
+    post:
+      summary: add a push device
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/subscription"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/bad-request-response"
+        "401":
+          description: Unauthorized
+
+components:
+  responses:
+    bad-request-response:
+      description: content for 401 responses
+
+  schemas:
+    subscription:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        reminders:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            reminderHour:
+              type: integer
+            reminderMinute:
+              type: integer
+
+    device:
+      properties:
+        type:
+          type: string
+          enum:
+            - WebPush
+        data:
+          oneOf:
+            - $ref: "#/components/schemas/web-push-device-data"
+
+    web-push-device-data:
+      description: WebPush PushSubscription object
+      properties:
+        endpoint:
+          type: string
+        expirationTime:
+          type: string
+        options:
+          properties:
+            userVisibleOnly:
+              type: boolean
+            applicationServerKey:
+              type: string
+        subscriptionId:
+          type: string
+          deprecated: true
+
+    array-of-device:
+      type: array
+      items:
+        $ref: "#/components/schemas/device"

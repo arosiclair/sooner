@@ -1,9 +1,7 @@
 const express = require('express')
+const subscription = require('./subscription')
 const router = express.Router()
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.send('Hello, Express!')
-})
+router.use('/subscription', subscription)
 
 module.exports = router

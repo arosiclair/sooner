@@ -4,5 +4,12 @@
     "authors": "Andrew Rosiclair",
     "version": "1.0.0",
     "private": true,
-    "workspaces": ["packges/*"]
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "api": "yarn workspace @sooner/api start",
+        "app": "yarn workspace @sooner/app start",
+        "browser-ext": "yarn workspace browser-ext start"
+    }
 }

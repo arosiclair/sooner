@@ -1,10 +1,10 @@
 node_modules
-server.cert
-server.key
-appSettings.json
 dist
-nginx/logs/
 
-nginx/conf/nginx.cert
-
-nginx/conf/nginx.key
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

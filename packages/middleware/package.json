@@ -1,0 +1,11 @@
+{
+    "name": "@sooner/middleware",
+    "description": "ExpressJS middleware for Sooner",
+    "authors": "Andrew Rosiclair",
+    "version": "1.0.0",
+    "dependencies": {
+        "@sooner/data-access": "workspace:packages/data-access",
+        "@sooner/responses": "workspace:packages/responses",
+        "express-validator": "^6.11.1"
+    }
+}

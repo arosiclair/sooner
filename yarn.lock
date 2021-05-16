@@ -1531,6 +1531,8 @@ __metadata:
   resolution: "@sooner/api@workspace:packages/api"
   dependencies:
     "@sooner/data-access": "workspace:packages/data-access"
+    "@sooner/middleware": "workspace:packages/middleware"
+    "@sooner/responses": "workspace:packages/responses"
     axios: ^0.21.1
     cheerio: ^1.0.0-rc.5
     cookie-parser: ~1.4.4
@@ -1631,6 +1633,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sooner/middleware@workspace:packages/middleware":
+  version: 0.0.0-use.local
+  resolution: "@sooner/middleware@workspace:packages/middleware"
+  dependencies:
+    "@sooner/data-access": "workspace:packages/data-access"
+    "@sooner/responses": "workspace:packages/responses"
+    express-validator: ^6.11.1
+  languageName: unknown
+  linkType: soft
+
 "@sooner/notifications@workspace:packages/notifications":
   version: 0.0.0-use.local
   resolution: "@sooner/notifications@workspace:packages/notifications"
@@ -1644,6 +1656,12 @@ __metadata:
     express: ~4.16.1
     morgan: ~1.9.1
     nodemon: ^2.0.7
+  languageName: unknown
+  linkType: soft
+
+"@sooner/responses@workspace:packages/responses":
+  version: 0.0.0-use.local
+  resolution: "@sooner/responses@workspace:packages/responses"
   languageName: unknown
   linkType: soft
 
@@ -6527,7 +6545,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-validator@npm:^6.10.0":
+"express-validator@npm:^6.10.0, express-validator@npm:^6.11.1":
   version: 6.11.1
   resolution: "express-validator@npm:6.11.1"
   dependencies:

@@ -3,7 +3,7 @@ const user = require('./user')
 const list = require('./list')
 const { router: favicon } = require('./favicon')
 const metadata = require('./metadata')
-const auth = require('../middleware/auth')
+const auth = require('@sooner/middleware/auth')
 
 var express = require('express')
 var router = express.Router()

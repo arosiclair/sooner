@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@sooner/data-access": "workspace:packages/data-access",
+    "@sooner/middleware": "workspace:packages/middleware",
+    "@sooner/responses": "workspace:packages/responses",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.5",
     "cookie-parser": "~1.4.4",

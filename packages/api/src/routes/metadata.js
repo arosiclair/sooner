@@ -1,9 +1,9 @@
 const express = require('express')
 const { query } = require('express-validator')
-const { ErrorResponse } = require('../utils/errors')
+const { ErrorResponse } = require('@sooner/responses/errors')
 const { getMetadata } = require('../utils/metadata')
 const { isEmptyObject } = require('../utils/misc')
-const { validation } = require('../utils/validation')
+const validation = require('@sooner/middleware/validation')
 const router = express.Router()
 
 const metadataValidation = [

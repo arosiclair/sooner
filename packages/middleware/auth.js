@@ -1,5 +1,5 @@
 const { getSession } = require('@sooner/data-access/sessions')
-const { ErrorResponse } = require('../utils/errors')
+const { ErrorResponse } = require('@sooner/responses/errors')
 
 /**
  * Authentication middleware that verifies a valid session.
@@ -8,16 +8,7 @@ const { ErrorResponse } = require('../utils/errors')
  * Responds with status 401 if session is invalid
  */
 module.exports = async (req, res, next) => {
-  var error = await authImpl(req)
-  if (error) {
-    res.status(401).json(new ErrorResponse(error))
-  } else {
-    next()
-  }
-}
-
-async function authImpl (req) {
-  var token = req.body.token ? req.body.token : req.session.token
+  const token = req.body.token || req.session.token
 
   if (token) {
     const session = await getSession(token)
@@ -25,10 +16,11 @@ async function authImpl (req) {
       // attach the user's mongo ID for easy access
       req.userId = session.userId
       req.sessionToken = session.token
+      next()
     } else {
-      return 'invalid session'
+      res.status(401).json(new ErrorResponse('invalid session'))
     }
   } else {
-    return 'invalid session'
+      res.status(401).json(new ErrorResponse('invalid session'))
   }
 }

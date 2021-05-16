@@ -3,7 +3,7 @@ const router = express.Router()
 const axios = require('axios')
 const cheerio = require('cheerio')
 const { param, query } = require('express-validator')
-const { validation } = require('../utils/validation')
+const validation = require('@sooner/middleware/validation')
 
 const faviconValidation = [
   param('domain').isString(),

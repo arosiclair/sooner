@@ -2,13 +2,13 @@
 var express = require('express')
 var router = express.Router()
 
-const { validation } = require('../utils/validation')
-const { ErrorResponse } = require('../utils/errors')
+const validation = require('@sooner/middleware/validation')
+const { ErrorResponse } = require('@sooner/responses/errors')
 const { addUser, getUserById, updateUser, getUserbyEmailAndPass, updatePassword } = require('@sooner/data-access/users')
 const { createSession, deleteSession, invalidateSessions } = require('@sooner/data-access/sessions')
 const { createResetRequest, getResetRequestByToken, deleteResetRequest } = require('@sooner/data-access/reset-requests')
 const { body, matchedData } = require('express-validator')
-const auth = require('../middleware/auth')
+const auth = require('@sooner/middleware/auth')
 
 /*
   Endpoint for creating a user.

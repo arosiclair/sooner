@@ -1,0 +1,8 @@
+{
+    "name": "sooner",
+    "description": "A web application for making an ephemeral reading lists",
+    "authors": "Andrew Rosiclair",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": ["packges/*"]
+}

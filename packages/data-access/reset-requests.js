@@ -1,4 +1,4 @@
-const geoffrey = require('../geoffrey')
+const geoffrey = require('./geoffrey')
 const { getUserByEmail } = require('./users')
 const { v4: uuidv4 } = require('uuid')
 

@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('../daos/lists')
-const { getUserPrefs } = require('../daos/users')
+const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('@sooner/data-access/lists')
+const { getUserPrefs } = require('@sooner/data-access/users')
 const { ErrorResponse, InvalidJSONResponse } = require('../utils/errors')
 const { validation } = require('../utils/validation')
 const multer = require('multer')

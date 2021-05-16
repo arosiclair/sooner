@@ -2,7 +2,6 @@
 // Data access for Sooner
 const bson = require('bson')
 const mongoClient = require('mongodb').MongoClient
-const { delay } = require('./utils/misc')
 
 const dbUrl = process.env.MONGODB_URL
 const dbName = process.env.MONGODB_NAME
@@ -25,6 +24,8 @@ connect()
 async function connect () {
   const numRetries = 10
   const delaySecs = 60
+  const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
   let client
 
   for (let i = 0; i < numRetries; i++) {

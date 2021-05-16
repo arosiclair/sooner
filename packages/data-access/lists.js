@@ -1,4 +1,4 @@
-const geoffrey = require('../geoffrey')
+const geoffrey = require('./geoffrey')
 const { getUserById, getUserPrefs } = require('./users')
 
 async function getListById (listId) {

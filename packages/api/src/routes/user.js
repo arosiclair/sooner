@@ -4,9 +4,9 @@ var router = express.Router()
 
 const { validation } = require('../utils/validation')
 const { ErrorResponse } = require('../utils/errors')
-const { addUser, getUserById, updateUser, getUserbyEmailAndPass, updatePassword } = require('../daos/users')
-const { createSession, deleteSession, invalidateSessions } = require('../daos/sessions')
-const { createResetRequest, getResetRequestByToken, deleteResetRequest } = require('../daos/reset-requests')
+const { addUser, getUserById, updateUser, getUserbyEmailAndPass, updatePassword } = require('@sooner/data-access/users')
+const { createSession, deleteSession, invalidateSessions } = require('@sooner/data-access/sessions')
+const { createResetRequest, getResetRequestByToken, deleteResetRequest } = require('@sooner/data-access/reset-requests')
 const { body, matchedData } = require('express-validator')
 const auth = require('../middleware/auth')
 

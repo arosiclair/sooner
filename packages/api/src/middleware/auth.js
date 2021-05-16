@@ -1,4 +1,4 @@
-const { getSession } = require('../daos/sessions')
+const { getSession } = require('@sooner/data-access/sessions')
 const { ErrorResponse } = require('../utils/errors')
 
 /**

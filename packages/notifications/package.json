@@ -8,7 +8,10 @@
     "dev": "nodemon ."
   },
   "dependencies": {
+    "@sooner/middleware": "workspace:packages/middleware",
     "cookie-parser": "~1.4.4",
+    "cookie-session": "^1.4.0",
+    "dotenv": "^9.0.2",
     "express": "~4.16.1",
     "morgan": "~1.9.1"
   },

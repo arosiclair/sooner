@@ -1647,7 +1647,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sooner/notifications@workspace:packages/notifications"
   dependencies:
+    "@sooner/middleware": "workspace:packages/middleware"
     cookie-parser: ~1.4.4
+    cookie-session: ^1.4.0
+    dotenv: ^9.0.2
     eslint: ^7.25.0
     eslint-config-standard: ^16.0.2
     eslint-plugin-import: ^2.22.1
@@ -5589,6 +5592,13 @@ __metadata:
   version: 8.6.0
   resolution: "dotenv@npm:8.6.0"
   checksum: f4649999a157061dd169118f459d88db56380b2eef68e87fa9de7201796e5f6d94fa337658d7e148f404b48652a0eefe11222d9eba0cd464497911ae56cd6f93
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "dotenv@npm:9.0.2"
+  checksum: 062a31a2fd024a8a7efee4f2d3972d488a1485e0545b97ab3c338f59f17689a2ae84b6e8ddb9ebca2902cc9b4926e7b672a476f5e326c6902648312fc3da54d9
   languageName: node
   linkType: hard
 

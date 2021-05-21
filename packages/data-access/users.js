@@ -1,5 +1,6 @@
 const geoffrey = require('./geoffrey')
 const passwordHasher = require('password-hash')
+const flattenObject = require('./utils/flatten-object')
 
 async function getUserById (userId) {
   if (!userId) return null
@@ -59,7 +60,7 @@ async function addUser (name, email, password, prefs = defaultUserPrefs) {
 async function updateUser (userId, changes) {
   if (!changes) return false
 
-  const updateObj = geoffrey.flattenObject(changes)
+  const updateObj = flattenObject(changes)
   try {
     const result = await geoffrey.getUsers().findOneAndUpdate({ _id: userId }, { '$set': updateObj }, { returnOriginal: false })
     return result.value

@@ -1,5 +1,6 @@
 const geoffrey = require('./geoffrey')
 const { getUserById, getUserPrefs } = require('./users')
+const { generateObjectId, toObjectId } = require('./utils/object-id')
 
 async function getListById (listId) {
   if (!listId) return null
@@ -69,7 +70,7 @@ async function addLink (userId, name, siteName, url, favicons, addedOn = new Dat
   expireDTS.setDate(expireDTS.getDate() + userPrefs.linkTTL)
 
   const newLink = {
-    _id: geoffrey.getObjectId(),
+    _id: generateObjectId(),
     name,
     siteName,
     url,
@@ -92,7 +93,7 @@ async function deleteLink (userId, linkId) {
   if (!userId || !linkId) return false
 
   const listId = await getListIdForUser(userId)
-  const linkObjId = geoffrey.getObjectId(linkId)
+  const linkObjId = toObjectId(linkId)
   geoffrey.getLists().updateOne({ _id: listId }, { $pull: { links: { _id: linkObjId } } })
   return true
 }

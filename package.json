@@ -1,0 +1,24 @@
+{
+    "name": "sooner",
+    "description": "A web application for making an ephemeral reading lists",
+    "authors": "Andrew Rosiclair",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "api": "yarn workspace @sooner/api start",
+        "app": "yarn workspace @sooner/app start",
+        "browser-ext": "yarn workspace browser-ext start"
+    },
+    "devDependencies": {
+        "eslint": "^7.26.0",
+        "eslint-config-standard": "^14.1.1",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.1",
+        "typescript": "^4.2.4"
+    }
+}

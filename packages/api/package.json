@@ -1,0 +1,39 @@
+{
+  "name": "@sooner/api",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "~14.16.0"
+  },
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "@sooner/data-access": "workspace:packages/data-access",
+    "@sooner/middleware": "workspace:packages/middleware",
+    "@sooner/responses": "workspace:packages/responses",
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
+    "cookie-parser": "~1.4.4",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "~4.16.1",
+    "express-validator": "^6.10.0",
+    "helmet": "^4.4.1",
+    "morgan": "~1.9.1",
+    "multer": "^1.4.2",
+    "url-metadata": "^2.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}

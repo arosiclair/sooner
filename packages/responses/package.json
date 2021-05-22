@@ -1,0 +1,6 @@
+{
+    "name": "@sooner/responses",
+    "description": "Response JSON factories for Sooner APIs",
+    "authors": "Andrew Rosiclair",
+    "version": "1.0.0"
+}

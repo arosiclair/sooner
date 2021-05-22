@@ -11,7 +11,12 @@ module.exports = async (req, res, next) => {
   const token = req.body.token || req.session.token
 
   if (token) {
-    const session = await getSession(token)
+    try {
+      var session = await getSession(token)
+    } catch (error) {
+      return next(error)
+    }
+
     if (session) {
       // attach the user's mongo ID for easy access
       req.userId = session.userId
@@ -21,6 +26,6 @@ module.exports = async (req, res, next) => {
       res.status(401).json(new ErrorResponse('invalid session'))
     }
   } else {
-      res.status(401).json(new ErrorResponse('invalid session'))
+    res.status(401).json(new ErrorResponse('invalid session'))
   }
 }

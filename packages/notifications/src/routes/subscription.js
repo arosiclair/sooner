@@ -1,10 +1,11 @@
 const express = require('express')
-const mockSubscription = require('../mock/subscription.json')
 const mockDevices = require('../mock/devices.json')
 const router = express.Router()
+const { getSubscription } = require('@sooner/data-access/notifications')
 
-router.get('/', (req, res) => {
-  res.json(mockSubscription)
+router.get('/', async (req, res) => {
+  const pushSub = await getSubscription(req.userId)
+  res.json(pushSub)
 })
 
 router.get('/devices', (req, res) => {

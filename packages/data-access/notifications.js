@@ -1,4 +1,5 @@
 const geoffrey = require('./geoffrey')
+const flattenObject = require('./utils/flatten-object')
 
 const defaultSubscription = {
   'enabled': false,
@@ -23,6 +24,27 @@ module.exports.getSubscription = async (userId) => {
     pushSub = await addSubscription(userId)
   }
   return pushSub
+}
+
+module.exports.updateSubscription = async (userId, changes) => {
+  if (!userId || !changes) {
+    throw new Error('updateSubscription() - invalid params')
+  }
+
+  const updateObj = flattenObject(changes)
+  const result = await geoffrey.getPushSubcriptions()
+    .findOneAndUpdate(
+      { userId },
+      { '$set': updateObj },
+      {
+        returnOriginal: false,
+        projection: {
+          _id: 0,
+          userId: 0
+        }
+      }
+    )
+  return result.value
 }
 
 async function addSubscription (userId) {

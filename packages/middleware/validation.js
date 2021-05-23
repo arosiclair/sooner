@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator')
 
-/** 
- * Middleware to be used at the end of an ```express-validator``` chain. 
- * Completes the request and responds with status code ```400``` if there were any errors in the 
+/**
+ * Middleware to be used at the end of an ```express-validator``` chain.
+ * Completes the request and responds with status code ```400``` if there were any errors in the
  * chain.
  */
 module.exports = (req, res, next) => {

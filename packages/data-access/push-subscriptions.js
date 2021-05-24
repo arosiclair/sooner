@@ -1,6 +1,6 @@
 const geoffrey = require('./geoffrey')
 const flattenObject = require('./utils/flatten-object')
-const { generateObjectId } = require('./utils/object-id')
+const { generateObjectId, toObjectId } = require('./utils/object-id')
 
 const defaultSubscription = {
   enabled: false,
@@ -76,6 +76,23 @@ module.exports.addDevice = async (userId, device) => {
         }
       })
   return result.value
+}
+
+module.exports.removeDevice = (userId, deviceId) => {
+  if (!userId || !deviceId) {
+    throw new Error('removeDevice() - invalid params')
+  }
+
+  return geoffrey.getPushSubcriptions().updateOne(
+    { userId },
+    { '$pull': { devices: { id: toObjectId(deviceId) } } },
+    {
+      returnOriginal: false,
+      projection: {
+        _id: 0,
+        userId: 0
+      }
+    })
 }
 
 async function addSubscription (userId) {

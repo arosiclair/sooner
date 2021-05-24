@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getSubscription, updateSubscription, addDevice, getDevices } = require('@sooner/data-access/push-subscriptions')
+const { getSubscription, updateSubscription, addDevice, getDevices, removeDevice } = require('@sooner/data-access/push-subscriptions')
 const { body, matchedData } = require('express-validator')
 const validation = require('@sooner/middleware/validation')
 const isNumber = require('@sooner/middleware/is-number')
@@ -56,6 +56,15 @@ router.post('/devices', ...pushDeviceValidation, async (req, res, next) => {
   try {
     const result = await addDevice(req.userId, device)
     res.json(result.devices)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/devices/:deviceId', async (req, res, next) => {
+  try {
+    await removeDevice(req.userId, req.params.deviceId)
+    res.send('OK')
   } catch (error) {
     next(error)
   }

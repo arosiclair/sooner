@@ -77,6 +77,20 @@ paths:
                 $ref: "#/components/responses/bad-request-response"
         "401":
           description: Unauthorized
+  /subscription/devices/{deviceId}:
+    parameters:
+      - in: path
+        name: deviceId
+        schema:
+          type: string
+        required: true
+        description: id for your push device
+    delete:
+      summary: remove a push device
+      responses:
+        "200":
+          description: OK
+          
 
 components:
   responses:

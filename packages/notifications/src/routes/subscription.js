@@ -1,7 +1,7 @@
 const express = require('express')
 const mockDevices = require('../mock/devices.json')
 const router = express.Router()
-const { getSubscription, updateSubscription, addDevice } = require('@sooner/data-access/notifications')
+const { getSubscription, updateSubscription, addDevice } = require('@sooner/data-access/push-subscriptions')
 const { body, matchedData } = require('express-validator')
 const validation = require('@sooner/middleware/validation')
 const isNumber = require('@sooner/middleware/is-number')

@@ -48,6 +48,11 @@ module.exports.updateSubscription = async (userId, changes) => {
   return result.value
 }
 
+module.exports.getDevices = async (userId) => {
+  const pushSub = await this.getSubscription(userId)
+  return pushSub.devices
+}
+
 module.exports.addDevice = async (userId, device) => {
   if (!userId || !device) {
     throw new Error('addDevice() - invalid params')

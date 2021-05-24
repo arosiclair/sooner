@@ -59,7 +59,7 @@ module.exports.addDevice = async (userId, device) => {
   }
 
   const newDevice = {
-    _id: generateObjectId(),
+    id: generateObjectId(),
     ...device
   }
 

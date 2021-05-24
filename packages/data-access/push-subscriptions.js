@@ -3,12 +3,13 @@ const flattenObject = require('./utils/flatten-object')
 const { generateObjectId } = require('./utils/object-id')
 
 const defaultSubscription = {
-  'enabled': false,
-  'reminders': {
-    'enabled': false,
-    'reminderHour': 0,
-    'reminderMinute': 0
-  }
+  enabled: false,
+  reminders: {
+    enabled: false,
+    reminderHour: 0,
+    reminderMinute: 0
+  },
+  devices: []
 }
 
 /**

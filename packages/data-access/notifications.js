@@ -1,5 +1,6 @@
 const geoffrey = require('./geoffrey')
 const flattenObject = require('./utils/flatten-object')
+const { generateObjectId } = require('./utils/object-id')
 
 const defaultSubscription = {
   'enabled': false,
@@ -44,6 +45,30 @@ module.exports.updateSubscription = async (userId, changes) => {
         }
       }
     )
+  return result.value
+}
+
+module.exports.addDevice = async (userId, device) => {
+  if (!userId || !device) {
+    throw new Error('addDevice() - invalid params')
+  }
+
+  const newDevice = {
+    _id: generateObjectId(),
+    ...device
+  }
+
+  const result = await geoffrey.getPushSubcriptions()
+    .findOneAndUpdate(
+      { userId },
+      { '$push': { devices: newDevice } },
+      {
+        returnOriginal: false,
+        projection: {
+          _id: 0,
+          userId: 0
+        }
+      })
   return result.value
 }
 

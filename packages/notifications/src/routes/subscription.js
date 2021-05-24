@@ -1,7 +1,7 @@
 const express = require('express')
 const mockDevices = require('../mock/devices.json')
 const router = express.Router()
-const { getSubscription, updateSubscription } = require('@sooner/data-access/notifications')
+const { getSubscription, updateSubscription, addDevice } = require('@sooner/data-access/notifications')
 const { body, matchedData } = require('express-validator')
 const validation = require('@sooner/middleware/validation')
 const isNumber = require('@sooner/middleware/is-number')
@@ -35,6 +35,26 @@ router.patch('/', ...subUpdateValidation, async (req, res, next) => {
 
 router.get('/devices', (req, res) => {
   res.json(mockDevices)
+})
+
+const pushDeviceValidation = [
+  body('type').isString().custom((value) => ['WebPush'].includes(value)),
+  body('data').isObject({ strict: true }),
+  body('data.endpoint').isString(),
+  body('data.expirationTime').isString(),
+  body('data.options').isObject(),
+  body('data.options.userVisibleOnly').isBoolean({ strict: true }),
+  body('data.options.applicationServerKey').isString(),
+  validation
+]
+router.post('/devices', ...pushDeviceValidation, async (req, res, next) => {
+  const device = matchedData(req)
+  try {
+    const result = await addDevice(req.userId, device)
+    res.json(result.devices)
+  } catch (error) {
+    next(error)
+  }
 })
 
 module.exports = router

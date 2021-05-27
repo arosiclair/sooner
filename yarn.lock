@@ -13130,6 +13130,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "sooner@workspace:."
   dependencies:
+    babel-eslint: ^10.1.0
     eslint: ^7.26.0
     eslint-config-standard: ^14.1.1
     eslint-plugin-import: ^2.22.1

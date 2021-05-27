@@ -4,6 +4,7 @@ const { getSubscription, updateSubscription, addDevice, getDevices, removeDevice
 const { body, matchedData } = require('express-validator')
 const validation = require('@sooner/middleware/validation')
 const isNumber = require('@sooner/middleware/is-number')
+const webPush = require('../web-push')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -68,6 +69,14 @@ router.delete('/devices/:deviceId', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+})
+
+router.post('/test', async (req, res, next) => {
+  if (!process.env.NODE_ENV === 'development') return res.status(404)
+
+  webPush(req.body.subscription, req.body.notification)
+    .then(result => res.json({ success: true }))
+    .catch(err => next(err))
 })
 
 module.exports = router

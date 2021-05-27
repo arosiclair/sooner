@@ -15,7 +15,8 @@
     "dotenv": "^9.0.2",
     "express": "~4.16.1",
     "express-validator": "^6.10.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "web-push": "^3.4.4"
   },
   "devDependencies": {
     "eslint": "^7.25.0",

@@ -29,21 +29,6 @@
     "vue-cli-plugin-browser-extension": "~0.25.1",
     "vue-template-compiler": "^2.6.11"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true,
-      "webextensions": true
-    },
-    "extends": [
-      "plugin:vue/recommended",
-      "@vue/standard"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions",

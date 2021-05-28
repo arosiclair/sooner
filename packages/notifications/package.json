@@ -8,8 +8,8 @@
     "dev": "nodemon ."
   },
   "dependencies": {
-    "@sooner/data-access": "workspace:packages/data-access",
-    "@sooner/middleware": "workspace:packages/middleware",
+    "@sooner/data-access": "*",
+    "@sooner/middleware": "*",
     "cookie-parser": "~1.4.4",
     "cookie-session": "^1.4.0",
     "dotenv": "^9.0.2",

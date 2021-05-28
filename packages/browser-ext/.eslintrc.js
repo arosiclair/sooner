@@ -1,9 +1,8 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
     browser: true,
-    serviceworker: true
+    webextensions: true
   },
   extends: [
     'plugin:vue/recommended',

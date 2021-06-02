@@ -5,16 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
-            "request": "launch",
             "name": "notifications",
+            "cwd": "${workspaceFolder}/packages/notifications",
+            "program": "src/main.js",
+            "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "cwd": "${workspaceFolder}/packages/notifications",
-            "runtimeExecutable": "yarn",
-            "runtimeArgs": ["dev"],
-            "port": 5858
+            "type": "pwa-node"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "app",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}/src",
+            "breakOnLoad": true,
+            "sourceMapPathOverrides": {
+                "webpack:///src/*": "${webRoot}/*"
+            }
         }
     ]
 }

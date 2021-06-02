@@ -74,7 +74,8 @@ router.delete('/devices/:deviceId', async (req, res, next) => {
 router.post('/test', async (req, res, next) => {
   if (!process.env.NODE_ENV === 'development') return res.status(404)
 
-  webPush(req.body.subscription, req.body.notification)
+  const notifBuffer = Buffer.from(JSON.stringify(req.body.notification))
+  webPush(req.body.subscription, notifBuffer)
     .then(result => res.json({ success: true }))
     .catch(err => next(err))
 })

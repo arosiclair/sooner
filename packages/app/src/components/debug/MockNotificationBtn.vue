@@ -7,7 +7,7 @@
       id="mock-notif-modal"
       title="Mock Notification"
       ok-title="Send"
-      @ok="showMockNotification"
+      @ok="onSend"
     >
       <b-button @click="onSubSubscribePush">
         Subscribe Push
@@ -17,24 +17,38 @@
         <b-form-input v-model="title" />
         Body
         <b-form-input v-model="body" />
+        <b-form-checkbox v-model="remote">
+          Remote
+        </b-form-checkbox>
       </div>
     </b-modal>
   </div>
 </template>
 
 <script>
-import { showNotification, subscribeForPush } from '../../modules/notification'
+import { sendDebugNotification, showLocalNotificaiton, subscribeForPush } from '../../modules/notification'
 
 export default {
   data () {
     return {
       title: '',
-      body: ''
+      body: '',
+      remote: false
     }
   },
   methods: {
+    onSend () {
+      if (this.remote) {
+        this.sendRemoteNotification()
+      } else {
+        this.showMockNotification()
+      }
+    },
     showMockNotification () {
-      showNotification(this.title, this.body)
+      showLocalNotificaiton(this.title, this.body)
+    },
+    sendRemoteNotification () {
+      sendDebugNotification(this.title, this.body)
     },
     onSubSubscribePush () {
       subscribeForPush()

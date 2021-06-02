@@ -1,5 +1,6 @@
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
+import { showNotification } from './modules/notification'
 
 // Ensure your build step is configured to include /offline.html as part of your precache manifest.
 precacheAndRoute(self.__WB_MANIFEST)
@@ -26,3 +27,13 @@ const shareCb = async ({ url, request, event, params }) => {
   }
 }
 registerRoute('/api/list/share', shareCb, 'POST')
+
+self.addEventListener('push', function (event) {
+  if (event.data) {
+    const data = event.data.json()
+    console.log(`Received push event: ${JSON.stringify(data, null, 2)}`)
+    event.waitUntil(showNotification(self.registration, data.title, data.body))
+  } else {
+    console.warn('Received push event with no data.')
+  }
+})

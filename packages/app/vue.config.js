@@ -31,6 +31,12 @@ if (process.env.NODE_ENV === 'development') {
           pathRewrite: { '^/api': '' },
           ws: true,
           changeOrigin: true
+        },
+        '^/push': {
+          target: 'http://localhost:3001',
+          pathRewrite: { '^/push': '' },
+          ws: true,
+          changeOrigin: true
         }
       }
     },

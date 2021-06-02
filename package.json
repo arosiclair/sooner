@@ -11,7 +11,7 @@
         "app": "npm run serve --workspace=@sooner/app",
         "api": "npm start --workspace=@sooner/api",
         "ext": "npm run serve --workspace=@sooner/browser-ext",
-        "notifications": "npm start --workspace=@sooner/notifications"
+        "notifications": "npm run dev --workspace=@sooner/notifications"
     },
     "devDependencies": {
         "@vue/cli-plugin-eslint": "~4.5.0"

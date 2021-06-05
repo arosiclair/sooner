@@ -46,10 +46,10 @@ const pushDeviceValidation = [
   body('type').isString().custom((value) => ['WebPush'].includes(value)),
   body('data').isObject({ strict: true }),
   body('data.endpoint').isString(),
-  body('data.expirationTime').isString(),
-  body('data.options').isObject(),
-  body('data.options.userVisibleOnly').isBoolean({ strict: true }),
-  body('data.options.applicationServerKey').isString(),
+  body('data.expirationTime').optional({ nullable: true }).isString(),
+  body('data.options').optional().isObject(),
+  body('data.options.userVisibleOnly').optional().isBoolean({ strict: true }),
+  body('data.options.applicationServerKey').optional().isString(),
   validation
 ]
 router.post('/devices', ...pushDeviceValidation, async (req, res, next) => {

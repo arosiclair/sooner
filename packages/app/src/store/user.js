@@ -1,4 +1,5 @@
 import api from '../modules/api'
+import notificationsApi from '../modules/notifications-api'
 
 export default {
   namespaced: true,
@@ -70,31 +71,43 @@ export default {
 
     async refreshData ({ commit }) {
       try {
-        var resp = await api.get('/user/data')
+        // pull and merge preferences from each api
+        const [{ data: userData }, { data: pushPrefs }] = await Promise.all([
+          api.get('/user/data'),
+          notificationsApi.get('/subscription')
+        ])
+
+        userData.prefs.push = pushPrefs
+        commit('setUserData', userData)
+        return { success: true }
       } catch (error) {
+        console.error(error)
         commit('resetUserdata')
         return {
           error: true,
           reason: 'There was an issue getting your data'
         }
       }
-
-      commit('setUserData', resp.data)
-      return { success: true }
     },
 
-    async updateData ({ commit }, changes) {
+    async updateData ({ commit }, { userChanges, pushChanges }) {
       try {
-        var resp = await api.patch('/user/data', changes)
+        // update and merge preferences for each api
+        const [{ data: user }, { data: push }] = await Promise.all([
+          api.patch('/user/data', userChanges),
+          notificationsApi.patch('/subscription', pushChanges)
+        ])
+
+        user.data.prefs.push = push
+        commit('setUserData', user.data)
+        return { success: true }
       } catch (error) {
+        console.error(error)
         return {
           error: true,
           reason: 'There was an issue updating your settings'
         }
       }
-
-      commit('setUserData', resp.data.data)
-      return { success: true }
     },
 
     async logout ({ dispatch }) {

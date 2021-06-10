@@ -58,7 +58,11 @@ export async function getPushSubscription () {
 
 function sendPushSubscription (pushSub) {
   console.log('Web Push Subscription: ' + JSON.stringify(pushSub))
-  return true
+
+  return notificationsApi.post('/subscription/devices', {
+    type: 'WebPush',
+    data: pushSub
+  })
 }
 
 export async function sendDebugNotification (title, body) {

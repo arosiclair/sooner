@@ -136,12 +136,17 @@ export default {
         prefs: {
           linkTTL: parseInt(this.ttl),
           linkOrder: this.linkOrder,
-          doneSound: this.doneSound,
-          reminders: {
-            enabled: this.remindersEnabled,
-            reminderHour: this.reminderHour,
-            reminderMinute: this.reminderMinute
-          }
+          doneSound: this.doneSound
+        }
+      }
+    },
+    pushPayload () {
+      return {
+        enabled: this.remindersEnabled,
+        reminders: {
+          enabled: this.remindersEnabled,
+          reminderHour: Number(this.reminderHour),
+          reminderMinute: Number(this.reminderMinute)
         }
       }
     },
@@ -160,7 +165,7 @@ export default {
       this.linkOrder = this.userData.prefs.linkOrder
       this.doneSound = this.userData.prefs.doneSound
 
-      const reminders = this.userData.prefs.reminders
+      const reminders = this.userData.prefs.push.reminders
       this.remindersEnabled = reminders.enabled
       if (reminders.reminderHour && reminders.reminderMinute) {
         this.reminderTime = `${reminders.reminderHour}:${reminders.reminderMinute}:00`
@@ -168,7 +173,10 @@ export default {
     },
     async save () {
       this.saving = true
-      const result = await this.updateUserData(this.payload)
+      const result = await this.updateUserData({
+        userChanges: this.payload,
+        pushChanges: this.pushPayload
+      })
 
       this.saving = false
       if (result.error) {

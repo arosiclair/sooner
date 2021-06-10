@@ -54,9 +54,15 @@ module.exports.getDevices = async (userId) => {
   return pushSub.devices
 }
 
-module.exports.addDevice = async (userId, device) => {
-  if (!userId || !device) {
+module.exports.addDevice = async (userId, subscription, device) => {
+  if (!userId || !subscription || !device) {
     throw new Error('addDevice() - invalid params')
+  }
+
+  // dupe prevention
+  const existingDevice = subscription.devices.find(d => equalDevices(device, d))
+  if (existingDevice) {
+    return subscription
   }
 
   const newDevice = {
@@ -101,4 +107,15 @@ async function addSubscription (userId) {
     userId
   })
   return defaultSubscription
+}
+
+function equalDevices(device1, device2) {
+  if (!device1.type === device2.type) return false
+
+  switch (device1.type) {
+    case 'WebPush':
+      return device1.data.endpoint === device2.data.endpoint
+    default:
+      return false
+  }
 }

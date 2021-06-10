@@ -55,7 +55,7 @@ const pushDeviceValidation = [
 router.post('/devices', ...pushDeviceValidation, async (req, res, next) => {
   const device = matchedData(req)
   try {
-    const result = await addDevice(req.userId, device)
+    const result = await addDevice(req.userId, req.subscription, device)
     res.json(result.devices)
   } catch (error) {
     next(error)

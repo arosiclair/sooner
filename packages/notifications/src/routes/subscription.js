@@ -6,14 +6,21 @@ const validation = require('@sooner/middleware/validation')
 const isNumber = require('@sooner/middleware/is-number')
 const webPush = require('../web-push')
 
-router.get('/', async (req, res, next) => {
+/**
+ * Prefetch the user's subscription data
+ * (also creates the subscription if it doesn't exist already)
+ */
+router.use('/', async (req, res, next) => {
   try {
-    const pushSub = await getSubscription(req.userId)
-    res.json(pushSub)
+    req.subscription = await getSubscription(req.userId)
   } catch (error) {
     next(error)
   }
+  
+  next()
 })
+
+router.get('/', (req, res) => res.json(req.subscription))
 
 const subUpdateValidation = [
   body('enabled').optional().isBoolean({ strict: true }),
@@ -33,14 +40,7 @@ router.patch('/', ...subUpdateValidation, async (req, res, next) => {
   }
 })
 
-router.get('/devices', async (req, res, next) => {
-  try {
-    const devices = await getDevices(req.userId)
-    res.json(devices)
-  } catch (error) {
-    next(error)
-  }
-})
+router.get('/devices', (req, res) => res.json(req.subscription.devices))
 
 const pushDeviceValidation = [
   body('type').isString().custom((value) => ['WebPush'].includes(value)),

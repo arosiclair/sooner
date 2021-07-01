@@ -6,7 +6,7 @@ module.exports = {
     es2020: true
   },
   extends: [
-    standard
+    'standard'
   ],
   parserOptions: {
     ecmaVersion: 12

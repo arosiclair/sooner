@@ -32,6 +32,7 @@ module.exports.scheduleReminderJob = async (agenda, userId, hour, minute) => {
     data: { userId }
   })
 
-  agenda.every(`${minute} ${hour} * * *`, REMINDER_JOB, { userId })
-  // agenda.now(REMINDER_JOB, { userId })
+  const job = agenda.create(REMINDER_JOB, { userId })
+  job.repeatEvery(`${minute} ${hour} * * *`)
+  job.save()
 }

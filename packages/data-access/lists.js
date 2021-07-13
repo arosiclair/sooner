@@ -12,6 +12,12 @@ async function getListById (listId) {
   }
 }
 
+async function getListByUserId (userId) {
+  if (!userId) return null
+
+  return getListById(await getListIdForUser(userId))
+}
+
 async function updateLinks (listId, links) {
   if (!listId || !links) return false
 
@@ -109,6 +115,7 @@ async function checkExists (listId, url) {
 
 module.exports = {
   getListById,
+  getListByUserId,
   updateLinks,
   addLink,
   deleteLink,

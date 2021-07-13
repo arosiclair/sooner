@@ -11,7 +11,7 @@ webPush.setVapidDetails(
   process.env.VAPID_PRIVATE_KEY
 )
 
-module.exports = (subscription, notification) => {
+module.exports = (userId, subscription, notification) => {
   if (!subscription || !notification) throw new Error('invalid params')
 
   return Promise.all(subscription.devices.map(device => {
@@ -19,7 +19,7 @@ module.exports = (subscription, notification) => {
       .catch((err) => {
         if (err.statusCode === 404 || err.statusCode === 410) {
           console.log('Subscription has expired or is no longer valid: ', err)
-          return removeDevice(subscription.userId, device.id)
+          return removeDevice(userId, device.id)
         } else {
           throw err
         }

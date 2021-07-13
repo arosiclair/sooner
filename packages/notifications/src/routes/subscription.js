@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const { getSubscription, updateSubscription, addDevice, getDevices, removeDevice } = require('@sooner/data-access/push-subscriptions')
+const { getSubscription, updateSubscription, addDevice, removeDevice } = require('@sooner/data-access/push-subscriptions')
 const { body, matchedData } = require('express-validator')
 const validation = require('@sooner/middleware/validation')
 const isNumber = require('@sooner/middleware/is-number')
 const webPush = require('../web-push')
+const { scheduleReminderJob } = require('../scheduling/reminder-job')
+const { agenda } = require('../scheduling')
 
 /**
  * Prefetch the user's subscription data
@@ -16,7 +18,7 @@ router.use('/', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-  
+
   next()
 })
 
@@ -37,6 +39,12 @@ router.patch('/', ...subUpdateValidation, async (req, res, next) => {
     res.json(updatedSub)
   } catch (error) {
     next(error)
+  }
+
+  if (changes.enabled) {
+    if (changes.reminders.enabled) {
+      scheduleReminderJob(agenda, req.userId, changes.reminders.reminderHour, changes.reminders.reminderMinute)
+    }
   }
 })
 
@@ -75,8 +83,8 @@ router.post('/test', async (req, res, next) => {
   if (!process.env.NODE_ENV === 'development') return res.status(404)
 
   const notifBuffer = Buffer.from(JSON.stringify(req.body.notification))
-  webPush(req.body.subscription, notifBuffer)
-    .then(result => res.json({ success: true }))
+  webPush(req.userId, req.body.subscription, notifBuffer)
+    .then(() => res.json({ success: true }))
     .catch(err => next(err))
 })
 

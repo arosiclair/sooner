@@ -1,6 +1,7 @@
 #!/usr/bin/env node
+/* eslint-disable no-fallthrough */
 
-require('dotenv').config() 
+require('dotenv').config()
 
 /**
  * Module dependencies.
@@ -8,6 +9,7 @@ require('dotenv').config()
 
 const app = require('./app')
 const http = require('http')
+const { startAgenda } = require('./scheduling')
 
 /**
  * Get port from environment and store in Express.
@@ -22,13 +24,16 @@ app.set('port', port)
 
 const server = http.createServer(app)
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+async function start () {
+  // start agenda scheduling process
+  await startAgenda()
 
-server.listen(port)
-server.on('error', onError)
-server.on('listening', onListening)
+  // Listen on provided port, on all network interfaces.
+  server.listen(port)
+  server.on('error', onError)
+  server.on('listening', onListening)
+}
+start()
 
 /**
  * Normalize a port into a number, string, or false.

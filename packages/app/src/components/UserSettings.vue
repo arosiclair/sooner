@@ -63,19 +63,30 @@
         </b-form-checkbox>
       </div>
       <div>
-        <h6>Reminder Notifications</h6>
-        <div class="push-notifications-settings">
+        <h6>Notifications</h6>
+        <div class="px-4">
           <b-form-checkbox
-            v-model="remindersEnabled"
-            class="text-center align-middle d-flex-1"
+            v-model="notificationsEnabled"
+            class="text-center align-middle mb-2"
             @change="onPushNotificationsChanged"
           >
             Enabled
           </b-form-checkbox>
-          <b-form-timepicker
-            v-model="reminderTime"
-            :disabled="!remindersEnabled"
-          />
+
+          <span>Reminders</span>
+          <div class="push-notifications-settings">
+            <b-form-checkbox
+              v-model="remindersEnabled"
+              class="text-center align-middle d-flex-1"
+              :disabled="!notificationsEnabled"
+            >
+              Enabled
+            </b-form-checkbox>
+            <b-form-timepicker
+              v-model="reminderTime"
+              :disabled="!notificationsEnabled || !remindersEnabled"
+            />
+          </div>
         </div>
       </div>
     </template>
@@ -107,6 +118,7 @@ export default {
       linkOrder: '',
       doneSound: false,
       saving: false,
+      notificationsEnabled: false,
       remindersEnabled: false,
       reminderTime: ''
     }
@@ -142,7 +154,7 @@ export default {
     },
     pushPayload () {
       return {
-        enabled: this.remindersEnabled,
+        enabled: this.notificationsEnabled,
         reminders: {
           enabled: this.remindersEnabled,
           reminderHour: Number(this.reminderHour),

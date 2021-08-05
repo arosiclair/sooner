@@ -37,3 +37,19 @@ self.addEventListener('push', function (event) {
     console.warn('Received push event with no data.')
   }
 })
+
+self.addEventListener('notificationclick', function (event) {
+  const rootUrl = new URL('/list', location).href
+  event.notification.close()
+  event.waitUntil(
+    clients.matchAll().then(matchedClients => {
+      for (const client of matchedClients) {
+        if (client.url.indexOf(rootUrl) >= 0) {
+          return client.focus()
+        }
+      }
+
+      return clients.openWindow(rootUrl)
+    })
+  )
+})

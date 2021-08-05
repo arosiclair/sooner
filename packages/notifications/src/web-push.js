@@ -18,7 +18,7 @@ module.exports = (userId, subscription, notification) => {
     return webPush.sendNotification(device.data, notification)
       .catch((err) => {
         if (err.statusCode === 404 || err.statusCode === 410) {
-          console.log('Subscription has expired or is no longer valid: ', err)
+          console.log(`userId: '${userId}' subscription deviceId '${device.id}' has expired or is no longer valid`)
           return removeDevice(userId, device.id)
         } else {
           throw err

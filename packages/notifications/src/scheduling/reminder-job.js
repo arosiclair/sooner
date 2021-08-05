@@ -16,8 +16,8 @@ module.exports.defineReminderJob = (agenda) => {
     const soonExpiringLinks = await getExpiringLinks(userId)
     const notification = {
       title: soonExpiringLinks.length > 1
-        ? `You have ${soonExpiringLinks.length} links expiring soon!`
-        : 'One of your links will expire soon!',
+        ? `You have ${soonExpiringLinks.length} links expiring soon`
+        : 'One of your links will expire soon',
       body: soonExpiringLinks.slice(0, 3).map(link => link.name).join('\n')
     }
 

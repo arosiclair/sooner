@@ -177,6 +177,8 @@ export default {
       this.linkOrder = this.userData.prefs.linkOrder
       this.doneSound = this.userData.prefs.doneSound
 
+      const pushPrefs = this.userData.prefs.push
+      this.notificationsEnabled = pushPrefs.enabled
       const reminders = this.userData.prefs.push.reminders
       this.remindersEnabled = reminders.enabled
       if (reminders.reminderHour && reminders.reminderMinute) {

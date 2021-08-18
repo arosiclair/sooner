@@ -39,6 +39,7 @@
         </b-col>
       </b-container>
     </fade-in-up>
+    <push-notifications-prompt />
   </div>
 </template>
 
@@ -52,6 +53,7 @@ import FadeInUp from '../utils/FadeInUp.vue'
 import ListInput from './ListInput.vue'
 import ListTransitions from './ListTransitions.vue'
 import PlaceHolderIcon from '@/assets/list-placeholder.svg'
+import PushNotificationsPrompt from '../PushNotificationsPrompt.vue'
 
 export default {
   name: 'List',
@@ -60,7 +62,8 @@ export default {
     ListHeader,
     FadeInUp,
     ListInput,
-    ListTransitions
+    ListTransitions,
+    PushNotificationsPrompt
   },
   data () {
     return {

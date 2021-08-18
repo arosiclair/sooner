@@ -37,6 +37,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import { subscribeForPush } from '../modules/notification'
+
+const PROMPTED_KEY = 'push-subscription-prompted'
+
 export default {
   data () {
     return {
@@ -50,11 +53,18 @@ export default {
     })
   },
   mounted () {
-    this.show = this.userPrefs.push.enabled && Notification.permission === 'default'
+    const havePrompted = localStorage.getItem(PROMPTED_KEY)
+    this.show = this.userPrefs.push.enabled && Notification.permission === 'default' && havePrompted !== 'true'
   },
   methods: {
     onCancel () {
       this.show = false
+      try {
+        localStorage.setItem(PROMPTED_KEY, 'true')
+      } catch (error) {
+        console.error("couldn't use localStorage")
+        console.error(error)
+      }
     },
     async onOk () {
       try {

@@ -1,10 +1,2 @@
 node_modules
-server.cert
-server.key
-appSettings.json
 dist
-nginx/logs/
-
-nginx/conf/nginx.cert
-
-nginx/conf/nginx.key

@@ -72,16 +72,20 @@ export default {
     async refreshData ({ commit }) {
       try {
         // pull and merge preferences from each api
-        const [{ data: userData }, { data: pushPrefs }] = await Promise.all([
+        const [userResult, pushResult] = await Promise.allSettled([
           api.get('/user/data'),
           notificationsApi.get('/subscription')
         ])
+
+        if (userResult.status !== 'fulfilled') throw new Error(userResult.reason)
+
+        const userData = userResult.value.data
+        const pushPrefs = pushResult.value ? pushResult.value.data : {}
 
         userData.prefs.push = pushPrefs
         commit('setUserData', userData)
         return { success: true }
       } catch (error) {
-        console.error(error)
         commit('resetUserdata')
         return {
           error: true,
@@ -102,7 +106,6 @@ export default {
         commit('setUserData', user.data)
         return { success: true }
       } catch (error) {
-        console.error(error)
         return {
           error: true,
           reason: 'There was an issue updating your settings'

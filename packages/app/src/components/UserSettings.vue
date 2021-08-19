@@ -179,7 +179,7 @@ export default {
 
       const pushPrefs = this.userData.prefs.push
       this.notificationsEnabled = pushPrefs.enabled
-      const reminders = this.userData.prefs.push.reminders
+      const reminders = this.userData.prefs.push.reminders || {}
       this.remindersEnabled = reminders.enabled
       if (reminders.reminderHour && reminders.reminderMinute) {
         this.reminderTime = `${reminders.reminderHour}:${reminders.reminderMinute}:00`

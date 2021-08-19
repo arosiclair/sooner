@@ -23,7 +23,6 @@ static_sites:
       repo: arosiclair/sooner
       branch: production
       deploy_on_push: true
-    source_dir: ui
     environment_slug: node-js
     build_command: npm run build:app
     output_dir: packages/app/dist

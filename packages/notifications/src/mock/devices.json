@@ -1,0 +1,39 @@
+[
+  {
+    "type": "WebPush",
+    "data": {
+      "endpoint": "string",
+      "expirationTime": "string",
+      "options": {
+        "userVisibleOnly": true,
+        "applicationServerKey": "string"
+      }
+    }
+  },
+  [
+    {
+      "type": "WebPush",
+      "data": {
+        "endpoint": "string",
+        "expirationTime": "string",
+        "options": {
+          "userVisibleOnly": true,
+          "applicationServerKey": "string"
+        }
+      }
+    }
+  ],
+  [
+    {
+      "type": "WebPush",
+      "data": {
+        "endpoint": "string",
+        "expirationTime": "string",
+        "options": {
+          "userVisibleOnly": true,
+          "applicationServerKey": "string"
+        }
+      }
+    }
+  ]
+]

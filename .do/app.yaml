@@ -12,7 +12,7 @@ services:
       repo: arosiclair/sooner
       branch: production
       deploy_on_push: true
-    source_dir: server
+    run_command: npm run api
     environment_slug: node-js
     routes:
       - path: /api
@@ -25,8 +25,8 @@ static_sites:
       deploy_on_push: true
     source_dir: ui
     environment_slug: node-js
-    build_command: npm run build
-    output_dir: dist
+    build_command: npm run build:app
+    output_dir: packages/app/dist
     index_document: index.html
     catchall_document: index.html
     routes:

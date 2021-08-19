@@ -4,14 +4,20 @@
     "authors": "Andrew Rosiclair",
     "version": "1.0.0",
     "private": true,
+    "engines": {
+      "node": "~14.17.0",
+      "npm": "~7.19.0"
+    },
     "workspaces": [
         "packages/*"
     ],
     "scripts": {
+        "build:app": "npm run build --workspace=@sooner/app",
         "app": "npm run serve --workspace=@sooner/app",
         "api": "npm start --workspace=@sooner/api",
         "ext": "npm run serve --workspace=@sooner/browser-ext",
-        "notifications": "npm run dev --workspace=@sooner/notifications"
+        "notif": "npm start --workspace=@sooner/notifications",
+        "notif:dev": "npm run dev --workspace=@sooner/notifications"
     },
     "devDependencies": {
         "@vue/cli-plugin-eslint": "~4.5.0"

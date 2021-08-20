@@ -16,6 +16,10 @@ services:
     environment_slug: node-js
     routes:
       - path: /api
+    envs:
+      - key: NODE_ENV
+        scope: RUN_AND_BUILD_TIME
+        value: production
 
 static_sites:
   - name: ui

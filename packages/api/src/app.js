@@ -20,8 +20,7 @@ if (!process.env.SECRET_SESSION_KEY) {
 
 app.use(cookieSession({
   name: 'soonerSession',
-  secret: process.env.SECRET_SESSION_KEY,
-  secure: process.env.NODE_ENV !== 'development'
+  secret: process.env.SECRET_SESSION_KEY
 }))
 
 // CORS setup

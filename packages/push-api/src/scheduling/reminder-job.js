@@ -21,7 +21,11 @@ module.exports.defineReminderJob = (agenda) => {
       body: soonExpiringLinks.slice(0, 3).map(link => link.name).join('\n')
     }
 
-    webPush(userId, subscription, Buffer.from(JSON.stringify(notification)))
+    try {
+      await webPush(userId, subscription, Buffer.from(JSON.stringify(notification)))
+    } catch (error) {
+      console.error(error)
+    }
   })
 }
 

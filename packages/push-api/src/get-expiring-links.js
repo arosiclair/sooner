@@ -9,5 +9,5 @@ module.exports = async (userId) => {
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
 
-  return list.links.filter(link => link.expiresOn < tomorrow)
+  return list.links.filter(link => link.expiresOn < tomorrow && link.expiresOn > new Date())
 }

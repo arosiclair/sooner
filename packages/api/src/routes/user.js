@@ -52,7 +52,6 @@ router.post('/login', ...loginValidation, async function (req, res) {
     res.status(401).json(new ErrorResponse('Email/password is incorrect'))
   } else {
     req.session.token = await createSession(user._id)
-    req.sessionOptions.maxAge = 432000 * 1000 // 5 days in millesconds
     res.json({
       result: 'success',
       name: user.name,

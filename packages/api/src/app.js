@@ -20,7 +20,8 @@ if (!process.env.SECRET_SESSION_KEY) {
 
 app.use(cookieSession({
   name: 'soonerSession',
-  secret: process.env.SECRET_SESSION_KEY
+  secret: process.env.SECRET_SESSION_KEY,
+  maxAge: 432000000 // 5 days in milleseconds
 }))
 
 // CORS setup

@@ -1,4 +1,4 @@
-const { getSession } = require('@sooner/data-access/sessions')
+const { getSession, refreshSession } = require('@sooner/data-access/sessions')
 const { ErrorResponse } = require('@sooner/responses/errors')
 
 /**
@@ -20,12 +20,21 @@ module.exports = async (req, res, next) => {
     if (session) {
       // attach the user's mongo ID for easy access
       req.userId = session.userId
-      req.sessionToken = session.token
+
+      // extend this session in the DB and in the user's cookie
+      const aMinuteAgo = new Date()
+      aMinuteAgo.setMinutes(aMinuteAgo.getMinutes() - 1)
+
+      if (session.updatedAt < aMinuteAgo) {
+        refreshSession(token)
+      }
+      req.session.lastActivity = Math.floor(Date.now() / 60e3)
+ 
       next()
     } else {
       res.status(401).json(new ErrorResponse('invalid session'))
     }
   } else {
-    res.status(401).json(new ErrorResponse('invalid session'))
+    res.status(401).json(new ErrorResponse('no token found'))
   }
 }

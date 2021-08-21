@@ -20,6 +20,19 @@ services:
       - key: NODE_ENV
         scope: RUN_AND_BUILD_TIME
         value: production
+  - name: push-api
+    github:
+      repo: arosiclair/sooner
+      branch: production
+      deploy_on_push: true
+    run_command: npm run push
+    environment_slug: node-js
+    routes:
+      - path: /push
+    envs:
+      - key: NODE_ENV
+        scope: RUN_AND_BUILD_TIME
+        value: production
 
 static_sites:
   - name: ui

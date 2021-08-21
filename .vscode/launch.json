@@ -24,6 +24,16 @@
             "sourceMapPathOverrides": {
                 "webpack:///src/*": "${webRoot}/*"
             }
-        }
+        },
+        {
+            "name": "api",
+            "cwd": "${workspaceFolder}/packages/api",
+            "program": "src/main.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
     ]
 }

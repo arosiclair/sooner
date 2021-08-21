@@ -1,10 +1,10 @@
 const geoffrey = require('./geoffrey')
 const { v4: uuidv4 } = require('uuid')
 
-async function createSession (userId) {
+module.exports.createSession = async (userId) => {
   var newToken = uuidv4()
   var newSession = {
-    createdAt: new Date(),
+    updatedAt: new Date(),
     userId: userId,
     token: newToken
   }
@@ -13,28 +13,30 @@ async function createSession (userId) {
   return newToken
 }
 
-async function deleteSession (token) {
+module.exports.deleteSession = async (token) => {
   if (!token) return null
 
   const result = await geoffrey.getSessions().deleteOne({ token: token })
   return result.deletedCount === 1
 }
 
-async function getSession (token) {
+module.exports.getSession = (token) => {
   if (!token) return null
   return geoffrey.getSessions().findOne({ token: token })
 }
 
-function invalidateSessions (userId) {
+module.exports.invalidateSessions = (userId) => {
   if (!userId) return false
 
   geoffrey.getSessions().deleteMany({ userId })
   return true
 }
 
-module.exports = {
-  createSession,
-  deleteSession,
-  getSession,
-  invalidateSessions
+/**
+ * Extend the life of this session by updating its `updatedAt` timestamp
+ */
+module.exports.refreshSession = (token) => {
+  if (!token) return
+
+  return geoffrey.getSessions().findOneAndUpdate({ token: token }, { '$set': { updatedAt: new Date() }})
 }

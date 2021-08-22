@@ -9,7 +9,10 @@ const options = {
   newestOnTop: true,
   position: POSITION.BOTTOM_CENTER,
   hideProgressBar: true,
-  pauseOnFocusLoss: true
+  pauseOnFocusLoss: true,
+  timeout: 4000,
+  toastClassName: 'font',
+  bodyClassName: 'centered-container'
 }
 
 Vue.use(Toast, options)

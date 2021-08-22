@@ -16,7 +16,7 @@
               v-for="link in sortedLinks"
               :key="link._id"
               :data="link"
-              @list-updated="refresh"
+              @removed="onLinkRemoved"
             />
           </list-transitions>
         </div>
@@ -135,6 +135,22 @@ export default {
       if (numExpired) {
         const links = numExpired > 1 ? 'links' : 'link'
         this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
+      }
+    },
+    async onLinkRemoved (linkId, promise) {
+      const originalLinks = this.links
+      this.links = this.links.filter(link => link._id !== linkId)
+
+      const { undo } = await promise
+      if (undo) {
+        this.links = originalLinks
+      } else {
+        try {
+          await api.delete(`/list/${linkId}`)
+        } catch (error) {
+          this.$toast.error('Sorry, there was an issue removing that link')
+          this.links = originalLinks
+        }
       }
     },
     sharePrompt () {

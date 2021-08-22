@@ -60,6 +60,10 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+.font {
+  font-family: 'Poppins', sans-serif;
+}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

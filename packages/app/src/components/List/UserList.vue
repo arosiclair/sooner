@@ -137,15 +137,21 @@ export default {
         this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
       }
     },
-    onLinkRemoved (linkId, promise) {
+    async onLinkRemoved (linkId, promise) {
       const originalLinks = this.links
-
       this.links = this.links.filter(link => link._id !== linkId)
 
-      promise.catch(() => {
-        this.$toast.error('Sorry, there was an issue removing that link')
+      const { undo } = await promise
+      if (undo) {
         this.links = originalLinks
-      })
+      } else {
+        try {
+          await api.delete(`/list/${linkId}`)
+        } catch (error) {
+          this.$toast.error('Sorry, there was an issue removing that link')
+          this.links = originalLinks
+        }
+      }
     },
     sharePrompt () {
       if (this.$route.query.share) {

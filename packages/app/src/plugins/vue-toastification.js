@@ -11,7 +11,8 @@ const options = {
   hideProgressBar: true,
   pauseOnFocusLoss: true,
   timeout: 4000,
-  toastClassName: 'font'
+  toastClassName: 'font',
+  bodyClassName: 'centered-container'
 }
 
 Vue.use(Toast, options)

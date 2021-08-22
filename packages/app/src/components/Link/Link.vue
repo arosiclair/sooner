@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import api from '../../modules/api'
 import { formatDistance, differenceInDays } from 'date-fns'
 import Dotdotdot from 'dotdotdot-js'
 import LinkIcon from './LinkIcon'
@@ -52,6 +51,7 @@ import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
 import DoneSound from '@/assets/sounds/done.mp3'
 import { mapGetters } from 'vuex'
 import { delay } from '../../modules/utilities'
+import ToastUndoBtn from '../ToastUndoBtn.vue'
 
 export default {
   components: {
@@ -113,7 +113,21 @@ export default {
       }
 
       event.stopPropagation()
-      this.$emit('removed', this.data._id, api.delete(`/list/${this.data._id}`))
+
+      this.$emit('removed', this.data._id, new Promise((resolve, reject) => {
+        let remove = true
+        this.$toast.info('Link removed', {
+          timeout: 3000,
+          pauseOnFocusLoss: false,
+          closeButton: ToastUndoBtn,
+          closeOnClick: true,
+          onClick: () => {
+            remove = false
+            resolve({ undo: true })
+          },
+          onClose: () => remove && resolve({ undo: false })
+        })
+      }))
     }
   }
 }

@@ -15,6 +15,7 @@
         "build:app": "npm run build --workspace=@sooner/app",
         "app": "npm run serve --workspace=@sooner/app",
         "api": "npm start --workspace=@sooner/api",
+        "build:ext": "npm run build --workspace=@sooner/browser-ext",
         "ext": "npm run serve --workspace=@sooner/browser-ext",
         "push": "npm start --workspace=@sooner/push-api",
         "push:dev": "npm run dev --workspace=@sooner/push-api"

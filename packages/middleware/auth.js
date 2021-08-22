@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
       const aMinuteAgo = new Date()
       aMinuteAgo.setMinutes(aMinuteAgo.getMinutes() - 1)
 
-      if (session.updatedAt < aMinuteAgo) {
+      if (!session.updatedAt || session.updatedAt < aMinuteAgo) {
         refreshSession(token)
       }
       req.session.lastActivity = Math.floor(Date.now() / 60e3)

@@ -59,10 +59,15 @@ function getLinkedIcons (html, url) {
     $(selector).each((index, element) => {
       const { href, sizes, type } = element.attribs
       if (href && href !== '#') {
+        let iconUrl = href
+        if (href.startsWith('/') || !href.startsWith('http')) {
+          iconUrl = new URL(href, url).href
+        }
+
         const icon = {
           width: parseWidth(sizes),
           sizes,
-          src: href.startsWith('/') ? new URL(href, url).href : href,
+          src: iconUrl,
           type
         }
         icons.push(icon)

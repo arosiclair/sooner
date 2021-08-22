@@ -113,8 +113,7 @@ export default {
       }
 
       event.stopPropagation()
-      await api.delete(`/list/${this.data._id}`)
-      this.$emit('list-updated')
+      this.$emit('removed', this.data._id, api.delete(`/list/${this.data._id}`))
     }
   }
 }

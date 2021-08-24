@@ -103,8 +103,7 @@ export default {
     openLink: async function () {
       await delay(300)
 
-      // TODO: remove legacy data.link
-      var win = window.open(this.data.link || this.data.url, '_blank')
+      var win = window.open(this.data.url, '_blank')
       win.focus()
     },
     remove: async function (event) {

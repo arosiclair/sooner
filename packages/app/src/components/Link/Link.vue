@@ -16,10 +16,7 @@
         />
         <!-- Text section -->
         <div class="text-container">
-          <div
-            ref="title"
-            class="title"
-          >
+          <div class="title">
             {{ data.name }}
           </div>
           <div class="centered-container split">
@@ -45,7 +42,6 @@
 
 <script>
 import { formatDistance, differenceInDays } from 'date-fns'
-import Dotdotdot from 'dotdotdot-js'
 import LinkIcon from './LinkIcon'
 import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
 import DoneSound from '@/assets/sounds/done.mp3'
@@ -96,15 +92,11 @@ export default {
       userPrefs: 'user/prefs'
     })
   },
-  mounted () {
-    this.dddTitle = new Dotdotdot(this.$refs.title)
-  },
   methods: {
     openLink: async function () {
       await delay(300)
 
-      // TODO: remove legacy data.link
-      var win = window.open(this.data.link || this.data.url, '_blank')
+      var win = window.open(this.data.url, '_blank')
       win.focus()
     },
     remove: async function (event) {
@@ -148,9 +140,10 @@ div {
   overflow: hidden;
 }
 .title {
-    line-height: 1.3;
-    max-height: 3.9em;
-    overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 .site-name {
   font-size: 0.9rem;

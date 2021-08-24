@@ -54,6 +54,9 @@ import ListInput from './ListInput.vue'
 import ListTransitions from './ListTransitions.vue'
 import PlaceHolderIcon from '@/assets/list-placeholder.svg'
 import PushNotificationsPrompt from '../PushNotificationsPrompt.vue'
+import AsyncLock from 'async-lock'
+
+const lock = new AsyncLock()
 
 export default {
   name: 'List',
@@ -112,46 +115,55 @@ export default {
     window.removeEventListener('focus', this.refresh)
   },
   methods: {
-    refresh: async function () {
-      try {
-        var result = await api.get('/list/')
-      } catch (error) {
-        if (error.response.status === 401) {
-          this.goToLogin()
-        } else {
-          this.$toast.error('There was an issue getting your links')
+    refresh () {
+      lock.acquire('refresh', async (done) => {
+        try {
+          var result = await api.get('/list/')
+        } catch (error) {
+          if (error.response.status === 401) {
+            this.goToLogin()
+          } else {
+            this.$toast.error('There was an issue getting your links')
+          }
+          done()
+          return
         }
-        return
-      }
 
-      this.links = result.data.list || []
-      if (this.links.length === 0) {
-        this.empty = true
-      } else {
-        this.empty = false
-      }
+        this.links = result.data.list || []
+        if (this.links.length === 0) {
+          this.empty = true
+        } else {
+          this.empty = false
+        }
 
-      const numExpired = result.data.numExpired
-      if (numExpired) {
-        const links = numExpired > 1 ? 'links' : 'link'
-        this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
-      }
+        const numExpired = result.data.numExpired
+        if (numExpired) {
+          const links = numExpired > 1 ? 'links' : 'link'
+          this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
+        }
+
+        done()
+      })
     },
     async onLinkRemoved (linkId, promise) {
-      const originalLinks = this.links
-      this.links = this.links.filter(link => link._id !== linkId)
+      lock.acquire('refresh', async (done) => {
+        const originalLinks = this.links
+        this.links = this.links.filter(link => link._id !== linkId)
 
-      const { undo } = await promise
-      if (undo) {
-        this.links = originalLinks
-      } else {
-        try {
-          await api.delete(`/list/${linkId}`)
-        } catch (error) {
-          this.$toast.error('Sorry, there was an issue removing that link')
+        const { undo } = await promise
+        if (undo) {
           this.links = originalLinks
+        } else {
+          try {
+            await api.delete(`/list/${linkId}`)
+          } catch (error) {
+            this.$toast.error('Sorry, there was an issue removing that link')
+            this.links = originalLinks
+          }
         }
-      }
+
+        done()
+      })
     },
     sharePrompt () {
       if (this.$route.query.share) {

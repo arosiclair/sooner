@@ -26,6 +26,7 @@ router.get('/', (req, res) => res.json(req.subscription))
 
 const subUpdateValidation = [
   body('enabled').optional().isBoolean({ strict: true }),
+  body('timezone').optional().isString(),
   body('reminders').optional().isObject(),
   body('reminders.enabled').optional().isBoolean({ strict: true }),
   body('reminders.reminderHour').optional().custom(isNumber).isInt({ min: 0, max: 23 }),
@@ -34,16 +35,18 @@ const subUpdateValidation = [
 ]
 router.patch('/', ...subUpdateValidation, async (req, res, next) => {
   const changes = matchedData(req)
+  let updatedSub
+
   try {
-    const updatedSub = await updateSubscription(req.userId, changes)
+    updatedSub = await updateSubscription(req.userId, changes)
     res.json(updatedSub)
   } catch (error) {
     next(error)
   }
 
-  if (changes.enabled) {
-    if (changes.reminders.enabled) {
-      scheduleReminderJob(agenda, req.userId, changes.reminders.reminderHour, changes.reminders.reminderMinute)
+  if (updatedSub.enabled) {
+    if (updatedSub.reminders.enabled) {
+      scheduleReminderJob(agenda, req.userId, updatedSub.reminders.reminderHour, updatedSub.reminders.reminderMinute, updatedSub.timezone)
     }
   }
 })

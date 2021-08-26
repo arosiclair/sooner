@@ -154,6 +154,7 @@ export default {
     },
     pushPayload () {
       return {
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         enabled: this.notificationsEnabled,
         reminders: {
           enabled: this.remindersEnabled,

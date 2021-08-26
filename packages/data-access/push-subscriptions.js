@@ -4,6 +4,7 @@ const { generateObjectId, toObjectId } = require('./utils/object-id')
 
 const defaultSubscription = {
   enabled: false,
+  timezone: '',
   reminders: {
     enabled: false,
     reminderHour: 0,

@@ -29,7 +29,7 @@ module.exports.defineReminderJob = (agenda) => {
   })
 }
 
-module.exports.scheduleReminderJob = async (agenda, userId, hour, minute) => {
+module.exports.scheduleReminderJob = async (agenda, userId, hour, minute, timezone) => {
   // cancel the previously existing job
   await agenda.cancel({
     name: REMINDER_JOB,
@@ -37,6 +37,6 @@ module.exports.scheduleReminderJob = async (agenda, userId, hour, minute) => {
   })
 
   const job = agenda.create(REMINDER_JOB, { userId })
-  job.repeatEvery(`${minute} ${hour} * * *`)
+  job.repeatEvery(`${minute} ${hour} * * *`, { timezone: timezone || 'UTC' })
   job.save()
 }

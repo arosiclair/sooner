@@ -18,7 +18,7 @@ module.exports.defineReminderJob = (agenda) => {
       title: soonExpiringLinks.length > 1
         ? `You have ${soonExpiringLinks.length} links expiring soon`
         : 'One of your links will expire soon',
-      body: soonExpiringLinks.slice(0, 3).map(link => link.name).join('\n')
+      body: soonExpiringLinks.slice(0, 3).map(link => link.name).join('\n\n')
     }
 
     try {

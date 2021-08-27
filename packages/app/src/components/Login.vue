@@ -1,58 +1,56 @@
 <template>
   <div class="content">
     <div class="top-container">
-      <FadeInDown>
-        <LetterHead />
-        <form>
-          <TransitionHeight>
-            <div :key="registering">
-              <PasswordReqs v-if="registering" />
-            </div>
-          </TransitionHeight>
-          <TransitionHeight>
-            <div
-              :key="registering"
-              class="paper-bg shadow-sm rounded overflow-hidden mb-3"
-            >
-              <input
-                v-if="registering"
-                v-model="name"
-                type="text"
-                placeholder="Name"
-                class="lg"
-              >
-              <input
-                v-model="email"
-                type="text"
-                placeholder="Email"
-                class="lg"
-                :class="{ error: error && !validEmail }"
-                @keyup.enter="submit"
-              >
-              <input
-                v-model="password"
-                type="password"
-                placeholder="Password"
-                class="lg"
-                :class="{ error: error && !validPass }"
-                @keyup.enter="submit"
-              >
-            </div>
-          </TransitionHeight>
-          <BigSubmitBtn
-            :label="submitLabel"
-            :on-submit="submit"
-            :loading="loading"
-            class="mb-4"
-          />
-          <a
-            href="#"
-            @click="registering = !registering"
+      <LetterHead />
+      <form>
+        <TransitionHeight>
+          <div :key="registering">
+            <PasswordReqs v-if="registering" />
+          </div>
+        </TransitionHeight>
+        <TransitionHeight>
+          <div
+            :key="registering"
+            class="paper-bg shadow-sm rounded overflow-hidden mb-3"
           >
-            {{ registering ? 'Cancel' : 'Sign Up' }}
-          </a>
-        </form>
-      </FadeInDown>
+            <input
+              v-if="registering"
+              v-model="name"
+              type="text"
+              placeholder="Name"
+              class="lg"
+            >
+            <input
+              v-model="email"
+              type="text"
+              placeholder="Email"
+              class="lg"
+              :class="{ error: error && !validEmail }"
+              @keyup.enter="submit"
+            >
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Password"
+              class="lg"
+              :class="{ error: error && !validPass }"
+              @keyup.enter="submit"
+            >
+          </div>
+        </TransitionHeight>
+        <BigSubmitBtn
+          :label="submitLabel"
+          :on-submit="submit"
+          :loading="loading"
+          class="mb-4"
+        />
+        <a
+          href="#"
+          @click="registering = !registering"
+        >
+          {{ registering ? 'Cancel' : 'Sign Up' }}
+        </a>
+      </form>
     </div>
     <div class="bottom-container">
       <router-link :to="{ name: RouteNames.ResetRequest }">
@@ -68,13 +66,11 @@ import { RouteNames } from '../router'
 import BigSubmitBtn from './BigSubmitBtn.vue'
 import LetterHead from './LetterHead.vue'
 import PasswordReqs from './PasswordReqs.vue'
-import FadeInDown from './utils/FadeInDown.vue'
 import TransitionHeight from './utils/TransitionHeight.vue'
 
 export default {
   name: 'Login',
   components: {
-    FadeInDown,
     TransitionHeight,
     BigSubmitBtn,
     LetterHead,

@@ -2,7 +2,9 @@
   <div id="app">
     <div class="content py-md-4">
       <div class="container padded-content">
-        <TransitionedRouter />
+        <PageSlide>
+          <router-view />
+        </PageSlide>
       </div>
     </div>
     <DebugLayer v-if="isDebug" />
@@ -18,18 +20,18 @@ import './styles/layout.css'
 import './styles/misc.css'
 import 'animate.css'
 
-import TransitionedRouter from './components/TransitionedRouter.vue'
 import DebugLayer from './components/debug/DebugLayer.vue'
 import UserSettings from './components/UserSettings.vue'
 import { isDebug } from './modules/utilities'
 import { mapActions } from 'vuex'
+import PageSlide from './components/utils/PageSlide.vue'
 
 export default {
   name: 'App',
   components: {
-    TransitionedRouter,
     DebugLayer,
-    UserSettings
+    UserSettings,
+    PageSlide
   },
   data () {
     return {

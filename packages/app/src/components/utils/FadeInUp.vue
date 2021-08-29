@@ -1,23 +1,32 @@
 <template>
-  <div class="animate__animated animate__fadeInUp" :style="style">
-    <slot />
-  </div>
+  <transition
+    name="fade-in-up"
+    appear
+  >
+    <div>
+      <slot />
+    </div>
+  </transition>
 </template>
 
 <script>
 export default {
-  props: [
-    'height',
-    'duration'
-  ],
+}
+</script>
 
-  data () {
-    return {
-      style: {
-        height: this.height || '50px',
-        '--animate-duration': this.duration || '1s'
-      }
+<style lang="scss" scoped>
+.fade-in-up {
+  &-enter-active {
+    transition: all 1s ease;
+  }
+
+  &-enter {
+    opacity: 0;
+    transform: translateY(100px);
+
+    .reduce-motion & {
+      transform: none !important;
     }
   }
 }
-</script>
+</style>

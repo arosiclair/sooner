@@ -5,23 +5,22 @@
       class="mb-3"
       @link-added="refresh"
     />
-    <fade-in-up
-      height="75px"
-      :hidden="empty"
-    >
-      <div class="pb-3">
-        <div class="shadow-sm rounded overflow-hidden">
-          <list-transitions :ready="ready">
-            <Link
-              v-for="link in sortedLinks"
-              :key="link._id"
-              :data="link"
-              @removed="onLinkRemoved"
-            />
-          </list-transitions>
-        </div>
+
+    <!-- List -->
+    <div class="pb-3">
+      <div class="shadow-sm rounded overflow-hidden">
+        <list-transitions>
+          <Link
+            v-for="link in sortedLinks"
+            :key="link._id"
+            :data="link"
+            @removed="onLinkRemoved"
+          />
+        </list-transitions>
       </div>
-    </fade-in-up>
+    </div>
+
+    <!-- Empty placeholder -->
     <fade-in-up v-if="empty">
       <b-container
         fluid
@@ -71,7 +70,6 @@ export default {
   data () {
     return {
       PlaceHolderIcon,
-      ready: false,
       empty: false,
       error: false,
       links: []
@@ -102,11 +100,6 @@ export default {
 
     // toast if this was a redirect from a share attempt
     this.sharePrompt()
-
-    // prevent the list-transition from animating the initial render with ready flag
-    setTimeout(() => {
-      this.ready = true
-    }, 1000) // render is done an arbitrary amount of time after the first paint
   },
   created () {
     window.addEventListener('focus', this.refresh)
@@ -116,7 +109,7 @@ export default {
   },
   methods: {
     refresh () {
-      lock.acquire('refresh', async (done) => {
+      return lock.acquire('refresh', async (done) => {
         try {
           var result = await api.get('/list/')
         } catch (error) {
@@ -145,8 +138,8 @@ export default {
         done()
       })
     },
-    async onLinkRemoved (linkId, promise) {
-      lock.acquire('refresh', async (done) => {
+    onLinkRemoved (linkId, promise) {
+      return lock.acquire('refresh', async (done) => {
         const originalLinks = this.links
         this.links = this.links.filter(link => link._id !== linkId)
 

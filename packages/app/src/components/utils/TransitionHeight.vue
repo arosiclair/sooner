@@ -1,6 +1,7 @@
 <template>
   <transition
     :css="false"
+    :appear="appear"
     @beforeLeave="beforeLeave"
     @beforeEnter="beforeEnter"
     @enter="enter"
@@ -12,6 +13,12 @@
 
 <script>
 export default {
+  props: {
+    appear: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       prevHeight: 0

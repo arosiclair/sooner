@@ -43,7 +43,7 @@ export default {
 }
 
 h1 {
-  font-weight: 900;
+  font-weight: 500;
 }
 
 </style>

@@ -7,8 +7,10 @@
       <Logo50 />
       <span
         id="header-title"
-        class="d-none d-sm-inline text-xl text-xbold mx-3"
-      >Sooner</span>
+        class="d-none d-sm-inline text-xl mx-3"
+      >
+        Sooner
+      </span>
     </div>
     <div class="header-right">
       <list-header-menu />
@@ -38,5 +40,6 @@ export default {
 
 #header-title {
   vertical-align: middle;
+  font-weight: 600;
 }
 </style>

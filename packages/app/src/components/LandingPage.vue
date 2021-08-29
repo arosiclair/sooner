@@ -114,7 +114,7 @@ header {
 }
 
 h1, h3, h5 {
-  font-weight: 900;
+  font-weight: 500;
 }
 
 #hero-image {

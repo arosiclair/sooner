@@ -16,10 +16,10 @@
         />
         <!-- Text section -->
         <div class="text-container">
-          <div class="title">
+          <div class="title mb-1">
             {{ data.name }}
           </div>
-          <div class="centered-container split">
+          <div class="meta-container text-sm">
             <span class="site-name">{{ data.siteName }}</span>
             <div class="time-left-container">
               <i class="material-icons expiration-icon">schedule</i>
@@ -145,26 +145,33 @@ div {
   -webkit-line-clamp: 3;
   overflow: hidden;
 }
-.site-name {
-  font-size: 0.9rem;
-    color: #c7c7c7;
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    display: block;
-    overflow: hidden
+.meta-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-name {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  overflow: hidden
 }
 .time-left-container {
   display: flex;
+  align-items: center;
   white-space: nowrap;
 }
 .expiration-icon {
-  font-size: 22px;
+  color: inherit;
+  font-size: 21px;
   margin-right: 5px;
   padding: 0px;
 }
 .time-left-text {
-  font-size: 0.9rem;
+  position: relative;
+  top: 1px;
 }
 
 .expiration-warn {

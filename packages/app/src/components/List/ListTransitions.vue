@@ -3,16 +3,20 @@
     name="list-complete"
     tag="div"
     @after-enter="afterEnter"
-    @before-leave="beforeLeave">
+    @before-leave="beforeLeave"
+  >
     <slot />
   </transition-group>
 </template>
 
 <script>
 export default {
-  props: [
-    'ready'
-  ],
+  props: {
+    ready: {
+      type: Boolean,
+      default: true
+    }
+  },
   methods: {
     afterEnter (element) {
       element.classList.add('list-transition')

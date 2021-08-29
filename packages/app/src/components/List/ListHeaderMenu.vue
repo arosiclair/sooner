@@ -1,17 +1,31 @@
 <template>
   <div class="position-relative">
-    <div id="username-container" class="text-lg" @click="toggleOpen">
+    <div
+      id="username-container"
+      class="text-lg"
+      @click="toggleOpen"
+    >
       {{ username }}
       <b-avatar class="m-1" />
     </div>
-    <div id="dd-container" class="rounded text-center paper-bg shadow-sm" :class="dropdownClass">
+    <div
+      id="dd-container"
+      class="rounded text-center paper-bg shadow-lg mr-2"
+      :class="dropdownClass"
+    >
       <ripple-hover-overlay>
-        <div class="dd-item text-lg" @click="showSettings">
+        <div
+          class="dd-item text-lg"
+          @click="showSettings"
+        >
           Settings
         </div>
       </ripple-hover-overlay>
       <ripple-hover-overlay>
-        <div class="dd-item text-lg" @click="logout">
+        <div
+          class="dd-item text-lg"
+          @click="logout"
+        >
           Logout
         </div>
       </ripple-hover-overlay>

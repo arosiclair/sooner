@@ -5,10 +5,7 @@
       class="mb-3"
       @link-added="refresh"
     />
-    <fade-in-up
-      height="75px"
-      :hidden="empty"
-    >
+    <fade-in-up :hidden="empty">
       <div class="pb-3">
         <div class="shadow-sm rounded overflow-hidden">
           <list-transitions :ready="ready">

@@ -18,7 +18,6 @@ import './styles/inputs.css'
 import './styles/text.css'
 import './styles/layout.css'
 import './styles/misc.css'
-import 'animate.css'
 
 import DebugLayer from './components/debug/DebugLayer.vue'
 import UserSettings from './components/UserSettings.vue'

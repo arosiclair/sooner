@@ -36,25 +36,26 @@
         <li><b>Windows & Mac (Chrome)</b> select the install button on the right side of the URL bar</li>
       </ul>
       <h4>Add to Pocket Extension</h4>
-      <p>Add to Pocket is a browser extension for quickly adding pages to your list. Just click the button to add.</p>
-      <b-row>
-        <b-col
-          sm="12"
-          md="6"
-          class="text-center"
+      <p>Add to Pocket is a browser extension for quickly adding pages to your list while browsing the web. Just click the button to add.</p>
+      <div class="ext-container">
+        <a
+          href="https://chrome.google.com/webstore/detail/add-to-sooner/jaggkbmnhinipdnbihmbfcbdnnmkipnp"
+          target="_blank"
         >
-          <a
-            href="https://chrome.google.com/webstore/detail/add-to-sooner/jaggkbmnhinipdnbihmbfcbdnnmkipnp"
-            target="_blank"
+          <img
+            src="img/chrome-web-store-badge.png"
+            alt="Available in the Chrome Web Store"
           >
-            <img
-              id="chrome-web-store-img"
-              src="img/chrome-web-store-badge.png"
-              alt="Available in the Chrome Web Store"
-            >
-          </a>
-        </b-col>
-      </b-row>
+        </a><a
+          href="https://microsoftedge.microsoft.com/addons/detail/add-to-sooner/nlchodjgamjfniiaghngodkmmajcebbj"
+          target="_blank"
+        >
+          <img
+            src="img/ms-badge.png"
+            alt="Available in the Microsoft Edge Add-ons store"
+          >
+        </a>
+      </div>
     </section>
   </b-container>
 </template>
@@ -74,7 +75,7 @@ export default {
 
 <style scoped>
 h1, h2, h3, h4 {
-  font-weight: 900;
+  font-weight: 500;
 }
 
 #home-link {
@@ -89,7 +90,15 @@ li {
   margin-bottom: 0.3em;
 }
 
-#chrome-web-store-img {
-  width: 75%;
+.ext-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.ext-container img {
+  width: 250px;
+  margin: 10px;
 }
 </style>

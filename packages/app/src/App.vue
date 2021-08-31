@@ -80,21 +80,18 @@ body {
   flex: 1;
   overflow: auto;
 }
-.content::-webkit-scrollbar-track
-{
-  background-color: transparent;
-}
 
-.content::-webkit-scrollbar
-{
-  width: 6px;
-  background-color: transparent;
-}
+/* hide scrollbars for tablets and phones */
+@media only screen and (max-width: 768px) {
+  .content::-webkit-scrollbar {
+    display: none;
+  }
 
-.content::-webkit-scrollbar-thumb
-{
-  border-radius: 10px;
-  background-color: #c5c5c5;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .content {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }
 
 .padded-content {

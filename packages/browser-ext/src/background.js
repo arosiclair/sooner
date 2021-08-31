@@ -1,4 +1,5 @@
 import { addLink, checkLogin, logout } from './api'
+import { showPageAddedNotification, showPageAddFailedNotification } from './notifications'
 
 // Try login on startup
 (async function tryLogin () {
@@ -42,8 +43,10 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
       console.log('[sooner-ext] context menu link: ' + info.linkUrl)
       try {
         await addLink(info.linkUrl)
+        showPageAddedNotification()
       } catch (error) {
         console.error('[sooner-ext] failed to add a link')
+        showPageAddFailedNotification()
       }
       break
     case 'go-to-sooner':
@@ -64,4 +67,9 @@ browser.runtime.onMessage.addListener(function (message, sender, response) {
   if (message === 'logged-in') {
     onLogin()
   }
+})
+
+// open Sooner list when clicking notifications
+browser.notifications.onClicked.addListener(() => {
+  window.open('https://www.sooner.app/list')
 })

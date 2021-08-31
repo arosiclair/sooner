@@ -80,6 +80,20 @@ body {
   flex: 1;
   overflow: auto;
 }
+
+/* hide scrollbars for tablets and phones */
+@media only screen and (max-width: 768px) {
+  .content::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .content {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
 .content::-webkit-scrollbar-track
 {
   background-color: transparent;

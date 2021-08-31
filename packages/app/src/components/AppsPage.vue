@@ -74,7 +74,7 @@ export default {
 
 <style scoped>
 h1, h2, h3, h4 {
-  font-weight: 900;
+  font-weight: 500;
 }
 
 #home-link {

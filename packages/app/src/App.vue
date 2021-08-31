@@ -94,23 +94,6 @@ body {
   }
 }
 
-.content::-webkit-scrollbar-track
-{
-  background-color: transparent;
-}
-
-.content::-webkit-scrollbar
-{
-  width: 6px;
-  background-color: transparent;
-}
-
-.content::-webkit-scrollbar-thumb
-{
-  border-radius: 10px;
-  background-color: #c5c5c5;
-}
-
 .padded-content {
   text-align: center;
   max-width: 750px;

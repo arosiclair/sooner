@@ -12,7 +12,8 @@ const options = {
   pauseOnFocusLoss: true,
   timeout: 4000,
   toastClassName: 'font',
-  bodyClassName: 'centered-container'
+  bodyClassName: 'centered-container',
+  draggablePercent: 0.35
 }
 
 Vue.use(Toast, options)

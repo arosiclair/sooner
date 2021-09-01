@@ -2,6 +2,7 @@
   <span
     id="undo-btn"
     class="rounded"
+    role="button"
   >UNDO</span>
 </template>
 

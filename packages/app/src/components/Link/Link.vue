@@ -49,6 +49,13 @@ import { mapGetters } from 'vuex'
 import { delay } from '../../modules/utilities'
 import ToastUndoBtn from '../ToastUndoBtn.vue'
 
+/**
+ * Use a counter for creating unique Ids for undo toast notifications
+ * This makes it possible to dismiss the previous undo toast when creating another
+ *  */
+let undoToastIdCounter = 0
+const getUndoToastId = (counter) => `link-remove-undo-toast-${counter}`
+
 export default {
   components: {
     LinkIcon,
@@ -108,7 +115,10 @@ export default {
 
       this.$emit('removed', this.data._id, new Promise((resolve, reject) => {
         let remove = true
+
+        this.$toast.dismiss(getUndoToastId(undoToastIdCounter)) // dismiss the previous undo toast
         this.$toast.info('Link removed', {
+          id: getUndoToastId(++undoToastIdCounter),
           timeout: 3000,
           pauseOnFocusLoss: false,
           closeButton: ToastUndoBtn,

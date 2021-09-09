@@ -35,8 +35,8 @@
         </li>
         <li><b>Windows & Mac (Chrome)</b> select the install button on the right side of the URL bar</li>
       </ul>
-      <h4>Add to Pocket Extension</h4>
-      <p>Add to Pocket is a browser extension for quickly adding pages to your list while browsing the web. Just click the button to add.</p>
+      <h4>Add to Sooner Extension</h4>
+      <p>Add to Sooner is a browser extension for quickly adding pages to your list while browsing the web. Just click the button to add.</p>
       <div class="ext-container">
         <a
           href="https://chrome.google.com/webstore/detail/add-to-sooner/jaggkbmnhinipdnbihmbfcbdnnmkipnp"

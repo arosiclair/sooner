@@ -6,6 +6,7 @@
     >
       <div
         class="centered-container split item py-3"
+        :class="linkClasses"
         role="button"
         @click="openLink"
       >
@@ -95,6 +96,11 @@ export default {
         'expiration-alert': this.shouldAlert
       }
     },
+    linkClasses () {
+      return {
+        tutorial: this.data.isTutorial
+      }
+    },
     ...mapGetters({
       userPrefs: 'user/prefs'
     })
@@ -135,7 +141,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 div {
     text-align: start;
 }
@@ -154,6 +160,12 @@ div {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.tutorial {
+  .title {
+    -webkit-line-clamp: initial;
+  }
 }
 
 .meta-container {

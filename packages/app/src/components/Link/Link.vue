@@ -12,7 +12,7 @@
       >
         <!-- Favicon section -->
         <LinkIcon
-          class="mx-3"
+          class="mx-3 mt-2 link-icon"
           :favicons="data.favicons"
         />
         <!-- Text section -->
@@ -148,6 +148,10 @@ div {
 
 .item {
     cursor: pointer;
+}
+
+.link-icon {
+  align-self: flex-start;
 }
 
 .text-container {

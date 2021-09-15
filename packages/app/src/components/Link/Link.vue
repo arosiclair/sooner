@@ -2,7 +2,7 @@
   <RippleHoverOverlay :light="shouldWarn">
     <div
       class="paper-bg"
-      :class="backgroundStyle"
+      :class="backgroundClasses"
     >
       <div
         class="link-content py-3"
@@ -87,7 +87,7 @@ export default {
     shouldAlert () {
       return this.ttl < 1
     },
-    backgroundStyle: function () {
+    backgroundClasses: function () {
       if (this.ttl === null) {
         return {}
       }

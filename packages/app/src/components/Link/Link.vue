@@ -5,7 +5,7 @@
       :class="backgroundStyle"
     >
       <div
-        class="centered-container split item py-3"
+        class="link-content py-3"
         :class="linkClasses"
         role="button"
         @click="openLink"
@@ -14,6 +14,7 @@
         <LinkIcon
           class="mx-3 mt-2 link-icon"
           :favicons="data.favicons"
+          :tutorial="data.isTutorial"
         />
         <!-- Text section -->
         <div class="text-container">
@@ -146,8 +147,9 @@ div {
     text-align: start;
 }
 
-.item {
+.link-content {
     cursor: pointer;
+    display: flex;
 }
 
 .link-icon {

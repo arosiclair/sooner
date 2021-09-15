@@ -3,95 +3,33 @@
     "name": "Welcome to your Sooner list! Click the check to mark links done",
     "siteName": "Andrew from Sooner",
     "url": null,
-    "favicons": [
-      {
-        "src": "/favicon-32.png",
-        "width": 32
-      },
-      {
-        "src": "/favicon-128.png",
-        "width": 128
-      },
-      {
-        "src": "/favicon-192.png",
-        "width": 192
-      }
-    ]
+    "favicons": ["👋"]
   },
   {
     "name": "To keep this list nice and tidy, any link you add here will expire after a few days",
     "siteName": "Andrew from Sooner",
     "url": null,
-    "favicons": [
-      {
-        "src": "/favicon-32.png",
-        "width": 32
-      },
-      {
-        "src": "/favicon-128.png",
-        "width": 128
-      },
-      {
-        "src": "/favicon-192.png",
-        "width": 192
-      }
-    ]
+    "favicons": ["⏳"]
   },
   {
     "name": "You can install this app! Click here to learn how",
     "siteName": "Andrew from Sooner",
     "url": "/apps",
-    "favicons": [
-      {
-        "src": "/favicon-32.png",
-        "width": 32
-      },
-      {
-        "src": "/favicon-128.png",
-        "width": 128
-      },
-      {
-        "src": "/favicon-192.png",
-        "width": 192
-      }
+    "favicons": ["📲"
     ]
   },
   {
     "name": "Click here to get the browser extension to quickly add links while you're browsing",
     "siteName": "Andrew from Sooner",
     "url": "/apps",
-    "favicons": [
-      {
-        "src": "/favicon-32.png",
-        "width": 32
-      },
-      {
-        "src": "/favicon-128.png",
-        "width": 128
-      },
-      {
-        "src": "/favicon-192.png",
-        "width": 192
-      }
+    "favicons": ["📃"
     ]
   },
   {
     "name": "Enable notifications in settings to get reminders about your links before they expire",
     "siteName": "Andrew from Sooner",
     "url": null,
-    "favicons": [
-      {
-        "src": "/favicon-32.png",
-        "width": 32
-      },
-      {
-        "src": "/favicon-128.png",
-        "width": 128
-      },
-      {
-        "src": "/favicon-192.png",
-        "width": 192
-      }
+    "favicons": ["🔔"
     ]
   }
 ]

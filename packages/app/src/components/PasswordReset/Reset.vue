@@ -8,10 +8,12 @@
       <b-col
         cols="12"
         sm="6"
-      >
-        <password-reqs />
-      </b-col>
+      />
     </b-row>
+    <password-reqs
+      :password="password"
+      :error="error"
+    />
     <div class="shadow-sm rounded overflow-hidden mb-3">
       <input
         v-model="password"

@@ -4,11 +4,6 @@
       <LetterHead />
       <form>
         <TransitionHeight>
-          <div :key="registering">
-            <PasswordReqs v-if="registering" />
-          </div>
-        </TransitionHeight>
-        <TransitionHeight>
           <div
             :key="registering"
             class="paper-bg shadow-sm rounded overflow-hidden mb-3"
@@ -38,6 +33,20 @@
             >
           </div>
         </TransitionHeight>
+
+        <TransitionHeight>
+          <div
+            :key="registering"
+            class="mb-3"
+          >
+            <PasswordReqs
+              v-if="registering"
+              :password="password"
+              :error="Boolean(error)"
+            />
+          </div>
+        </TransitionHeight>
+
         <BigSubmitBtn
           :label="submitLabel"
           :on-submit="submit"

@@ -65,17 +65,16 @@ async function populateIntroLinks (userId) {
 
 async function addLink (userId, name, siteName, url, favicons, addedOn = new Date(), isTutorial = false) {
   if (!userId) return false
-  
+
   if (isTutorial) {
     if (!name || !siteName) {
       return false
-    } 
+    }
   } else {
     if (!name || !siteName || !url) {
-      return false 
+      return false
     }
   }
-  
 
   const listId = await getListIdForUser(userId)
 

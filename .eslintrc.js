@@ -2,14 +2,13 @@ module.exports = {
   root: true,
   env: {
     node: true,
-    commonjs: true,
-    es2020: true
+    commonjs: true
   },
   extends: [
     'standard'
   ],
   parserOptions: {
-    ecmaVersion: 12
+    ecmaVersion: 11
   },
   rules: {
     'quote-props': ['error', 'as-needed', { 'keywords': true, 'unnecessary': false }]

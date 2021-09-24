@@ -46,6 +46,7 @@ import { RouteNames } from '../../router'
 import LetterHead from '../LetterHead.vue'
 import PasswordReqs from '../PasswordReqs.vue'
 import BigSubmitBtn from '../BigSubmitBtn.vue'
+import { isValidPassword } from '../../modules/password-validation'
 
 export default {
   components: {
@@ -65,13 +66,7 @@ export default {
   },
 
   computed: {
-    validPass () {
-      if (this.password.length < 8 || this.password.length > 32) return false
-
-      if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(this.password)) return false
-
-      return true
-    },
+    validPass () { return isValidPassword(this.password) },
 
     passwordsMatch () {
       return this.password === this.passwordConfirm

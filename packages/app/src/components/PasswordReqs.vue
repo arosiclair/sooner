@@ -53,6 +53,7 @@
 
 <script>
 import PasswordReqsStatusIcon from './PasswordReqsStatusIcon.vue'
+import { lengthInRange, containsLower, containsUpper, containsNumber, containsSymbol } from '../modules/password-validation'
 export default {
   components: { PasswordReqsStatusIcon },
   props: {
@@ -66,21 +67,11 @@ export default {
     }
   },
   computed: {
-    lengthInRange () {
-      return this.password.length >= 8 && this.password.length <= 32
-    },
-    containsLower () {
-      return this.password.toUpperCase() !== this.password
-    },
-    containsUpper () {
-      return this.password.toLowerCase() !== this.password
-    },
-    containsNumber () {
-      return /\d/.test(this.password)
-    },
-    containsSymbol () {
-      return /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(this.password)
-    }
+    lengthInRange () { return lengthInRange(this.password) },
+    containsLower () { return containsLower(this.password) },
+    containsUpper () { return containsUpper(this.password) },
+    containsNumber () { return containsNumber(this.password) },
+    containsSymbol () { return containsSymbol(this.password) }
   }
 }
 </script>

@@ -14,6 +14,10 @@ module.exports.defineReminderJob = (agenda) => {
     if (!subscription.enabled || !subscription.reminders.enabled) return
 
     const soonExpiringLinks = await getExpiringLinks(userId)
+    if (!soonExpiringLinks.length) {
+      return
+    }
+
     const notification = {
       title: soonExpiringLinks.length > 1
         ? `You have ${soonExpiringLinks.length} links expiring soon`

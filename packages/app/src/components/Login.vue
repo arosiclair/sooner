@@ -4,11 +4,6 @@
       <LetterHead />
       <form>
         <TransitionHeight>
-          <div :key="registering">
-            <PasswordReqs v-if="registering" />
-          </div>
-        </TransitionHeight>
-        <TransitionHeight>
           <div
             :key="registering"
             class="paper-bg shadow-sm rounded overflow-hidden mb-3"
@@ -19,6 +14,7 @@
               type="text"
               placeholder="Name"
               class="lg"
+              :class="{ error: error && !validName }"
             >
             <input
               v-model="email"
@@ -38,6 +34,20 @@
             >
           </div>
         </TransitionHeight>
+
+        <TransitionHeight>
+          <div
+            :key="registering"
+            class="mb-3"
+          >
+            <PasswordReqs
+              v-if="registering"
+              :password="password"
+              :error="Boolean(error)"
+            />
+          </div>
+        </TransitionHeight>
+
         <BigSubmitBtn
           :label="submitLabel"
           :on-submit="submit"
@@ -62,6 +72,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { isValidPassword } from '../modules/password-validation'
 import { RouteNames } from '../router'
 import BigSubmitBtn from './BigSubmitBtn.vue'
 import LetterHead from './LetterHead.vue'
@@ -91,11 +102,14 @@ export default {
     submitLabel () {
       return this.registering ? 'Sign Up' : 'Login'
     },
+    validName: function () {
+      return this.name.length >= 3 && this.name.length <= 32
+    },
     validEmail: function () {
-      return this.email.length > 0
+      return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.email)
     },
     validPass: function () {
-      return this.password.length > 0
+      return isValidPassword(this.password)
     },
     ...mapGetters({
       loggedIn: 'user/loggedIn'
@@ -118,6 +132,11 @@ export default {
       this.loading = false
     },
     async register () {
+      if (!this.validName || !this.validEmail || !this.validPass) {
+        this.error = true
+        return
+      }
+
       const data = {
         name: this.name,
         email: this.email,

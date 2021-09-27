@@ -10,6 +10,7 @@ import { checkLogin } from '../api'
 import SmallHeader from '../components/SmallHeader'
 import { RouteNames } from '../popup/router'
 import LoadingMessage from './LoadingMessage.vue'
+import { hasReadIntro } from '../has-read-intro'
 
 export default {
   components: {
@@ -24,7 +25,12 @@ export default {
       try {
         await checkLogin()
         browser.runtime.sendMessage('logged-in')
-        this.$router.push({ name: RouteNames.Adding })
+
+        if (await hasReadIntro()) {
+          this.$router.push({ name: RouteNames.Adding })
+        } else {
+          this.$router.push({ name: RouteNames.Intro })
+        }
       } catch (error) {
         this.$router.push({ name: RouteNames.Login })
       }

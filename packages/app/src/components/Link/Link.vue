@@ -2,17 +2,19 @@
   <RippleHoverOverlay :light="shouldWarn">
     <div
       class="paper-bg"
-      :class="backgroundStyle"
+      :class="backgroundClasses"
     >
       <div
-        class="centered-container split item py-3"
+        class="link-content py-3"
+        :class="linkClasses"
         role="button"
         @click="openLink"
       >
         <!-- Favicon section -->
         <LinkIcon
-          class="mx-3"
+          class="mx-3 mt-2 link-icon"
           :favicons="data.favicons"
+          :tutorial="data.isTutorial"
         />
         <!-- Text section -->
         <div class="text-container">
@@ -85,7 +87,7 @@ export default {
     shouldAlert () {
       return this.ttl < 1
     },
-    backgroundStyle: function () {
+    backgroundClasses: function () {
       if (this.ttl === null) {
         return {}
       }
@@ -93,6 +95,11 @@ export default {
       return {
         'expiration-warn': this.shouldWarn,
         'expiration-alert': this.shouldAlert
+      }
+    },
+    linkClasses () {
+      return {
+        tutorial: this.data.isTutorial
       }
     },
     ...mapGetters({
@@ -135,13 +142,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 div {
     text-align: start;
 }
 
-.item {
+.link-content {
     cursor: pointer;
+    display: flex;
+}
+
+.link-icon {
+  align-self: flex-start;
 }
 
 .text-container {
@@ -154,6 +166,12 @@ div {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.tutorial {
+  .title {
+    -webkit-line-clamp: initial;
+  }
 }
 
 .meta-container {

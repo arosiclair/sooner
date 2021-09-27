@@ -1,6 +1,7 @@
 const geoffrey = require('./geoffrey')
 const { getUserById, getUserPrefs } = require('./users')
 const { generateObjectId, toObjectId } = require('./utils/object-id')
+const introLinks = require('./intro-links.json')
 
 async function getListById (listId) {
   if (!listId) return null
@@ -54,16 +55,31 @@ async function createListForUser (userId) {
 
   var result = await geoffrey.getLists().insertOne(newList)
   geoffrey.getUsers().updateOne({ _id: userId }, { $set: { listId: result.insertedId } })
+  await populateIntroLinks(userId)
   return result.insertedId
 }
 
-async function addLink (userId, name, siteName, url, favicons, addedOn = new Date()) {
-  if (!userId || !name || !siteName || !url) return false
+async function populateIntroLinks (userId) {
+  return Promise.all(introLinks.map(introLink => addLink(userId, introLink.name, introLink.siteName, introLink.url, introLink.favicons, undefined, true)))
+}
+
+async function addLink (userId, name, siteName, url, favicons, addedOn = new Date(), isTutorial = false) {
+  if (!userId) return false
+
+  if (isTutorial) {
+    if (!name || !siteName) {
+      return false
+    }
+  } else {
+    if (!name || !siteName || !url) {
+      return false
+    }
+  }
 
   const listId = await getListIdForUser(userId)
 
   // check for a dupe and return it instead
-  const existingLink = await checkExists(listId, url)
+  const existingLink = !isTutorial && await checkExists(listId, url)
   if (existingLink) {
     return existingLink._id
   }
@@ -82,7 +98,8 @@ async function addLink (userId, name, siteName, url, favicons, addedOn = new Dat
     url,
     favicons,
     addedOn: addedDTS,
-    expiresOn: expireDTS
+    expiresOn: expireDTS,
+    isTutorial
   }
 
   try {

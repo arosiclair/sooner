@@ -16,7 +16,7 @@ async function getUserById (userId) {
 async function getUserByEmail (email) {
   if (!email) return null
 
-  return geoffrey.getUsers().findOne({ email: email })
+  return geoffrey.getUsers().findOne({ email: email.toLowerCase() })
 }
 
 async function getUserbyEmailAndPass (email, password) {
@@ -43,7 +43,7 @@ const defaultUserPrefs = {
 async function addUser (name, email, password, prefs = defaultUserPrefs) {
   const newUser = {
     name,
-    email,
+    email: email.toLowerCase(),
     prefs,
     password: passwordHasher.generate(password, { algorithm: 'SHA256' })
   }

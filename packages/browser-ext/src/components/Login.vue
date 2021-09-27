@@ -47,6 +47,7 @@
 <script>
 import { login } from '../api'
 import LetterHead from '../components/LetterHead.vue'
+import { hasReadIntro } from '../has-read-intro'
 import { RouteNames } from '../popup/router'
 
 export default {
@@ -84,7 +85,12 @@ export default {
       try {
         await login(this.email, this.password)
         browser.runtime.sendMessage('logged-in')
-        this.$router.push({ name: RouteNames.Adding })
+
+        if (await hasReadIntro()) {
+          this.$router.push({ name: RouteNames.Adding })
+        } else {
+          this.$router.push({ name: RouteNames.Intro })
+        }
       } catch (error) {
         this.error = true
         if (error.response && error.response.status === 401) {

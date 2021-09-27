@@ -1,5 +1,16 @@
 <template>
+  <div
+    v-if="tutorial"
+    :style="style"
+    class="tutorial-icon-container"
+  >
+    <link-tutorial-icon
+      :favicons="favicons"
+    />
+  </div>
+
   <img
+    v-else
     class="rounded"
     :style="style"
     :srcset="srcset"
@@ -9,12 +20,18 @@
 
 <script>
 import DefaultIcon from '@/assets/linkIcons/globe.png'
+import LinkTutorialIcon from './LinkTutorialIcon.vue'
 
 export default {
+  components: { LinkTutorialIcon },
   props: {
     favicons: {
       type: Array,
       default: () => []
+    },
+    tutorial: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -89,3 +106,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.tutorial-icon-container {
+  text-align: center;
+}
+</style>

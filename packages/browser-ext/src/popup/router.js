@@ -5,12 +5,14 @@ import AddLink from '../components/AddLink'
 import AddFailed from '../components/AddFailed'
 import AddSuccess from '../components/AddSuccess'
 import TryLogin from '../components/TryLogin'
+import Intro from '../components/Intro'
 
 Vue.use(VueRouter)
 
 export const RouteNames = {
   TryLogin: 'TryLogin',
   Login: 'Login',
+  Intro: 'Intro',
   Adding: 'Adding',
   AddSuccess: 'AddSuccess',
   AddFailed: 'AddFailed'
@@ -26,6 +28,11 @@ const routes = [
     path: '/login',
     name: RouteNames.Login,
     component: Login
+  },
+  {
+    path: '/intro',
+    name: RouteNames.Intro,
+    component: Intro
   },
   {
     path: '/adding',

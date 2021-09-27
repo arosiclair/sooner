@@ -16,7 +16,7 @@ const auth = require('@sooner/middleware/auth')
 */
 
 const registerValidation = [
-  body('name').isString().isLength({ max: 30 }),
+  body('name').isString().isLength({ min: 3, max: 32 }),
   body('email').isEmail(),
   body('password').isStrongPassword(),
   validation

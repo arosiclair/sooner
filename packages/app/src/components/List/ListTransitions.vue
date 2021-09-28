@@ -45,6 +45,7 @@ export default {
 <style>
 .list-transition {
   transition: 300ms ease;
+  overflow: hidden;
   will-change: height;
 }
 .list-complete-enter {

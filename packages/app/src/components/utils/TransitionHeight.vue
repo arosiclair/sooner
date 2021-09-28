@@ -52,5 +52,6 @@ export default {
 .height-transition {
   transition: height 300ms ease;
   overflow: hidden;
+  will-change: height;
 }
 </style>

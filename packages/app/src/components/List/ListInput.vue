@@ -1,39 +1,40 @@
 <template>
-  <TransitionHeight>
-    <div
-      :key="showPreview"
-      class="box paper-bg shadow-sm rounded overflow-hidden"
+  <div
+    class="box paper-bg shadow-sm rounded overflow-hidden"
+  >
+    <input
+      v-model="url"
+      placeholder="Enter a link here"
+      type="text"
+      class="lg"
+      :class="{ error }"
+      @input="onUrlChanged"
     >
-      <input
-        v-model="url"
-        placeholder="Enter a link here"
-        type="text"
-        class="lg"
-        :class="{ error }"
-        @input="onUrlChanged"
-      >
-      <div
-        v-if="showPreview"
-        class="px-3 py-2 text-left"
-      >
-        <b-spinner v-if="loading" />
+    <TransitionHeight appear>
+      <div :key="showPreview">
         <div
-          v-else
-          class="centered-container split"
+          v-if="showPreview"
+          class="preview-container px-3 py-2 text-left"
         >
-          <div class="text-lg">
-            {{ titlePreview }}
-          </div>
+          <b-spinner v-if="loading" />
           <div
-            role="button"
-            @click="submitLink"
+            v-else
+            class="centered-container split"
           >
-            <i class="material-icons actionable">add_circle_outline</i>
+            <div class="text-lg">
+              {{ titlePreview }}
+            </div>
+            <div
+              role="button"
+              @click="submitLink"
+            >
+              <i class="material-icons actionable">add_circle_outline</i>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </TransitionHeight>
+    </TransitionHeight>
+  </div>
 </template>
 
 <script>
@@ -117,7 +118,4 @@ export default {
 </script>
 
 <style>
-.box {
-  transition: 300ms ease;
-}
 </style>

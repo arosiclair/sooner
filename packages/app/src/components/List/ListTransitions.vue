@@ -19,9 +19,9 @@ export default {
   },
   methods: {
     afterEnter (element) {
-      element.classList.add('list-transition')
       const fullHeight = getComputedStyle(element).height
 
+      element.classList.add('list-transition')
       if (this.ready) {
         element.style.height = 0
       }
@@ -45,7 +45,7 @@ export default {
 <style>
 .list-transition {
   transition: 300ms ease;
-  overflow: hidden;
+  will-change: height;
 }
 .list-complete-enter {
   opacity: 0;

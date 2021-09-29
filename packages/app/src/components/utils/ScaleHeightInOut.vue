@@ -1,29 +1,34 @@
 <!--
-  This is a copy of ScaleHeightInOut as a transition-group
+  Smoothly transitions an element  0 <-> full-height when added and removed
 -->
 <template>
-  <transition-group
-    tag="div"
+  <transition
     :css="false"
+    :appear="appear"
     @beforeEnter="beforeEnter"
     @enter="enter"
     @afterEnter="afterEnter"
     @leave="leave"
   >
     <slot />
-  </transition-group>
+  </transition>
 </template>
 
 <script>
 export default {
   props: {
-    ready: {
+    appear: {
       type: Boolean,
-      default: true
+      default: false
     },
     duration: {
       type: Number,
       default: 300
+    }
+  },
+  data () {
+    return {
+      fullHeight: 0
     }
   },
   methods: {
@@ -82,3 +87,6 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+</style>

@@ -1,3 +1,6 @@
+<!--
+  Component for smoothly transitioning the height of a container element between re-renders
+-->
 <template>
   <transition
     :css="false"
@@ -17,6 +20,10 @@ export default {
     appear: {
       type: Boolean,
       default: false
+    },
+    duration: {
+      type: Number,
+      default: 300
     }
   },
   data () {
@@ -25,33 +32,26 @@ export default {
     }
   },
   methods: {
-    beforeEnter (element) {
-      element.classList.add('height-transition')
+    beforeEnter (el) {
+      el.style.transition = `height ${this.duration}ms ease`
+      el.style.overflow = 'hidden'
+      el.style.willChange = 'height'
     },
-    beforeLeave (element) {
-      this.prevHeight = getComputedStyle(element).height
-    },
-    enter (element, done) {
-      const { height } = getComputedStyle(element)
-
-      element.style.height = this.prevHeight
+    enter (el, done) {
+      const nextHeight = getComputedStyle(el).height
+      el.style.height = this.prevHeight
 
       setTimeout(() => {
-        element.style.height = height
+        el.style.height = nextHeight
+        setTimeout(() => done(), this.duration)
       })
-      // done()
     },
-    afterEnter (element) {
-      element.style.height = 'auto'
+    afterEnter (el) {
+      el.style.height = 'auto'
+    },
+    beforeLeave (el) {
+      this.prevHeight = getComputedStyle(el).height
     }
   }
 }
 </script>
-
-<style scoped>
-.height-transition {
-  transition: height 300ms ease;
-  overflow: hidden;
-  will-change: height;
-}
-</style>

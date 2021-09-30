@@ -3,50 +3,47 @@
     <div class="top-container">
       <LetterHead />
       <form>
-        <TransitionHeight>
-          <div
-            :key="registering"
-            class="paper-bg shadow-sm rounded overflow-hidden mb-3"
+        <div
+          class="paper-bg shadow-sm rounded overflow-hidden mb-3"
+        >
+          <ScaleHeightInOut>
+            <div v-if="registering">
+              <input
+                v-model="name"
+                type="text"
+                placeholder="Name"
+                class="lg"
+                :class="{ error: error && !validName }"
+              >
+            </div>
+          </ScaleHeightInOut>
+          <input
+            v-model="email"
+            type="text"
+            placeholder="Email"
+            class="lg"
+            :class="{ error: error && !validEmail }"
+            @keyup.enter="submit"
           >
-            <input
-              v-if="registering"
-              v-model="name"
-              type="text"
-              placeholder="Name"
-              class="lg"
-              :class="{ error: error && !validName }"
-            >
-            <input
-              v-model="email"
-              type="text"
-              placeholder="Email"
-              class="lg"
-              :class="{ error: error && !validEmail }"
-              @keyup.enter="submit"
-            >
-            <input
-              v-model="password"
-              type="password"
-              placeholder="Password"
-              class="lg"
-              :class="{ error: error && !validPass }"
-              @keyup.enter="submit"
-            >
-          </div>
-        </TransitionHeight>
+          <input
+            v-model="password"
+            type="password"
+            placeholder="Password"
+            class="lg"
+            :class="{ error: error && !validPass }"
+            @keyup.enter="submit"
+          >
+        </div>
 
-        <TransitionHeight>
-          <div
-            :key="registering"
-            class="mb-3"
-          >
+        <ScaleHeightInOut>
+          <div v-if="registering">
             <PasswordReqs
-              v-if="registering"
               :password="password"
               :error="Boolean(error)"
+              class="mb-3"
             />
           </div>
-        </TransitionHeight>
+        </ScaleHeightInOut>
 
         <BigSubmitBtn
           :label="submitLabel"
@@ -77,15 +74,15 @@ import { RouteNames } from '../router'
 import BigSubmitBtn from './BigSubmitBtn.vue'
 import LetterHead from './LetterHead.vue'
 import PasswordReqs from './PasswordReqs.vue'
-import TransitionHeight from './utils/TransitionHeight.vue'
+import ScaleHeightInOut from './utils/ScaleHeightInOut.vue'
 
 export default {
   name: 'Login',
   components: {
-    TransitionHeight,
     BigSubmitBtn,
     LetterHead,
-    PasswordReqs
+    PasswordReqs,
+    ScaleHeightInOut
   },
   data () {
     return {

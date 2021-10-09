@@ -9,6 +9,7 @@ const { createSession, deleteSession, invalidateSessions } = require('@sooner/da
 const { createResetRequest, getResetRequestByToken, deleteResetRequest } = require('@sooner/data-access/reset-requests')
 const { body, matchedData } = require('express-validator')
 const auth = require('@sooner/middleware/auth')
+const sendResetEmail = require('../utils/send-reset-email')
 
 /*
   Endpoint for creating a user.
@@ -155,12 +156,5 @@ router.post('/updatePassword', updatePasswordValidation, async (req, res) => {
     res.status(500).status(new ErrorResponse('password update failed'))
   }
 })
-
-// helpers
-
-function sendResetEmail (email, token) {
-  // TODO: implement this after paying for mail service
-  return true
-}
 
 module.exports = router

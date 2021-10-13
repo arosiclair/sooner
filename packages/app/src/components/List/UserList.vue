@@ -12,6 +12,7 @@
         <list-transitions>
           <Link
             v-for="link in sortedLinks"
+            :id="`link-${link._id}`"
             :key="link._id"
             :data="link"
             @removed="onLinkRemoved"

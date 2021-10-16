@@ -46,10 +46,11 @@
 import { formatDistance, differenceInDays } from 'date-fns'
 import LinkIcon from './LinkIcon'
 import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
-import DoneSound from '@/assets/sounds/done.mp3'
+import doneMp3 from '@/assets/sounds/done.mp3'
 import { mapGetters } from 'vuex'
 import { delay } from '../../modules/utilities'
 import ToastUndoBtn from '../ToastUndoBtn.vue'
+import { Howl } from 'howler'
 
 /**
  * Use a counter for creating unique Ids for undo toast notifications
@@ -57,6 +58,10 @@ import ToastUndoBtn from '../ToastUndoBtn.vue'
  *  */
 let undoToastIdCounter = 0
 const getUndoToastId = (counter) => `link-remove-undo-toast-${counter}`
+
+const doneSound = new Howl({
+  src: [doneMp3]
+})
 
 export default {
   components: {
@@ -115,7 +120,7 @@ export default {
     },
     remove: async function (event) {
       if (this.userPrefs.doneSound) {
-        new Audio(DoneSound).play()
+        doneSound.play()
       }
 
       event.stopPropagation()

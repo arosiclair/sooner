@@ -26,6 +26,11 @@ export default {
       default: 300
     }
   },
+  data () {
+    return {
+      heights: {}
+    }
+  },
   methods: {
     // --------
     // ENTERING
@@ -39,12 +44,11 @@ export default {
     // the done callback is optional when
     // used in combination with CSS
     enter: function (el, done) {
-      this.fullHeight = getComputedStyle(el).height
-      console.log(`fullHeight: '${this.fullHeight}'`)
+      this.heights[el.id] = getComputedStyle(el).height
       el.style.height = 0
 
       setTimeout(() => {
-        el.style.height = this.fullHeight
+        el.style.height = this.heights[el.id]
         setTimeout(() => done(), this.duration)
       })
     },
@@ -65,8 +69,7 @@ export default {
     // the done callback is optional when
     // used in combination with CSS
     leave: function (el, done) {
-      console.log(`fullHeight: ${this.fullHeight}`)
-      el.style.height = this.fullHeight
+      el.style.height = this.heights[el.id]
       setTimeout(() => {
         el.style.height = 0
         setTimeout(() => done(), this.duration)

@@ -1,7 +1,7 @@
 <template>
   <b-modal
     id="settings-modal"
-    content-class="settings-modal shadow-lg rounded"
+    content-class="paper-bg settings-modal shadow-lg rounded"
     header-class="settings-header"
     body-class="settings-body"
     footer-class="settings-footer"
@@ -214,13 +214,19 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .settings-modal {
   border: none;
 }
 
 .settings-header {
   border: none;
+
+  .close {
+    @media (prefers-color-scheme: dark) {
+        color: #fff;
+    }
+  }
 }
 
 .settings-footer {

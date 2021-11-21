@@ -1,7 +1,16 @@
 <template>
-  <div class="content" v-on="$listeners" @mouseenter="showOverlay" @mouseleave="hideOverlay">
+  <div
+    class="content"
+    v-on="$listeners"
+    @mouseenter="showOverlay"
+    @mouseleave="hideOverlay"
+  >
     <slot />
-    <div ref="overlay" class="overlay" :class="{ light }" />
+    <div
+      ref="overlay"
+      class="overlay"
+      :class="{ light }"
+    />
   </div>
 </template>
 
@@ -26,7 +35,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .content {
   position: relative;
 }
@@ -40,13 +49,19 @@ export default {
   opacity: 0%;
   transition: opacity 200ms ease-in-out;
 
-  background-color: gray;
   background-color: rgba(0, 0, 0, 0.05);
   pointer-events: none;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
 }
 .overlay.light {
-  background-color: white;
   background-color: rgba(255, 255, 255, 0.15);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgba(0, 0, 0, 0.075);
+  }
 }
 .overlay:hover {
   opacity: 10%;

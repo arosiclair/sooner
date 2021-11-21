@@ -14,10 +14,10 @@
 
 <script>
 // global styling
-import './styles/inputs.css'
+import './styles/inputs.scss'
 import './styles/text.css'
 import './styles/layout.css'
-import './styles/misc.css'
+import './styles/misc.scss'
 
 import DebugLayer from './components/debug/DebugLayer.vue'
 import UserSettings from './components/UserSettings.vue'
@@ -48,7 +48,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 html, body {
@@ -59,6 +59,11 @@ body {
   background-color: #f5f5f5;
   color: #212121;
   font-family: 'Poppins', sans-serif;
+
+  @media (prefers-color-scheme: dark) {
+    background: #212121;
+    color: #fff;
+  }
 }
 
 .font {

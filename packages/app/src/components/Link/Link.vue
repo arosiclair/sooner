@@ -209,8 +209,6 @@ div {
 
 .expiration-warn {
   background-color: #ffd54f;
-}
-.expiration-warn .site-name {
   color: #212121;
 }
 .expiration-warn .material-icons {
@@ -218,13 +216,11 @@ div {
 }
 .expiration-warn .material-icons.actionable:hover {
   color: #ffffff;
-    background-color: #2121210f;
+  background-color: #2121210f;
 }
 
 .expiration-alert {
   background-color: #ef5350;
-}
-.expiration-alert .site-name {
   color: #212121;
 }
 .expiration-alert .material-icons {
@@ -232,6 +228,6 @@ div {
 }
 .expiration-alert .material-icons.actionable:hover {
   color: #ffffff;
-    background-color: #2121211a;
+  background-color: #2121211a;
 }
 </style>

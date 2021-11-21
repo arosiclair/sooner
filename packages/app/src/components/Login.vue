@@ -165,7 +165,7 @@ export default {
     validateLogin () {
       if (!this.validEmail) {
         return 'Enter a valid email'
-      } else if (!this.validPass) {
+      } else if (!this.password) {
         return 'Enter a password'
       } else {
         return null

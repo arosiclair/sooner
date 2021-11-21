@@ -1,6 +1,11 @@
 <template>
-  <button class="btn-lg text-lg shadow-sm rounded p-3" type="button" @click="onSubmit" :disabled="loading">
-    <b-spinner v-if="loading"/>
+  <button
+    class="paper-bg btn-lg text-lg shadow-sm rounded p-3"
+    type="button"
+    :disabled="loading"
+    @click="onSubmit"
+  >
+    <b-spinner v-if="loading" />
     <span v-else>
       {{ label }}
     </span>
@@ -9,10 +14,16 @@
 
 <script>
 export default {
-  props: [
-    'onSubmit',
-    'loading',
-    'label'
-  ]
+  props: {
+    onSubmit: {
+      type: Function,
+      default: () => {}
+    },
+    label: {
+      type: String,
+      default: ''
+    },
+    loading: Boolean
+  }
 }
 </script>

@@ -9,6 +9,12 @@ input {
     border-bottom: 1px solid #ffffff;
 
     transition: 300ms ease;
+
+    @media (prefers-color-scheme: dark) {
+        background-color: #424242;
+        border-color: #424242;
+        color: #fff;
+    }
 }
 
 input.lg {
@@ -18,6 +24,11 @@ input.lg {
 input.lg:hover {
     background-color: #eeeeee;
     border-bottom: 1px solid #eeeeee;
+
+    @media (prefers-color-scheme: dark) {
+        background-color: #616161;
+        border-color: #616161;
+    }
 }
 
 input.lg:focus {
@@ -41,17 +52,37 @@ input.form {
     border-radius: 0;
 
     transition: 300ms ease;
+
+    @media (prefers-color-scheme: dark) {
+        background-color: #424242;
+        border-color: #616161;
+        color: #fff;
+    }
 }
 
 input.form:hover {
     background-color: #eeeeee;
     border-bottom: 1px solid #eeeeee;
+
+    @media (prefers-color-scheme: dark) {
+        background-color: #616161;
+        border-color: #757575;
+        color: #fff;
+    }
 }
 
 input.form:focus {
     outline: none;
     box-shadow: none;
     border-bottom: 1px solid #28b5f4;
+}
+
+input.form:disabled {
+    @media (prefers-color-scheme: dark) {
+        background-color: #757575;
+        border-color: #757575;
+        color: #fff;
+    }
 }
 
 input.form.error {

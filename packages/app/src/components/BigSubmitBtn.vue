@@ -14,10 +14,16 @@
 
 <script>
 export default {
-  props: [
-    'onSubmit',
-    'loading',
-    'label'
-  ]
+  props: {
+    onSubmit: {
+      type: Function,
+      default: () => {}
+    },
+    label: {
+      type: String,
+      default: ''
+    },
+    loading: Boolean
+  }
 }
 </script>

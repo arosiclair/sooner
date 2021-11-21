@@ -17,8 +17,7 @@
 <script>
 export default {
   props: {
-    light: Boolean,
-    overlayEl: null
+    light: Boolean
   },
   methods: {
     showOverlay () {

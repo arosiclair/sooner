@@ -9,7 +9,7 @@
     <!-- List -->
     <div class="pb-3">
       <div class="shadow-sm rounded overflow-hidden">
-        <list-transitions>
+        <list-transitions :ready="transitionsReady">
           <Link
             v-for="link in sortedLinks"
             :id="`link-${link._id}`"
@@ -73,7 +73,8 @@ export default {
       PlaceHolderIcon,
       empty: false,
       error: false,
-      links: []
+      links: [],
+      transitionsReady: false
     }
   },
   computed: {
@@ -98,9 +99,10 @@ export default {
   },
   async mounted () {
     await this.refresh()
-
-    // toast if this was a redirect from a share attempt
     this.sharePrompt()
+
+    // leave list transitions disabled for the initial render than enable afterwards
+    setTimeout(() => { this.transitionsReady = true }, 1000)
   },
   created () {
     window.addEventListener('focus', this.refresh)

@@ -124,17 +124,9 @@ export default {
         }
 
         this.links = result.data.list || []
-        if (this.links.length === 0) {
-          this.empty = true
-        } else {
-          this.empty = false
-        }
+        this.empty = !this.links.length
 
-        const numExpired = result.data.numExpired
-        if (numExpired) {
-          const links = numExpired > 1 ? 'links' : 'link'
-          this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
-        }
+        this.expiredPrompt(result.data.numExpired)
 
         done()
       })
@@ -159,6 +151,12 @@ export default {
         done()
       })
     },
+    expiredPrompt (numExpired) {
+      if (numExpired) {
+        const links = numExpired > 1 ? 'links' : 'link'
+        this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
+      }
+    },
     sharePrompt () {
       if (this.$route.query.share) {
         if (this.$route.query.success) {
@@ -167,6 +165,8 @@ export default {
           this.$toast.error("Sorry, we couldn't add the link you tried to share", { timeout: false })
         }
       }
+
+      this.$router.push({ query: {} })
     },
     goToLogin () {
       this.$toast.error("Doesn't look like you're logged in anymore")

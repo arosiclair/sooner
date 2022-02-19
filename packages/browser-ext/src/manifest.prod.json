@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Add to Sooner",
-  "homepage_url": "https://www.sooner.app",
+  "homepage_url": "https://sooner.app",
   "description": "A browser extension for quickly adding pages to your Sooner list",
   "default_locale": "en",
   "permissions": [
@@ -9,7 +9,7 @@
     "contextMenus",
     "notifications",
     "storage",
-    "https://www.sooner.app/*"
+    "https://sooner.app/*"
   ],
   "icons": {
     "16": "icons/16.png",

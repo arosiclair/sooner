@@ -37,7 +37,7 @@
       </button>
     </form>
     <a
-      href="https://www.sooner.app"
+      href="https://sooner.app"
       target="_blank"
       rel="noopener noreferrer"
     >Don't have an account?</a>

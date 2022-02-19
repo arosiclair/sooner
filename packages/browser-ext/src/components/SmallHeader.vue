@@ -2,7 +2,7 @@
   <div class="mb-2">
     <a
       class="logo-link"
-      href="https://www.sooner.app/list"
+      href="https://sooner.app/list"
       target="_blank"
       rel="noopener noreferrer"
     >

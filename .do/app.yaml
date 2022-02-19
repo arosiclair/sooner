@@ -1,8 +1,10 @@
 name: sooner
 
 domains:
-  - domain: www.sooner.app
+  - domain: sooner.app
     type: PRIMARY
+  - domain: www.sooner.app
+    type: ALIAS
   - domain: www.readitnow.app
     type: ALIAS
 

@@ -39,6 +39,8 @@ export default {
     // the done callback is optional when
     // used in combination with CSS
     enter: function (el, done) {
+      if (!this.ready) return done()
+
       const { height } = getComputedStyle(el)
       el.style.height = 0
 
@@ -64,6 +66,8 @@ export default {
     // the done callback is optional when
     // used in combination with CSS
     leave: function (el, done) {
+      if (!this.ready) return done()
+
       el.style.height = getComputedStyle(el).height
       setTimeout(() => {
         el.style.height = 0

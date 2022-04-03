@@ -1,4 +1,5 @@
 const urlMetadata = require('url-metadata')
+const { decode } = require('html-entities')
 
 async function getMetadata (url) {
   if (!url) return {}
@@ -11,7 +12,7 @@ async function getMetadata (url) {
   }
 
   return {
-    title: metadata.title || "Sorry, title wasn't found",
+    title: decode(metadata.title) || "Sorry, title wasn't found",
     site: metadata['og:site_name'] || getHostname(url)
   }
 }

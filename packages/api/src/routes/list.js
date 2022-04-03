@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 
 const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('@sooner/data-access/lists')
-const { getUserPrefs } = require('@sooner/data-access/users')
 const { ErrorResponse, InvalidJSONResponse } = require('@sooner/responses/errors')
 const validation = require('@sooner/middleware/validation')
 const multer = require('multer')
@@ -22,12 +21,6 @@ router.get('/', async function (req, res) {
 
   // clean the list of expired links
   const links = list.links
-
-  // TODO: remove legacy support for links without expiresOn
-  const prefs = await getUserPrefs(req.userId)
-  const linkTTL = prefs ? prefs.linkTTL : 5
-  list.links.forEach(link => addExpiresOn(link, linkTTL))
-
   const freshLinks = cleanExpiredLinks(links)
   if (freshLinks !== links) {
     updateLinks(listId, freshLinks)
@@ -51,8 +44,7 @@ const linkValidation = [
   validation
 ]
 router.post('/', ...linkValidation, async function (req, res) {
-  // TODO: remove legacy support for 'link'
-  const url = req.body.link || req.body.url
+  const url = req.body.url
   if (!url) {
     return res.status(400).json(new InvalidJSONResponse(['url']))
   }
@@ -127,13 +119,4 @@ function cleanExpiredLinks (links) {
 
 function linkExpired (link) {
   return new Date() > new Date(link.expiresOn.valueOf())
-}
-
-function addExpiresOn (link, linkTTL) {
-  if (link.expiresOn) return
-
-  const addedOn = new Date(link.addedOn.valueOf())
-  const expiresOn = new Date(addedOn)
-  expiresOn.setDate(expiresOn.getDate() + linkTTL)
-  link.expiresOn = expiresOn
 }

@@ -1,7 +1,7 @@
 ![Sooner](docs/images/banner-promo-1650.png)
 ==========
 
-The *anti* reading list. Sooner is a web app and chrome extension offering an ephemeral reading list where entries are expire after a few days giving users a self-cleaning reading list. Sooner is written with a number of JS packages and backed by MongoDB.
+The *anti* reading list. Sooner is a web app and chrome extension offering an ephemeral reading list where entries expire after a few days, effectively creating a self-cleaning reading list. Sooner is written with a number of JS packages and backed by MongoDB.
 
 The source on `production` branch is live at [sooner.app](https://sooner.app)
 

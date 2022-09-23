@@ -7,7 +7,7 @@ async function getMetadata (url) {
   try {
     var metadata = await urlMetadata(url)
   } catch (error) {
-    console.error(`failed to getMetadata for link: '${url}' message: '${error.message}'`)
+    console.error(`failed to getMetadata for link: '${url}' error: '${JSON.stringify(error)}'`)
     throw error
   }
 

@@ -15,7 +15,7 @@ module.exports.showPageAddedNotification = () => {
 module.exports.showPageAddFailedNotification = () => {
   browser.notifications.create({
     title: "Couldn't add that page",
-    message: 'Are you still logged in?',
+    message: 'Try using the toolbar button',
     ...basicNotification
   })
 }

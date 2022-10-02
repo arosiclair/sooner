@@ -15,7 +15,8 @@ export default {
   components: { SmallHeader, LoadingMessage },
   data () {
     return {
-      currentUrl: ''
+      currentUrl: '',
+      currentTitle: ''
     }
   },
   computed: {
@@ -26,6 +27,13 @@ export default {
       const url = document.createElement('a')
       url.href = this.currentUrl
       return supportedProtocols.includes(url.protocol)
+    },
+    urlDomain () {
+      if (!this.currentUrl) return ''
+
+      const url = document.createElement('a')
+      url.href = this.currentUrl
+      return url.hostname
     }
   },
   async mounted () {
@@ -41,7 +49,11 @@ export default {
         const result = await addLink(this.currentUrl)
         this.$router.push({ name: RouteNames.AddSuccess, params: { linkId: result.data.linkId } })
       } catch (error) {
-        this.$router.push({ name: RouteNames.AddFailed, params: { message: 'Sorry, there was an issue saving this page' } })
+        if (error.response?.status === 400) {
+          this.$router.push({ name: RouteNames.AddManual, params: { url: this.currentUrl, tabTitle: this.currentTitle, tabDomain: this.urlDomain } })
+        } else {
+          this.$router.push({ name: RouteNames.AddFailed, params: { message: 'Sorry, there was an issue saving this page' } })
+        }
       }
     } else {
       this.$router.push({ name: RouteNames.AddFailed, params: { message: "Sorry, this kind of page isn't supported" } })
@@ -56,7 +68,9 @@ export default {
         console.error(error)
         throw new Error('There was an issue getting the current tab')
       }
-      this.currentUrl = tabs[0].url
+      const { url, title } = tabs[0]
+      this.currentUrl = url
+      this.currentTitle = title
     }
   }
 }

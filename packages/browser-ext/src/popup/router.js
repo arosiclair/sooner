@@ -6,6 +6,7 @@ import AddFailed from '../components/AddFailed'
 import AddSuccess from '../components/AddSuccess'
 import TryLogin from '../components/TryLogin'
 import Intro from '../components/Intro'
+import AddManual from '../components/AddManual'
 
 Vue.use(VueRouter)
 
@@ -15,7 +16,8 @@ export const RouteNames = {
   Intro: 'Intro',
   Adding: 'Adding',
   AddSuccess: 'AddSuccess',
-  AddFailed: 'AddFailed'
+  AddFailed: 'AddFailed',
+  AddManual: 'AddManual'
 }
 
 const routes = [
@@ -49,6 +51,12 @@ const routes = [
     path: '/addSuccess',
     name: RouteNames.AddSuccess,
     component: AddSuccess,
+    props: true
+  },
+  {
+    path: '/addManual',
+    name: RouteNames.AddManual,
+    component: AddManual,
     props: true
   }
 ]

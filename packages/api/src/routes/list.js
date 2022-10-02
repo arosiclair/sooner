@@ -38,27 +38,30 @@ router.get('/', async function (req, res) {
   Creates a document in the list collection for the user if they do not already have one
 */
 const linkValidation = [
-  body('url').optional().isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
-  body('link').optional().isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
+  body('url').isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
   body('addedOn').optional().isISO8601(),
+  body('name').optional(),
+  body('siteName').optional(),
   validation
 ]
 router.post('/', ...linkValidation, async function (req, res) {
-  const url = req.body.url
-  if (!url) {
-    return res.status(400).json(new InvalidJSONResponse(['url']))
-  }
+  const { url, addedOn } = req.body
+  let { name, siteName } = req.body
 
-  try {
-    var { title, site } = await getMetadata(url)
-  } catch (error) {
-    return res.status(400).json(new InvalidJSONResponse(['url']))
+  if (!name || !siteName) {
+    try {
+      const metadata = await getMetadata(url)
+      name = metadata.title
+      siteName = metadata.site
+    } catch (error) {
+      return res.status(400).json(new InvalidJSONResponse(['url']))
+    }
   }
 
   const favicons = await getFavicons(getHostname(url), [])
 
   try {
-    const newLinkId = await addLink(req.userId, title, site, url, favicons, req.body.addedOn)
+    const newLinkId = await addLink(req.userId, name, siteName, url, favicons, addedOn)
     res.status(201).json({
       result: 'success',
       linkId: newLinkId

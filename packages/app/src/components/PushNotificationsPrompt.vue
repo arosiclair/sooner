@@ -54,7 +54,9 @@ export default {
   },
   mounted () {
     const havePrompted = localStorage.getItem(PROMPTED_KEY)
-    this.show = this.userPrefs.push.enabled && Notification.permission === 'default' && havePrompted !== 'true'
+    this.show = this.userPrefs.push &&
+                this.userPrefs.push.enabled &&
+                Notification.permission === 'default' && havePrompted !== 'true'
   },
   methods: {
     onCancel () {

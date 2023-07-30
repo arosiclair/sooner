@@ -10,5 +10,11 @@ module.exports.getFaviconsFromCache = async (domain) => {
 module.exports.setFaviconsInCache = (domain, favicons) => {
   if (!domain || !favicons) return
 
-  return geoffrey.getFavicons().updateOne({ domain }, { '$set': {domain, favicons} }, { upsert: true })
+  return geoffrey.getFavicons().updateOne({ domain }, { '$set': { domain, favicons } }, { upsert: true })
+}
+
+module.exports.getFaviconOverride = (domain) => {
+  if (!domain) return
+
+  return geoffrey.getFaviconOverrides().findOne({ domain })
 }

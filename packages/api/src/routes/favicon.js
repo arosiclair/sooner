@@ -4,7 +4,7 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 const { param, query } = require('express-validator')
 const validation = require('@sooner/middleware/validation')
-const { getFaviconsFromCache, setFaviconsInCache, getFaviconOverride } = require('../../../data-access/favicons')
+const { getFaviconsFromCache, setFaviconsInCache } = require('../../../data-access/favicons')
 
 const faviconValidation = [
   param('domain').isString(),
@@ -18,11 +18,6 @@ router.get('/:domain', ...faviconValidation, async (req, res) => {
 })
 
 async function getFavicons (domainName, targetSizes) {
-  const override = getFaviconOverride(domainName)
-  if (override) {
-    return override
-  }
-
   const url = `https://${domainName}`
   const html = await getHtml(url)
 

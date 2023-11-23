@@ -3,6 +3,10 @@
     "description": "Data access functionality for sooner",
     "authors": "Andrew Rosiclair",
     "version": "1.0.0",
+    "engines": {
+      "node": "~20.9.0",
+      "npm": "~10.1.0"
+    },
     "dependencies": {
         "bson": "^4.3.0",
         "mongodb": "^3.6.2",

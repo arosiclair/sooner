@@ -3,8 +3,8 @@
   "version": "0.2.0",
   "private": true,
   "engines": {
-      "node": "~20.9.0",
-      "npm": "~10.1.0"
+    "node": "~20.9.0",
+    "npm": "~10.1.0"
   },
   "scripts": {
     "serve": "vue-cli-service build --mode development --watch",
@@ -30,7 +30,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^9.18.1",
-    "vue-cli-plugin-browser-extension": "~0.25.1",
+    "vue-cli-plugin-browser-extension": "^0.26.1",
     "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [

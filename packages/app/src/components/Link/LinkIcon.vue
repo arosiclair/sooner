@@ -59,6 +59,8 @@ export default {
             ...icon,
             ...closestIcon
           }
+        } else {
+          return null
         }
       }).filter(Boolean)
     },

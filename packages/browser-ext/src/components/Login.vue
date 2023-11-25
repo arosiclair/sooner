@@ -49,6 +49,7 @@ import { login } from '../api'
 import LetterHead from '../components/LetterHead.vue'
 import { hasReadIntro } from '../has-read-intro'
 import { RouteNames } from '../popup/router'
+import browser from 'webextension-polyfill'
 
 export default {
   components: { LetterHead },
@@ -96,6 +97,7 @@ export default {
         if (error.response && error.response.status === 401) {
           this.errorMsg = 'The email/password is incorrect'
         } else {
+          console.error(error)
           this.errorMsg = 'Something went wrong. Try again'
         }
       }

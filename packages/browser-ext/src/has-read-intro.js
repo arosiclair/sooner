@@ -1,3 +1,5 @@
+import browser from 'webextension-polyfill'
+
 const KEY = 'HAS_READ_INTRO'
 
 export const hasReadIntro = async () => {

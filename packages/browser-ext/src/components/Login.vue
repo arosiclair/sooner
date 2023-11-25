@@ -49,6 +49,7 @@ import { login } from '../api'
 import LetterHead from '../components/LetterHead.vue'
 import { hasReadIntro } from '../has-read-intro'
 import { RouteNames } from '../popup/router'
+import browser from 'webextension-polyfill'
 
 export default {
   components: { LetterHead },

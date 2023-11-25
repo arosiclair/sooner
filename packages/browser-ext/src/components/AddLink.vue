@@ -10,6 +10,7 @@ import { addLink } from '../api'
 import SmallHeader from './SmallHeader.vue'
 import { RouteNames } from '../popup/router'
 import LoadingMessage from './LoadingMessage.vue'
+import browser from 'webextension-polyfill'
 
 export default {
   components: { SmallHeader, LoadingMessage },

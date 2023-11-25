@@ -1,5 +1,6 @@
 import { addLink, checkLogin, logout } from './api'
 import { showPageAddedNotification, showPageAddFailedNotification } from './notifications'
+import browser from 'webextension-polyfill'
 
 // Try login on startup
 (async function tryLogin () {

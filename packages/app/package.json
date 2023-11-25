@@ -33,7 +33,6 @@
     "@vue/eslint-config-standard": "^8.0.1",
     "babel-eslint": "^10.1.0",
     "bootstrap": "^4.3.1",
-    "copy-webpack-plugin": "^6.4.1",
     "eslint": "^8.54.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
@@ -47,6 +46,6 @@
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-bootstrap-vue": "~0.6.0",
     "vue-template-compiler": "^2.6.11",
-    "workbox-webpack-plugin": "^6.0.2"
+    "workbox-webpack-plugin": "^6.5.4"
   }
 }

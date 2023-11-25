@@ -1,5 +1,4 @@
 const { InjectManifest } = require('workbox-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
 
 let config = {}
 
@@ -7,11 +6,6 @@ if (process.env.NODE_ENV === 'production' || process.env.VUE_APP_DEV_SERVICE_WOR
   config = {
     configureWebpack: {
       plugins: [
-        new CopyPlugin({
-          patterns: [
-            { from: 'public/', to: './' }
-          ]
-        }),
         new InjectManifest({
           swSrc: './src/service-worker.js'
         })

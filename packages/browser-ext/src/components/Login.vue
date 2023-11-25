@@ -96,6 +96,7 @@ export default {
         if (error.response && error.response.status === 401) {
           this.errorMsg = 'The email/password is incorrect'
         } else {
+          console.error(error)
           this.errorMsg = 'Something went wrong. Try again'
         }
       }

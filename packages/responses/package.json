@@ -2,5 +2,9 @@
     "name": "@sooner/responses",
     "description": "Response JSON factories for Sooner APIs",
     "authors": "Andrew Rosiclair",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "engines": {
+      "node": "~20.9.0",
+      "npm": "~10.1.0"
+    }
 }

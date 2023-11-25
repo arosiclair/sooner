@@ -11,6 +11,7 @@ import SmallHeader from '../components/SmallHeader'
 import { RouteNames } from '../popup/router'
 import LoadingMessage from './LoadingMessage.vue'
 import { hasReadIntro } from '../has-read-intro'
+import browser from 'webextension-polyfill'
 
 export default {
   components: {

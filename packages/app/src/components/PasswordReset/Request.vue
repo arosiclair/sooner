@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <letter-head />
@@ -76,7 +75,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

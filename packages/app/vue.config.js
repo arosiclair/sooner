@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
   config = {
     ...config,
     devServer: {
-      disableHostCheck: true,
+      allowedHosts: 'all',
       proxy: {
         '^/api': {
           target: 'http://localhost:3000',

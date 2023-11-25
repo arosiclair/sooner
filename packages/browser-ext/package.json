@@ -2,6 +2,10 @@
   "name": "@sooner/browser-ext",
   "version": "0.2.0",
   "private": true,
+  "engines": {
+      "node": "~20.9.0",
+      "npm": "~10.1.0"
+  },
   "scripts": {
     "serve": "vue-cli-service build --mode development --watch",
     "build": "vue-cli-service build",

@@ -18,7 +18,7 @@ router.get('/:domain', ...faviconValidation, async (req, res) => {
 })
 
 async function getFavicons (domainName, targetSizes) {
-  const override = getFaviconOverride(domainName)
+  const override = await getFaviconOverride(domainName)
   if (override) {
     return override
   }

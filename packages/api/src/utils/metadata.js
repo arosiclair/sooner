@@ -1,6 +1,7 @@
 const { decode } = require('html-entities')
 const proxy = require('./proxy')
 const ogs = require('open-graph-scraper')
+const hostname = require('./hostname')
 
 async function getMetadata (url) {
   if (!url) return {}
@@ -19,7 +20,7 @@ async function getMetadata (url) {
 
   return {
     title: decode(result.ogTitle) || "Sorry, title wasn't found",
-    site: result.customMetaTags.ogSiteName || getHostname(url)
+    site: result.customMetaTags.ogSiteName || hostname(url)
   }
 }
 
@@ -28,29 +29,16 @@ async function getHTML (url) {
   try {
     response = await fetch(url)
   } catch (error) {
-    console.log(`coudln't fetch url: '${url}'`)
+    console.log(`[metadata] couldn't fetch html: '${hostname(url)}'`)
     return proxy(url)
   }
 
   if (response.ok && response.body) {
     return response.text()
   } else {
-    console.log(`failed to get metadata for ${url}. Error: ${response.status} '${response.statusText}'`)
+    console.log(`[metadata] failed to get html for '${hostname(url)}'. Error: ${response.status} '${response.statusText}'`)
     return proxy(url)
   }
-}
-
-function getHostname (link) {
-  if (!link) return null
-
-  let url
-  try {
-    url = new URL(link)
-  } catch {
-    return null
-  }
-
-  return url.hostname
 }
 
 function parseLink (text) {

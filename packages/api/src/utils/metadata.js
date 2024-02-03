@@ -25,7 +25,7 @@ async function getMetadata (url) {
 
     return {
       title: decode(result.ogTitle) || "Sorry, title wasn't found",
-      site: result.customMetaTags?.ogSiteName || hostname(url)
+      site: result.customMetaTags?.ogSiteName || result.twitterSite || hostname(url)
     }
   } catch (error) {
     throw new Error(`failed to parse metadata for '${hostname(url)}'`)

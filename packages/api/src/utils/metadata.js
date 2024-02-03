@@ -1,33 +1,52 @@
-const urlMetadata = require('url-metadata')
 const { decode } = require('html-entities')
+const proxy = require('./proxy')
+const ogs = require('open-graph-scraper')
+const hostname = require('./hostname')
 
 async function getMetadata (url) {
   if (!url) return {}
 
-  try {
-    var metadata = await urlMetadata(url)
-  } catch (error) {
-    console.error(`failed to getMetadata for link: '${url}' error: '${JSON.stringify(error)}'`)
-    throw error
+  const html = await getHTML(url)
+  if (!html) {
+    throw new Error(`failed to fetch HTML for '${hostname(url)}'`)
   }
 
-  return {
-    title: decode(metadata.title) || "Sorry, title wasn't found",
-    site: metadata['og:site_name'] || getHostname(url)
+  try {
+    const { result } = await ogs({
+      html,
+      customMetaTags: [
+        {
+          multiple: false,
+          property: 'site_name',
+          fieldName: 'ogSiteName'
+        }
+      ]
+    })
+
+    return {
+      title: decode(result.ogTitle) || "Sorry, title wasn't found",
+      site: result.customMetaTags?.ogSiteName || result.twitterSite || hostname(url)
+    }
+  } catch (error) {
+    throw new Error(`failed to parse metadata for '${hostname(url)}'`)
   }
 }
 
-function getHostname (link) {
-  if (!link) return null
-
-  let url
+async function getHTML (url) {
+  let response
   try {
-    url = new URL(link)
-  } catch {
-    return null
+    response = await fetch(url)
+  } catch (error) {
+    console.log(`[metadata] failed to get html for '${hostname(url)}'`, error)
+    return proxy(url)
   }
 
-  return url.hostname
+  if (response.ok && response.body) {
+    return response.text()
+  } else {
+    console.log(`[metadata] failed to get html for '${hostname(url)}'. Error: ${response.status} '${response.statusText}'`)
+    return proxy(url)
+  }
 }
 
 function parseLink (text) {

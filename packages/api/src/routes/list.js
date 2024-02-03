@@ -2,13 +2,13 @@ const express = require('express')
 const router = express.Router()
 
 const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('@sooner/data-access/lists')
-const { ErrorResponse, InvalidJSONResponse } = require('@sooner/responses/errors')
+const { ErrorResponse } = require('@sooner/responses/errors')
 const validation = require('@sooner/middleware/validation')
 const multer = require('multer')
 const { getMetadata, parseLink } = require('../utils/metadata')
 const { body } = require('express-validator')
 const { getFavicons } = require('./favicon')
-const { getHostname } = require('../utils/misc')
+const hostname = require('../utils/hostname')
 const upload = multer()
 
 router.get('/', async function (req, res) {
@@ -54,11 +54,11 @@ router.post('/', ...linkValidation, async function (req, res) {
       name = metadata.title
       siteName = metadata.site
     } catch (error) {
-      return res.status(400).json(new InvalidJSONResponse(['url']))
+      return res.status(500).json(new ErrorResponse(error.message))
     }
   }
 
-  const favicons = await getFavicons(getHostname(url), [])
+  const favicons = await getFavicons(hostname(url), [])
 
   try {
     const newLinkId = await addLink(req.userId, name, siteName, url, favicons, addedOn)
@@ -81,7 +81,7 @@ router.post('/share', upload.none(), ...shareValidation, async function (req, re
   try {
     const url = req.body.url || parseLink(req.body.text)
     const { title, site } = await getMetadata(url)
-    const favicons = await getFavicons(getHostname(url), [])
+    const favicons = await getFavicons(hostname(url), [])
 
     if (!url) {
       throw new Error('No link provided')

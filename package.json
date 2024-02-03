@@ -23,5 +23,8 @@
     },
     "devDependencies": {
         "@vue/cli-plugin-eslint": "~4.5.0"
+    },
+    "dependencies": {
+        "open-graph-scraper": "^6.3.3"
     }
 }

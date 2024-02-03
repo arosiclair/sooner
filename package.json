@@ -22,7 +22,7 @@
         "push:dev": "npm run dev --workspace=@sooner/push-api"
     },
     "devDependencies": {
-        "@vue/cli-plugin-eslint": "~4.5.0"
+        "@vue/cli-plugin-eslint": "~5.0.8"
     },
     "dependencies": {
         "open-graph-scraper": "^6.3.3"

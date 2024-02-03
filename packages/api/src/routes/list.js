@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const { getListIdForUser, getListById, updateLinks, addLink, deleteLink } = require('@sooner/data-access/lists')
-const { ErrorResponse, InvalidJSONResponse } = require('@sooner/responses/errors')
+const { ErrorResponse } = require('@sooner/responses/errors')
 const validation = require('@sooner/middleware/validation')
 const multer = require('multer')
 const { getMetadata, parseLink } = require('../utils/metadata')

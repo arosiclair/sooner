@@ -1,19 +1,42 @@
-const urlMetadata = require('url-metadata')
 const { decode } = require('html-entities')
+const proxy = require('./proxy')
+const ogs = require('open-graph-scraper')
 
 async function getMetadata (url) {
   if (!url) return {}
 
-  try {
-    var metadata = await urlMetadata(url)
-  } catch (error) {
-    console.error(`failed to getMetadata for link: '${url}' error: '${JSON.stringify(error)}'`)
-    throw error
-  }
+  const html = await getHTML(url)
+  const { result } = await ogs({
+    html,
+    customMetaTags: [
+      {
+        multiple: false,
+        property: 'site_name',
+        fieldName: 'ogSiteName'
+      }
+    ]
+  })
 
   return {
-    title: decode(metadata.title) || "Sorry, title wasn't found",
-    site: metadata['og:site_name'] || getHostname(url)
+    title: decode(result.ogTitle) || "Sorry, title wasn't found",
+    site: result.customMetaTags.ogSiteName || getHostname(url)
+  }
+}
+
+async function getHTML (url) {
+  let response
+  try {
+    response = await fetch(url)
+  } catch (error) {
+    console.log(`coudln't fetch url: '${url}'`)
+    return proxy(url)
+  }
+
+  if (response.ok && response.body) {
+    return response.text()
+  } else {
+    console.log(`failed to get metadata for ${url}. Error: ${response.status} '${response.statusText}'`)
+    return proxy(url)
   }
 }
 

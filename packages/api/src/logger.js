@@ -5,4 +5,4 @@ morgan.token('url', (req, res) => {
   return url.replace(/([?&]url=)[^&]*/i, (match, p1) => `${p1}<REDACTED>`)
 })
 
-module.exports = () => morgan('dev')
+module.exports = () => morgan('[request] :method :url :status :response-time[0] ms - :res[content-length] B')

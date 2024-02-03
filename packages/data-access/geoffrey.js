@@ -1,4 +1,3 @@
-// Data access for Sooner
 const mongoClient = require('mongodb').MongoClient
 
 if (!process.env.MONGODB_URL) throw new Error('MONGODB_URL is not defined')
@@ -14,24 +13,24 @@ let geoffrey
   let client
 
   for (let i = 0; i < numRetries; i++) {
-    console.log('Attempting MongoDB connection...')
+    console.log('[geoffrey] attempting connection...')
     try {
       client = await mongoClient.connect(process.env.MONGODB_URL, { useUnifiedTopology: true })
       break
     } catch (error) {
-      console.error('Error connecting to MongoDB:\n\t' + error)
-      console.log(`Waiting ${delaySecs} seconds before retrying...`)
+      console.warn('[geoffrey] failed to connect', error)
+      console.log(`[geoffrey] waiting ${delaySecs} seconds before retrying...`)
       await delay(delaySecs * 1000)
     }
   }
 
   if (!client) {
-    throw new Error(`Failed to connect to MongoDB after ${numRetries} retries`)
+    throw new Error(`[geoffrey] failed to connect after ${numRetries} retries`)
   }
 
   geoffrey = client.db(process.env.MONGODB_NAME)
 
-  console.log('Connected successfully to MongoDB')
+  console.log('[geoffrey] connected successfully')
 })()
 
 module.exports.getUsers = () => geoffrey.collection('users')

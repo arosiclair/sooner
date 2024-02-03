@@ -54,7 +54,7 @@ router.post('/', ...linkValidation, async function (req, res) {
       name = metadata.title
       siteName = metadata.site
     } catch (error) {
-      return res.status(400).json(new InvalidJSONResponse(['url']))
+      return res.status(500).json(new ErrorResponse(error.message))
     }
   }
 

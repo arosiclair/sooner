@@ -7,20 +7,28 @@ async function getMetadata (url) {
   if (!url) return {}
 
   const html = await getHTML(url)
-  const { result } = await ogs({
-    html,
-    customMetaTags: [
-      {
-        multiple: false,
-        property: 'site_name',
-        fieldName: 'ogSiteName'
-      }
-    ]
-  })
+  if (!html) {
+    throw new Error(`failed to fetch HTML for '${hostname(url)}'`)
+  }
 
-  return {
-    title: decode(result.ogTitle) || "Sorry, title wasn't found",
-    site: result.customMetaTags.ogSiteName || hostname(url)
+  try {
+    const { result } = await ogs({
+      html,
+      customMetaTags: [
+        {
+          multiple: false,
+          property: 'site_name',
+          fieldName: 'ogSiteName'
+        }
+      ]
+    })
+
+    return {
+      title: decode(result.ogTitle) || "Sorry, title wasn't found",
+      site: result.customMetaTags?.ogSiteName || hostname(url)
+    }
+  } catch (error) {
+    throw new Error(`failed to parse metadata for '${hostname(url)}'`)
   }
 }
 
@@ -29,7 +37,7 @@ async function getHTML (url) {
   try {
     response = await fetch(url)
   } catch (error) {
-    console.log(`[metadata] couldn't fetch html: '${hostname(url)}'`)
+    console.log(`[metadata] failed to get html for '${hostname(url)}'`, error)
     return proxy(url)
   }
 

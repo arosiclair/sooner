@@ -1,15 +1,15 @@
 const express = require('express')
 const path = require('path')
-const logger = require('morgan')
 const cookieSession = require('cookie-session')
 const cors = require('cors')
 const helmet = require('helmet')
 const routes = require('./routes')
+const logger = require('./logger')
 
 const app = express()
 
 app.use(helmet())
-app.use(logger('dev'))
+app.use(logger())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 

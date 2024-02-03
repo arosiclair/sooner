@@ -37,7 +37,7 @@ async function getHTML (url) {
   try {
     response = await fetch(url)
   } catch (error) {
-    console.log(`[metadata] failed to get html for '${hostname(url)}'`, error)
+    console.log(`[metadata] failed to get html for '${hostname(url)}'`)
     return proxy(url)
   }
 

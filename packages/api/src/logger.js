@@ -30,4 +30,4 @@ if (process.env.NODE_ENV === 'development') {
   })
 }
 
-module.exports = () => morgan('[request] :method :url :status :response-time[0] ms - :res[content-length] B')
+module.exports = () => morgan('[request] :method :url :status :response-time[0] ms - :res[content-length]')

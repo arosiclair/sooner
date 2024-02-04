@@ -1,6 +1,9 @@
 <template>
   <ripple-overlay :light="light">
-    <hover-overlay :light="light" v-on="$listeners">
+    <hover-overlay
+      :light="light"
+      v-on="$listeners"
+    >
       <slot />
     </hover-overlay>
   </ripple-overlay>

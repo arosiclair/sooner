@@ -62,5 +62,6 @@ function parseLink (text) {
 
 module.exports = {
   getMetadata,
-  parseLink
+  parseLink,
+  getHTML
 }

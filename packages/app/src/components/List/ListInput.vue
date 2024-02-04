@@ -56,8 +56,12 @@ export default {
       } catch (error) {
         this.error = true
 
-        if (error.response.status === 401) {
-          this.$toast.error('Your session expired')
+        if (error.response) {
+          if (error.response.status === 400) {
+            this.error = true
+          } else if (error.response.status === 401) {
+            this.$toast.error('Your session expired')
+          }
         } else {
           this.$toast.error('There was an issue adding your link')
         }

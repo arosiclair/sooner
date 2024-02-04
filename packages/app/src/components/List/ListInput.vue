@@ -39,8 +39,13 @@ export default {
 
   methods: {
     onUrlChanged: debounce(async function (event) {
-      this.loading = true
+      const loadingTimeout = setTimeout(() => {
+        this.loading = true
+      }, 750)
+
       await this.submit(this.url)
+
+      clearTimeout(loadingTimeout)
       this.loading = false
     }, 750),
 

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { sendDebugNotification, showLocalNotificaiton, subscribeForPush } from '../../modules/notification'
+import { sendDebugNotification, showLocalNotification, subscribeForPush } from '../../modules/notification'
 
 export default {
   data () {
@@ -45,7 +45,7 @@ export default {
       }
     },
     showMockNotification () {
-      showLocalNotificaiton(this.title, this.body)
+      showLocalNotification(this.title, this.body)
     },
     sendRemoteNotification () {
       sendDebugNotification(this.title, this.body)

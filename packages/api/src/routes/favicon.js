@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const axios = require('axios')
 const cheerio = require('cheerio')
 const { param, query } = require('express-validator')
 const validation = require('@sooner/middleware/validation')
 const { getFaviconsFromCache, setFaviconsInCache, getFaviconOverride } = require('../../../data-access/favicons')
+const { getHTML } = require('../utils/metadata')
 
 const faviconValidation = [
   param('domain').isString(),
@@ -17,38 +17,22 @@ router.get('/:domain', ...faviconValidation, async (req, res) => {
   res.json(await getFavicons(domainName, targetSizes))
 })
 
-async function getFavicons (domainName, targetSizes) {
-  const override = await getFaviconOverride(domainName)
+async function getFavicons (hostname, targetSizes) {
+  const override = await getFaviconOverride(hostname)
   if (override) {
     return override
   }
 
-  const url = `https://${domainName}`
-  const html = await getHtml(url)
+  const url = `https://${hostname}`
+  const html = await getHTML(url)
 
   if (!html) {
-    return getFaviconsFromCache(domainName)
+    return getFaviconsFromCache(hostname)
   } else {
     const linkedIcons = getLinkedIcons(html, url)
-    setFaviconsInCache(domainName, linkedIcons)
+    setFaviconsInCache(hostname, linkedIcons)
     return targetSizes.length ? getTargetIcons(linkedIcons, targetSizes) : linkedIcons
   }
-}
-
-/** Get HTML from url as string */
-async function getHtml (url) {
-  try {
-    var resp = await axios.get(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'
-      }
-    })
-  } catch (error) {
-    console.error(error)
-    return null
-  }
-
-  return typeof resp.data === 'string' ? resp.data : null
 }
 
 function getLinkedIcons (html, url) {

@@ -3,7 +3,9 @@
     <letter-head />
     <h1>Success!</h1>
     <p>{{ message }}</p>
-    <router-link :to="{ name: RouteNames.Login }">Back to login</router-link>
+    <router-link :to="{ name: RouteNames.Login }">
+      Back to login
+    </router-link>
   </div>
 </template>
 
@@ -13,9 +15,12 @@ import LetterHead from '../LetterHead.vue'
 
 export default {
   components: { LetterHead },
-  props: [
-    'message'
-  ],
+  props: {
+    message: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       RouteNames

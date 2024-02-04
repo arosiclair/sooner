@@ -26,8 +26,8 @@ export default {
   actions: {
     async login ({ dispatch }, { email, password }) {
       const loginData = {
-        email: email,
-        password: password
+        email,
+        password
       }
 
       try {

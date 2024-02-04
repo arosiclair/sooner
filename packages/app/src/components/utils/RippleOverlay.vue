@@ -1,5 +1,8 @@
 <template>
-  <div class="ripple-container" @click="createRipple">
+  <div
+    class="ripple-container"
+    @click="createRipple"
+  >
     <slot />
   </div>
 </template>

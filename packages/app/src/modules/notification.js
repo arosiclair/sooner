@@ -2,7 +2,7 @@ import logoRounded from '../assets/logo-rounded/256.png'
 import badge from '../assets/badge/96.png'
 import notificationsApi from './notifications-api'
 
-export async function showLocalNotificaiton (title, body) {
+export async function showLocalNotification (title, body) {
   if (!('serviceWorker' in navigator)) throw new Error('Service Worker not supported')
 
   const sw = await navigator.serviceWorker.ready
@@ -77,7 +77,7 @@ export async function sendDebugNotification (title, body) {
   }
 
   notificationsApi.post('/subscription/test', {
-    subscription: subscription,
+    subscription,
     notification: {
       title,
       body

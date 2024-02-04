@@ -115,7 +115,7 @@ export default {
     openLink: async function () {
       await delay(300)
 
-      var win = window.open(this.data.url, '_blank')
+      const win = window.open(this.data.url, '_blank')
       win.focus()
     },
     remove: async function (event) {

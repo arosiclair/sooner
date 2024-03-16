@@ -55,6 +55,7 @@ import ListTransitions from './ListTransitions.vue'
 import PlaceHolderIcon from '@/assets/list-placeholder.svg'
 import PushNotificationsPrompt from '../PushNotificationsPrompt.vue'
 import AsyncLock from 'async-lock'
+import ToastUndoBtn from '../ToastUndoBtn.vue'
 
 const lock = new AsyncLock()
 
@@ -74,7 +75,8 @@ export default {
       empty: false,
       error: false,
       links: [],
-      transitionsReady: false
+      transitionsReady: false,
+      previousDeletedLinkId: 0
     }
   },
   computed: {
@@ -91,6 +93,9 @@ export default {
           return new Date(a.addedOn) - new Date(b.addedOn)
         }
       })
+    },
+    removeToastID () {
+      return `remove-link-${this.removeCounter}`
     },
     ...mapGetters({
       userPrefs: 'user/prefs',
@@ -133,32 +138,68 @@ export default {
         done()
       })
     },
-    onLinkRemoved (linkId, promise) {
+
+    onLinkRemoved (linkId) {
       return lock.acquire('refresh', async (done) => {
+        // Optimistically remove the link
         const originalLinks = this.links
+        const deletedLink = this.links.find(link => link._id === linkId)
         this.links = this.links.filter(link => link._id !== linkId)
 
-        const { undo } = await promise
-        if (undo) {
+        // Remove any previous toast and show a new one to undo
+        this.$toast.dismiss(this.getRemovedToastID(this.previousDeletedLinkId))
+        this.previousDeletedLinkId = linkId
+        this.$toast.info('Link removed', {
+          id: this.getRemovedToastID(linkId),
+          timeout: 3000,
+          pauseOnFocusLoss: false,
+          closeButton: ToastUndoBtn,
+          closeOnClick: true,
+          onClick: () => this.undoRemoveLink(deletedLink)
+        })
+
+        // Delete the link
+        try {
+          await api.delete(`/list/${linkId}`)
+        } catch (error) {
+          this.$toast.error('Sorry, there was an issue removing that link')
           this.links = originalLinks
-        } else {
-          try {
-            await api.delete(`/list/${linkId}`)
-          } catch (error) {
-            this.$toast.error('Sorry, there was an issue removing that link')
-            this.links = originalLinks
-          }
         }
 
+        // Release the lock
         done()
       })
     },
+
+    async undoRemoveLink (deletedLink) {
+      return lock.acquire('refresh', async (done) => {
+        // Optimistically re-add the deleted link
+        this.links.push(deletedLink)
+
+        // Post the link with it's original addedOn and expiresOn
+        try {
+          await api.post('/list', {
+            url: deletedLink.url,
+            addedOn: deletedLink.addedOn,
+            expiresOn: deletedLink.expiresOn
+          })
+        } catch {
+          this.$toast.error('Sorry, there was an issue restoring that link')
+          this.links = this.links.filter(link => link._id !== deletedLink._id)
+        }
+
+        // Release the lock
+        done()
+      })
+    },
+
     expiredPrompt (numExpired) {
       if (numExpired) {
         const links = numExpired > 1 ? 'links' : 'link'
         this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
       }
     },
+
     sharePrompt () {
       if (this.$route.query.share) {
         if (this.$route.query.success) {
@@ -170,9 +211,14 @@ export default {
         this.$router.push({ query: {} })
       }
     },
+
     goToLogin () {
       this.$toast.error("Doesn't look like you're logged in anymore")
       this.$router.push({ name: RouteNames.Login })
+    },
+
+    getRemovedToastID (linkID) {
+      return `toast-link-removed-${linkID}`
     }
   }
 }

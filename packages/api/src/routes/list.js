@@ -40,12 +40,13 @@ router.get('/', async function (req, res) {
 const linkValidation = [
   body('url').isURL({ require_valid_protocol: true, protocols: ['http', 'https'] }),
   body('addedOn').optional().isISO8601(),
+  body('expiresOn').optional().isISO8601(),
   body('name').optional(),
   body('siteName').optional(),
   validation
 ]
 router.post('/', ...linkValidation, async function (req, res) {
-  const { url, addedOn } = req.body
+  const { url, addedOn, expiresOn } = req.body
   let { name, siteName } = req.body
 
   if (!name || !siteName) {
@@ -61,7 +62,7 @@ router.post('/', ...linkValidation, async function (req, res) {
   const favicons = await getFavicons(hostname(url), [])
 
   try {
-    const newLinkId = await addLink(req.userId, name, siteName, url, favicons, addedOn)
+    const newLinkId = await addLink(req.userId, name, siteName, url, favicons, addedOn, expiresOn)
     res.status(201).json({
       result: 'success',
       linkId: newLinkId

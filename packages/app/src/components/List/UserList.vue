@@ -172,6 +172,11 @@ export default {
     },
 
     async undoRemoveLink (deletedLink) {
+      // Check if this is a dupe
+      if (this.links.find(link => link._id === deletedLink._id)) {
+        return
+      }
+
       // Optimistically re-add the deleted link
       this.links.push(deletedLink)
 

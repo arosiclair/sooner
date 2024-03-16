@@ -1,0 +1,17 @@
+meta {
+  name: add link
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{apiURL}}/list
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "url": "https://www.nytimes.com/live/2020/11/11/world/covid-19-coronavirus-live-updates"
+  }
+}

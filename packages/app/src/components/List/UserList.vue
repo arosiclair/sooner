@@ -179,6 +179,7 @@ export default {
         // Post the link with it's original addedOn and expiresOn
         try {
           await api.post('/list', {
+            linkId: deletedLink._id,
             url: deletedLink.url,
             addedOn: deletedLink.addedOn,
             expiresOn: deletedLink.expiresOn

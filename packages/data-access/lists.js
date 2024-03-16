@@ -63,7 +63,7 @@ async function populateIntroLinks (userId) {
   return Promise.all(introLinks.map(introLink => addLink(userId, introLink.name, introLink.siteName, introLink.url, introLink.favicons, undefined, undefined, true)))
 }
 
-async function addLink (userId, name, siteName, url, favicons, addedOn = new Date(), expiresOn = null, isTutorial = false) {
+async function addLink (userId, name, siteName, url, favicons, addedOn = new Date(), expiresOn = null, isTutorial = false, linkId = generateObjectId()) {
   if (!userId) return false
 
   if (isTutorial) {
@@ -93,7 +93,7 @@ async function addLink (userId, name, siteName, url, favicons, addedOn = new Dat
   }
 
   const newLink = {
-    _id: generateObjectId(),
+    _id: linkId,
     name,
     siteName,
     url,

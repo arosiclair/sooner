@@ -140,24 +140,24 @@ export default {
     },
 
     onLinkRemoved (linkId) {
+      // Optimistically remove the link
+      const originalLinks = this.links
+      const deletedLink = this.links.find(link => link._id === linkId)
+      this.links = this.links.filter(link => link._id !== linkId)
+
+      // Remove any previous toast and show a new one to undo
+      this.$toast.dismiss(this.getRemovedToastID(this.previousDeletedLinkId))
+      this.previousDeletedLinkId = linkId
+      this.$toast.info('Link removed', {
+        id: this.getRemovedToastID(linkId),
+        timeout: 3000,
+        pauseOnFocusLoss: false,
+        closeButton: ToastUndoBtn,
+        closeOnClick: true,
+        onClick: () => this.undoRemoveLink(deletedLink)
+      })
+
       return lock.acquire('refresh', async (done) => {
-        // Optimistically remove the link
-        const originalLinks = this.links
-        const deletedLink = this.links.find(link => link._id === linkId)
-        this.links = this.links.filter(link => link._id !== linkId)
-
-        // Remove any previous toast and show a new one to undo
-        this.$toast.dismiss(this.getRemovedToastID(this.previousDeletedLinkId))
-        this.previousDeletedLinkId = linkId
-        this.$toast.info('Link removed', {
-          id: this.getRemovedToastID(linkId),
-          timeout: 3000,
-          pauseOnFocusLoss: false,
-          closeButton: ToastUndoBtn,
-          closeOnClick: true,
-          onClick: () => this.undoRemoveLink(deletedLink)
-        })
-
         // Delete the link
         try {
           await api.delete(`/list/${linkId}`)
@@ -172,10 +172,10 @@ export default {
     },
 
     async undoRemoveLink (deletedLink) {
-      return lock.acquire('refresh', async (done) => {
-        // Optimistically re-add the deleted link
-        this.links.push(deletedLink)
+      // Optimistically re-add the deleted link
+      this.links.push(deletedLink)
 
+      return lock.acquire('refresh', async (done) => {
         // Post the link with it's original addedOn and expiresOn
         try {
           await api.post('/list', {

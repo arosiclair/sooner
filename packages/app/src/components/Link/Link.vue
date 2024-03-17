@@ -49,15 +49,7 @@ import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
 import doneMp3 from '@/assets/sounds/done.mp3'
 import { mapGetters } from 'vuex'
 import { delay } from '../../modules/utilities'
-import ToastUndoBtn from '../ToastUndoBtn.vue'
 import { Howl } from 'howler'
-
-/**
- * Use a counter for creating unique Ids for undo toast notifications
- * This makes it possible to dismiss the previous undo toast when creating another
- *  */
-let undoToastIdCounter = 0
-const getUndoToastId = (counter) => `link-remove-undo-toast-${counter}`
 
 const doneSound = new Howl({
   src: [doneMp3]
@@ -123,25 +115,8 @@ export default {
         doneSound.play()
       }
 
+      this.$emit('removed', this.data._id)
       event.stopPropagation()
-
-      this.$emit('removed', this.data._id, new Promise((resolve, reject) => {
-        let remove = true
-
-        this.$toast.dismiss(getUndoToastId(undoToastIdCounter)) // dismiss the previous undo toast
-        this.$toast.info('Link removed', {
-          id: getUndoToastId(++undoToastIdCounter),
-          timeout: 3000,
-          pauseOnFocusLoss: false,
-          closeButton: ToastUndoBtn,
-          closeOnClick: true,
-          onClick: () => {
-            remove = false
-            resolve({ undo: true })
-          },
-          onClose: () => remove && resolve({ undo: false })
-        })
-      }))
     }
   }
 }

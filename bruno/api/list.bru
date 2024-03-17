@@ -1,0 +1,18 @@
+meta {
+  name: list
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{apiURL}}/list
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "email": "arosiclair@gmail.com",
+    "password": "Password1!"
+  }
+}

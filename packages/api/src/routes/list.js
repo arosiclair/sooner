@@ -86,17 +86,15 @@ router.post('/share', upload.none(), ...shareValidation, async function (req, re
     const favicons = await getFavicons(hostname(url), [])
 
     if (!url) {
-      throw new Error('No link provided')
-    } else if (!title || !site) {
-      throw new Error("Couldn't find metadata")
-    } else {
-      const newLinkId = await addLink(req.userId, title, site, url, favicons)
-      if (!newLinkId) {
-        throw new Error('Add link DB error')
-      }
-
-      res.redirect('/list?share=true&success=true')
+      throw new Error('no link')
     }
+
+    if (!title || !site) {
+      throw new Error('no metadata')
+    }
+
+    await addLink(req.userId, title, site, url, favicons)
+    res.redirect('/list?share=true&success=true')
   } catch {
     res.redirect('/list?share=true&failed=true')
   }

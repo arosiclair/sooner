@@ -64,28 +64,21 @@ async function populateIntroLinks (userId) {
 }
 
 async function addLink (userId, name, siteName, url, favicons, addedOn = new Date(), expiresOn = null, isTutorial = false, linkId = '') {
-  if (!userId) return false
-
-  if (isTutorial) {
-    if (!name || !siteName) {
-      return false
-    }
-  } else {
-    if (!name || !siteName || !url) {
-      return false
-    }
+  const listId = await getListIdForUser(userId)
+  if (!listId) {
+    throw new Error(`[lists] addlink() - userId '${userId}' doesn't have a list somehow`)
   }
 
-  const listId = await getListIdForUser(userId)
-
   // check for a dupe and return it instead
-  const existingLink = !isTutorial && await checkExists(listId, url)
+  const existingLink = !isTutorial && await getLinkByUrl(listId, url)
   if (existingLink) {
     return existingLink._id
   }
 
   const userPrefs = await getUserPrefs(userId)
-  if (!userPrefs) return null
+  if (!userPrefs){ 
+    throw new Error(`[lists] addlink() - userId '${userId}' doesn't have a userPrefs somehow`)
+  }
 
   if (!expiresOn) {
     expiresOn = new Date(addedOn)
@@ -102,13 +95,7 @@ async function addLink (userId, name, siteName, url, favicons, addedOn = new Dat
     expiresOn,
     isTutorial
   }
-
-  try {
-    await geoffrey.getLists().updateOne({ _id: listId }, { $push: { links: newLink } })
-  } catch (error) {
-    console.error('addLink() - db error: ' + error)
-    return null
-  }
+  await geoffrey.getLists().updateOne({ _id: listId }, { $push: { links: newLink } })
 
   return newLink._id
 }
@@ -122,7 +109,7 @@ async function deleteLink (userId, linkId) {
   return true
 }
 
-async function checkExists (listId, url) {
+async function getLinkByUrl (listId, url) {
   if (!listId || !url) return false
 
   const list = await getListById(listId)

@@ -24,7 +24,7 @@
     "service_worker": "service-worker.js",
     "type": "module"
   },
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html",
     "default_title": "Add to Sooner",
     "default_icon": {

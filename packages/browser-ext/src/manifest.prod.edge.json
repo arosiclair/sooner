@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Add to Sooner",
   "homepage_url": "https://sooner.app",
   "description": "A browser extension for quickly adding pages to your Sooner list",
@@ -8,7 +8,9 @@
     "activeTab",
     "contextMenus",
     "notifications",
-    "storage",
+    "storage"
+  ],
+  "host_permissions": [
     "https://sooner.app/*"
   ],
   "icons": {

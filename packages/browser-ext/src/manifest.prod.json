@@ -31,5 +31,8 @@
       "24": "icons/24.png",
       "32": "icons/32.png"
     }
+  },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; style-src 'self' 'unsafe-inline';"
   }
 }

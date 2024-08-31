@@ -32,5 +32,8 @@
       "32": "icons/32.png"
     }
   },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; style-src 'self' 'unsafe-inline';"
+  },
   "update_URL": "https://edge.microsoft.com/extensionwebstorebase/v1/crx"
 }

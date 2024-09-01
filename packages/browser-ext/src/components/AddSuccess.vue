@@ -3,11 +3,25 @@
     <small-header />
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex">
-        <b-icon class="h4 mb-0 mr-3" icon="check-circle-fill" variant="success" />
-        <h5 class="mb-0"> Page added!</h5>
+        <b-icon
+          class="h4 mb-0 mr-3"
+          icon="check-circle-fill"
+          variant="success"
+        />
+        <h5 class="mb-0">
+          Page added!
+        </h5>
       </div>
-      <div class="delete-icon" @click="onDelete" role="button">
-        <b-icon icon="trash" class="h5 m-0" variant="danger" />
+      <div
+        class="delete-icon"
+        role="button"
+        @click="onDelete"
+      >
+        <b-icon
+          icon="trash"
+          class="h5 m-0"
+          variant="danger"
+        />
       </div>
     </div>
   </div>
@@ -17,8 +31,8 @@
 import { deleteLink } from '../api'
 import SmallHeader from './SmallHeader.vue'
 export default {
-  props: ['linkId'],
   components: { SmallHeader },
+  props: ['linkId'],
   methods: {
     async onDelete () {
       try {

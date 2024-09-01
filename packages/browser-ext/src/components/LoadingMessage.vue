@@ -1,7 +1,13 @@
 <template>
-  <div class="p-2 d-flex justify-content-center align-items-center">
-    <b-spinner class="mr-3" show/>
-    <h5 class="mb-0">{{ message }}</h5>
+  <div class="p-2 d-flex align-items-center">
+    <b-spinner
+      type="grow"
+      small
+      class="mr-3"
+    />
+    <h5 class="mb-0">
+      {{ message }}
+    </h5>
   </div>
 </template>
 

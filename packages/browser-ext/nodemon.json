@@ -1,0 +1,8 @@
+{
+    "watch": ["src/*", "public/*"],
+    "ext": "js,json,vue",
+    "exec": "vue-cli-service build",
+    "env": {
+        "VUE_APP_API_URL": "http://localhost:3000"
+    }
+}

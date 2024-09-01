@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Add to Sooner",
   "homepage_url": "https://sooner.app",
   "description": "A browser extension for quickly adding pages to your Sooner list",
@@ -8,7 +8,9 @@
     "activeTab",
     "contextMenus",
     "notifications",
-    "storage",
+    "storage"
+  ],
+  "host_permissions": [
     "https://sooner.app/*"
   ],
   "icons": {
@@ -18,12 +20,10 @@
     "128": "icons/128.png"
   },
   "background": {
-    "scripts": [
-      "js/background.js"
-    ],
-    "persistent": false
+    "service_worker": "js/background.js",
+    "type": "module"
   },
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html",
     "default_title": "Add to Sooner",
     "default_icon": {
@@ -31,5 +31,8 @@
       "24": "icons/24.png",
       "32": "icons/32.png"
     }
+  },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://sooner.app;"
   }
 }

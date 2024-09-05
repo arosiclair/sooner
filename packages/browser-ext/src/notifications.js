@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 
 const basicNotification = {
   type: 'basic',
-  iconUrl: 'icons/96.png',
+  iconUrl: '/icons/96.png',
   isClickable: true
 }
 

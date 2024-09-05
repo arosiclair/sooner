@@ -21,7 +21,7 @@ function onLogin () {
   browser.contextMenus.create({
     id: 'logout',
     title: 'Log out',
-    contexts: ['browser_action']
+    contexts: ['action']
   })
 }
 
@@ -34,7 +34,7 @@ function onLogout () {
 browser.contextMenus.create({
   id: 'go-to-sooner',
   title: 'Go to Sooner',
-  contexts: ['browser_action']
+  contexts: ['action']
 })
 
 // Menu handlers

@@ -51,7 +51,10 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
       }
       break
     case 'go-to-sooner':
-      window.open('https://sooner.app/list')
+      browser.tabs.create({
+        url: 'https://sooner.app/list',
+        active: true
+      })
       break
     case 'logout':
       try {
@@ -72,5 +75,8 @@ browser.runtime.onMessage.addListener(function (message, sender, response) {
 
 // open Sooner list when clicking notifications
 browser.notifications.onClicked.addListener(() => {
-  window.open('https://sooner.app/list')
+  browser.tabs.create({
+    url: 'https://sooner.app/list',
+    active: true
+  })
 })

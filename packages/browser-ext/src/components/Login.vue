@@ -47,7 +47,7 @@
 <script>
 import { login } from '../api'
 import LetterHead from '../components/LetterHead.vue'
-import { hasReadIntro } from '../has-read-intro'
+import { hasReadIntro } from '../libs/has-read-intro'
 import { RouteNames } from '../popup/router'
 import browser from 'webextension-polyfill'
 
@@ -148,4 +148,4 @@ button:focus {
 button:hover {
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
 }
-</style>
+</style>../libs/has-read-intro

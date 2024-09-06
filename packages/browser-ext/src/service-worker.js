@@ -1,5 +1,6 @@
 import { addLink, checkLogin, logout } from './api'
-import { showPageAddedNotification, showPageAddFailedNotification } from './notifications'
+import openSooner from './libs/open-sooner'
+import { showPageAddedNotification, showPageAddFailedNotification } from './libs/notifications'
 import browser from 'webextension-polyfill'
 
 // Try login on startup
@@ -51,10 +52,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
       }
       break
     case 'go-to-sooner':
-      browser.tabs.create({
-        url: 'https://sooner.app/list',
-        active: true
-      })
+      openSooner()
       break
     case 'logout':
       try {
@@ -74,9 +72,4 @@ browser.runtime.onMessage.addListener(function (message, sender, response) {
 })
 
 // open Sooner list when clicking notifications
-browser.notifications.onClicked.addListener(() => {
-  browser.tabs.create({
-    url: 'https://sooner.app/list',
-    active: true
-  })
-})
+browser.notifications.onClicked.addListener(() => openSooner())

@@ -29,7 +29,7 @@
 
 <script>
 import { RouteNames } from '../popup/router'
-import { setHasReadIntro } from '../has-read-intro'
+import { setHasReadIntro } from '../libs/has-read-intro'
 import SmallHeader from './SmallHeader.vue'
 export default {
   components: { SmallHeader },

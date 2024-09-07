@@ -11,7 +11,7 @@
         @click="openLink"
       >
         <!-- Icon -->
-        <div class="mr-2">
+        <div class="mt-2 mr-2">
           <LinkIcon
             class="mr-1"
             :favicons="data.favicons"
@@ -20,7 +20,7 @@
         </div>
 
         <!-- Text section -->
-        <div class="text-container">
+        <div class="text-container mr-2">
           <!-- Title -->
           <div class="title mb-2">
             {{ data.name }}
@@ -40,7 +40,7 @@
 
         <!-- Done button -->
         <div
-          class="text-center ml-2"
+          class="text-center"
           role="button"
           @click="remove"
         >

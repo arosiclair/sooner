@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     timeLeft () {
-      return formatDistance(new Date(), new Date(this.data.expiresOn))
+      return formatDistance(new Date(), new Date(this.data.expiresOn)) + ' left'
     },
     ttl () {
       return differenceInDays(new Date(this.data.expiresOn), new Date())

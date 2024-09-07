@@ -178,13 +178,14 @@ div {
 }
 .expiration-icon {
   color: inherit;
-  font-size: 21px;
+  font-size: 18px;
   margin-right: 5px;
   padding: 0px;
 
-  @media only screen and (min-device-pixel-ratio: 2),
-  only screen and (min-resolution: 192dpi) {
-    font-size: 18px;
+  /* Slightly larger font for low-dpi displays for less aliasing */
+  @media only screen and (-webkit-max-device-pixel-ratio: 2),
+  only screen and (max-resolution: 2dppx) {
+    font-size: 21px;
   }
 }
 .time-left-text {

@@ -181,6 +181,10 @@ div {
   font-size: 21px;
   margin-right: 5px;
   padding: 0px;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 20px;
+  }
 }
 .time-left-text {
   position: relative;

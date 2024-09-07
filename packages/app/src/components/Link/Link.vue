@@ -150,6 +150,7 @@ div {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  font-weight: 500;
   overflow: hidden;
 }
 

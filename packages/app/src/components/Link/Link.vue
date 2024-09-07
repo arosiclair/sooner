@@ -5,33 +5,42 @@
       :class="backgroundClasses"
     >
       <div
-        class="link-content py-3"
+        class="link-content p-3"
         :class="linkClasses"
         role="button"
         @click="openLink"
       >
-        <!-- Favicon section -->
-        <LinkIcon
-          class="mx-3 mt-2 link-icon"
-          :favicons="data.favicons"
-          :tutorial="data.isTutorial"
-        />
+        <!-- Icon -->
+        <div class="mt-2 mr-2">
+          <LinkIcon
+            class="mr-1"
+            :favicons="data.favicons"
+            :tutorial="data.isTutorial"
+          />
+        </div>
+
         <!-- Text section -->
-        <div class="text-container">
+        <div class="text-container mr-2">
+          <!-- Title -->
           <div class="title mb-1">
             {{ data.name }}
           </div>
-          <div class="meta-container text-sm">
+
+          <!-- Site name -->
+          <div class="text-sm mb-1">
             <span class="site-name">{{ data.siteName }}</span>
-            <div class="time-left-container">
-              <i class="material-icons expiration-icon">schedule</i>
-              <span class="time-left-text">{{ timeLeft }}</span>
-            </div>
+          </div>
+
+          <!-- Time left -->
+          <div class="time-left-container text-sm">
+            <i class="material-icons expiration-icon">schedule</i>
+            <span class="time-left-text">{{ timeLeft }}</span>
           </div>
         </div>
-        <!-- Done section -->
+
+        <!-- Done button -->
         <div
-          class="text-center mx-3"
+          class="text-center"
           role="button"
           @click="remove"
         >
@@ -73,7 +82,7 @@ export default {
   },
   computed: {
     timeLeft () {
-      return formatDistance(new Date(), new Date(this.data.expiresOn))
+      return formatDistance(new Date(), new Date(this.data.expiresOn)) + ' left'
     },
     ttl () {
       return differenceInDays(new Date(this.data.expiresOn), new Date())
@@ -132,10 +141,6 @@ div {
     display: flex;
 }
 
-.link-icon {
-  align-self: flex-start;
-}
-
 .text-container {
   flex: 1;
   width: 100%;
@@ -145,6 +150,7 @@ div {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  font-weight: 500;
   overflow: hidden;
 }
 
@@ -163,7 +169,6 @@ div {
 .site-name {
   white-space: nowrap;
   text-overflow: ellipsis;
-  display: block;
   overflow: hidden
 }
 .time-left-container {
@@ -176,6 +181,10 @@ div {
   font-size: 21px;
   margin-right: 5px;
   padding: 0px;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 20px;
+  }
 }
 .time-left-text {
   position: relative;

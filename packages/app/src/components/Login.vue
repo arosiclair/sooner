@@ -19,7 +19,7 @@
           </ScaleHeightInOut>
           <input
             v-model="email"
-            type="text"
+            type="email"
             placeholder="Email"
             class="lg"
             :class="{ error: error && !validEmail }"

@@ -58,7 +58,6 @@ html, body {
 body {
   background-color: #f5f5f5;
   color: #212121;
-  font-family: 'Poppins', sans-serif;
 
   @media (prefers-color-scheme: dark) {
     background: #212121;

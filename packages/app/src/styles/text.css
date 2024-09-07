@@ -1,11 +1,15 @@
 .text-sm {
-    font-size: 0.8rem;
+    font-size: 12px;
+}
+
+body {
+    font-size: 16px;
 }
 
 .text-lg {
-    font-size: 1.2rem;
+    font-size: 20px;
 }
 
 .text-xl {
-    font-size: 1.5rem;
+    font-size: 24px;
 }

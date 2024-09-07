@@ -1,5 +1,5 @@
 <template>
-  <div
+  <span
     v-if="tutorial"
     :style="style"
     class="tutorial-icon-container"
@@ -7,7 +7,7 @@
     <link-tutorial-icon
       :favicons="favicons"
     />
-  </div>
+  </span>
 
   <img
     v-else

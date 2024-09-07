@@ -182,8 +182,9 @@ div {
   margin-right: 5px;
   padding: 0px;
 
-  @media only screen and (max-width: 768px) {
-    font-size: 20px;
+  @media only screen and (min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 192dpi) {
+    font-size: 18px;
   }
 }
 .time-left-text {

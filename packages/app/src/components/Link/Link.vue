@@ -20,7 +20,7 @@
           <!-- Site name -->
           <div class="text-sm mb-2">
             <LinkIcon
-              class="mr-1 link-icon"
+              class="mr-1"
               :favicons="data.favicons"
               :tutorial="data.isTutorial"
             />
@@ -135,10 +135,7 @@ div {
 .link-content {
     cursor: pointer;
     display: flex;
-}
-
-.link-icon {
-  align-self: flex-start;
+    align-items: center;
 }
 
 .text-container {

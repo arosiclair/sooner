@@ -5,13 +5,22 @@
       :class="backgroundClasses"
     >
       <div
-        class="link-content py-3"
+        class="link-content p-3"
         :class="linkClasses"
         role="button"
         @click="openLink"
       >
+        <!-- Icon -->
+        <div class="mr-2">
+          <LinkIcon
+            class="mr-1"
+            :favicons="data.favicons"
+            :tutorial="data.isTutorial"
+          />
+        </div>
+
         <!-- Text section -->
-        <div class="text-container pl-3">
+        <div class="text-container">
           <!-- Title -->
           <div class="title mb-2">
             {{ data.name }}
@@ -19,11 +28,6 @@
 
           <!-- Site name -->
           <div class="text-sm mb-2">
-            <LinkIcon
-              class="mr-1"
-              :favicons="data.favicons"
-              :tutorial="data.isTutorial"
-            />
             <span class="site-name">{{ data.siteName }}</span>
           </div>
 
@@ -36,7 +40,7 @@
 
         <!-- Done button -->
         <div
-          class="text-center mx-3"
+          class="text-center ml-2"
           role="button"
           @click="remove"
         >
@@ -135,7 +139,6 @@ div {
 .link-content {
     cursor: pointer;
     display: flex;
-    align-items: center;
 }
 
 .text-container {

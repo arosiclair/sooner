@@ -36,7 +36,7 @@ export default {
   },
   data () {
     return {
-      size: 20,
+      size: 32,
       sizeMultipliers: [1, 2, 3]
     }
   },

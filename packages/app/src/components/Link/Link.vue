@@ -183,8 +183,8 @@ div {
   padding: 0px;
 
   /* Slightly larger font for low-dpi displays for less aliasing */
-  @media only screen and (-webkit-max-device-pixel-ratio: 2),
-  only screen and (max-resolution: 2dppx) {
+  @media only screen and (-webkit-max-device-pixel-ratio: 1.5),
+  only screen and (max-resolution: 1.5dppx) {
     font-size: 21px;
   }
 }

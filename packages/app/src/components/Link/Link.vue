@@ -10,26 +10,31 @@
         role="button"
         @click="openLink"
       >
-        <!-- Favicon section -->
-        <LinkIcon
-          class="mx-3 mt-2 link-icon"
-          :favicons="data.favicons"
-          :tutorial="data.isTutorial"
-        />
         <!-- Text section -->
-        <div class="text-container">
-          <div class="title mb-1">
+        <div class="text-container pl-3">
+          <!-- Title -->
+          <div class="title mb-2">
             {{ data.name }}
           </div>
-          <div class="meta-container text-sm">
+
+          <!-- Site name -->
+          <div class="text-sm mb-2">
+            <LinkIcon
+              class="mr-1 link-icon"
+              :favicons="data.favicons"
+              :tutorial="data.isTutorial"
+            />
             <span class="site-name">{{ data.siteName }}</span>
-            <div class="time-left-container">
-              <i class="material-icons expiration-icon">schedule</i>
-              <span class="time-left-text">{{ timeLeft }}</span>
-            </div>
+          </div>
+
+          <!-- Time left -->
+          <div class="time-left-container text-sm">
+            <i class="material-icons expiration-icon">schedule</i>
+            <span class="time-left-text">{{ timeLeft }}</span>
           </div>
         </div>
-        <!-- Done section -->
+
+        <!-- Done button -->
         <div
           class="text-center mx-3"
           role="button"
@@ -163,7 +168,6 @@ div {
 .site-name {
   white-space: nowrap;
   text-overflow: ellipsis;
-  display: block;
   overflow: hidden
 }
 .time-left-container {

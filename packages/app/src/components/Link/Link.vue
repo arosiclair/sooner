@@ -22,12 +22,12 @@
         <!-- Text section -->
         <div class="text-container mr-2">
           <!-- Title -->
-          <div class="title mb-2">
+          <div class="title mb-1">
             {{ data.name }}
           </div>
 
           <!-- Site name -->
-          <div class="text-sm mb-2">
+          <div class="text-sm mb-1">
             <span class="site-name">{{ data.siteName }}</span>
           </div>
 

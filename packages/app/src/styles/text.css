@@ -14,3 +14,11 @@ body {
 .text-xl {
     font-size: 24px;
 }
+
+/* Slightly larger font for low-dpi displays for less aliasing */
+@media only screen and (-webkit-max-device-pixel-ratio: 2),
+only screen and (max-resolution: 2dppx) {
+    .text-sm {
+        font-size: 13px;
+    }
+}

@@ -121,11 +121,14 @@ export default {
         try {
           var result = await api.get('/list/')
         } catch (error) {
-          if (error.response.status === 401) {
+          console.error(error)
+
+          if (error.response && error.response.status === 401) {
             this.goToLogin()
           } else {
             this.$toast.error('There was an issue getting your links')
           }
+
           done()
           return
         }

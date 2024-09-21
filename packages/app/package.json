@@ -22,7 +22,8 @@
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-toastification": "^1.7.8",
-    "vuex": "^3.5.1"
+    "vuex": "^3.5.1",
+    "workbox-webpack-plugin": "^6.5.4"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.7.0",
@@ -45,7 +46,6 @@
     "sass": "^1.38.1",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-bootstrap-vue": "~0.6.0",
-    "vue-template-compiler": "^2.6.11",
-    "workbox-webpack-plugin": "^6.5.4"
+    "vue-template-compiler": "^2.6.11"
   }
 }

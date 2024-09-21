@@ -120,13 +120,11 @@ export default {
       return lock.acquire('refresh', async (done) => {
         try {
           const result = await api.get('/list/')
-
           this.links = result.data.list || []
           this.empty = !this.links.length
           this.showExpiredItemsNotification(result.data.numExpired)
         } catch (error) {
           console.error(error)
-
           if (error.response && error.response.status === 401) {
             this.goToLogin()
           } else {

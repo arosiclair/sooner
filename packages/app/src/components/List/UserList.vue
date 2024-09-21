@@ -119,7 +119,11 @@ export default {
     refresh () {
       return lock.acquire('refresh', async (done) => {
         try {
-          var result = await api.get('/list/')
+          const result = await api.get('/list/')
+
+          this.links = result.data.list || []
+          this.empty = !this.links.length
+          this.expiredPrompt(result.data.numExpired)
         } catch (error) {
           console.error(error)
 
@@ -128,17 +132,9 @@ export default {
           } else {
             this.$toast.error('There was an issue getting your links')
           }
-
+        } finally {
           done()
-          return
         }
-
-        this.links = result.data.list || []
-        this.empty = !this.links.length
-
-        this.expiredPrompt(result.data.numExpired)
-
-        done()
       })
     },
 

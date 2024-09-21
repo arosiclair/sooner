@@ -104,7 +104,7 @@ export default {
   },
   async mounted () {
     await this.refresh()
-    this.sharePrompt()
+    this.showSharedItemNotification()
 
     // leave list transitions disabled for the initial render than enable afterwards
     setTimeout(() => { this.transitionsReady = true }, 1000)
@@ -123,7 +123,7 @@ export default {
 
           this.links = result.data.list || []
           this.empty = !this.links.length
-          this.expiredPrompt(result.data.numExpired)
+          this.showExpiredItemsNotification(result.data.numExpired)
         } catch (error) {
           console.error(error)
 
@@ -198,14 +198,14 @@ export default {
       })
     },
 
-    expiredPrompt (numExpired) {
+    showExpiredItemsNotification (numExpired) {
       if (numExpired) {
         const links = numExpired > 1 ? 'links' : 'link'
         this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
       }
     },
 
-    sharePrompt () {
+    showSharedItemNotification () {
       if (this.$route.query.share) {
         if (this.$route.query.success) {
           this.$toast.info('Shared link successfully added!')

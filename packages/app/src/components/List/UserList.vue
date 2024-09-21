@@ -199,22 +199,27 @@ export default {
     },
 
     showExpiredItemsNotification (numExpired) {
-      if (numExpired) {
-        const links = numExpired > 1 ? 'links' : 'link'
-        this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
+      if (!numExpired) {
+        return
       }
+
+      const links = numExpired > 1 ? 'links' : 'link'
+      this.$toast.info(`${numExpired} ${links} expired since you last visited`, { timeout: false })
     },
 
     showSharedItemNotification () {
-      if (this.$route.query.share) {
-        if (this.$route.query.success) {
-          this.$toast.info('Shared link successfully added!')
-        } else {
-          this.$toast.error("Sorry, we couldn't add the link you tried to share", { timeout: false })
-        }
-
-        this.$router.push({ query: {} })
+      if (!this.$route.query.share) {
+        return
       }
+
+      if (this.$route.query.success) {
+        this.$toast.info('Shared link successfully added!')
+      } else {
+        this.$toast.error("Sorry, we couldn't add the link you tried to share", { timeout: false })
+      }
+
+      // Clear the route query to prevent showing the notification again
+      this.$router.push({ query: {} })
     },
 
     goToLogin () {

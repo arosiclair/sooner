@@ -34,16 +34,4 @@ export default {
 span {
   font-size: 1.2em;
 }
-
-.icon-enter-active, .icon-leave-active {
-  transition: opacity 500ms;
-}
-.icon-enter {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-
-.icon-leave-to {
-  opacity: 0;
-}
 </style>

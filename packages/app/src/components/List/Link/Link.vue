@@ -130,13 +130,7 @@ export default {
 div {
     text-align: start;
 }
-
-a {
-  color: initial;
-}
-
 a:hover {
-    color: initial;
     text-decoration: none;
 }
 
@@ -197,27 +191,29 @@ a:hover {
   top: 1px;
 }
 
+a {
+  color: #212121;
+
+  .material-icons {
+    color: #212121;
+  }
+}
+
 .expiration-warn {
   background-color: #ffd54f;
-  color: #212121;
-}
-.expiration-warn .material-icons {
-  color: #212121;
-}
-.expiration-warn .material-icons.actionable:hover {
-  color: #ffffff;
-  background-color: #2121210f;
+
+  .material-icons.actionable:hover {
+    color: #ffffff;
+    background-color: #2121210f;
+  }
 }
 
 .expiration-alert {
   background-color: #ef5350;
-  color: #212121;
-}
-.expiration-alert .material-icons {
-  color: #212121;
-}
-.expiration-alert .material-icons.actionable:hover {
-  color: #ffffff;
-  background-color: #2121211a;
+
+  .material-icons.actionable:hover {
+    color: #ffffff;
+    background-color: #2121211a;
+  }
 }
 </style>

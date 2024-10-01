@@ -120,7 +120,9 @@ export default {
       }
 
       this.$emit('removed', this.data._id)
+
       event.stopPropagation()
+      event.preventDefault()
     }
   }
 }

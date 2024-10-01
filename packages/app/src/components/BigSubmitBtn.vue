@@ -5,7 +5,14 @@
     :disabled="loading"
     @click="onSubmit"
   >
-    <b-spinner v-if="loading" />
+    <span v-if="loading">
+      <b-spinner
+        type="grow"
+        small
+        class="mr-2"
+      />
+      {{ loadingText }}
+    </span>
     <span v-else>
       {{ label }}
     </span>
@@ -23,7 +30,11 @@ export default {
       type: String,
       default: ''
     },
-    loading: Boolean
+    loading: Boolean,
+    loadingText: {
+      type: String,
+      default: 'Loading...'
+    }
   }
 }
 </script>

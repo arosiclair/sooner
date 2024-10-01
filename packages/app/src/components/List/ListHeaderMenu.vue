@@ -98,7 +98,7 @@ export default {
 #dd-container {
   position: absolute;
   right: 0;
-  transition: opacity 200ms ease-in-out, top 200ms ease-in-out;
+  transition: opacity 150ms ease-in-out, top 150ms ease-in-out;
   z-index: 1;
 }
 

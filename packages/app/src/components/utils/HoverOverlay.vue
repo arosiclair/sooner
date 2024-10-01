@@ -45,10 +45,9 @@ export default {
   width: 100%;
   height: 100%;
 
-  opacity: 0%;
-  transition: opacity 200ms ease-in-out;
-
   background-color: rgba(0, 0, 0, 0.05);
+  opacity: 0%;
+
   pointer-events: none;
 
   @media (prefers-color-scheme: dark) {
@@ -61,8 +60,5 @@ export default {
   @media (prefers-color-scheme: dark) {
     background-color: rgba(0, 0, 0, 0.075);
   }
-}
-.overlay:hover {
-  opacity: 10%;
 }
 </style>

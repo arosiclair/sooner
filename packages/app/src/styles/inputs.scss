@@ -8,7 +8,7 @@ input {
     border-left: none;
     border-bottom: 1px solid #ffffff;
 
-    transition: 300ms ease;
+    transition: border 150ms ease-in-out;
 
     @media (prefers-color-scheme: dark) {
         background-color: #424242;
@@ -51,7 +51,7 @@ input.form {
     border-bottom: 1px solid #eeeeee;
     border-radius: 0;
 
-    transition: 300ms ease;
+    transition: border 150ms ease-in-out;
 
     @media (prefers-color-scheme: dark) {
         background-color: #424242;

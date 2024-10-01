@@ -4,11 +4,13 @@
       class="paper-bg"
       :class="backgroundClasses"
     >
-      <div
+      <a
         class="link-content p-3"
         :class="linkClasses"
         role="button"
-        @click="openLink"
+        :href="data.url"
+        target="_blank"
+        rel="noreferrer noopener"
       >
         <!-- Icon -->
         <div class="mt-2 mr-2">
@@ -46,7 +48,7 @@
         >
           <i class="material-icons actionable done-btn">done</i>
         </div>
-      </div>
+      </a>
     </div>
   </RippleHoverOverlay>
 </template>
@@ -57,7 +59,6 @@ import LinkIcon from './LinkIcon.vue'
 import RippleHoverOverlay from '../../utils/RippleHoverOverlay.vue'
 import doneMp3 from '../../../assets/sounds/done.mp3'
 import { mapGetters } from 'vuex'
-import { delay } from '../../../modules/utilities'
 import { Howl } from 'howler'
 
 const doneSound = new Howl({
@@ -113,12 +114,6 @@ export default {
     })
   },
   methods: {
-    openLink: async function () {
-      await delay(300)
-
-      const win = window.open(this.data.url, '_blank')
-      win.focus()
-    },
     remove: async function (event) {
       if (this.userPrefs.doneSound) {
         doneSound.play()
@@ -134,6 +129,15 @@ export default {
 <style lang="scss" scoped>
 div {
     text-align: start;
+}
+
+a {
+  color: initial;
+}
+
+a:hover {
+    color: initial;
+    text-decoration: none;
 }
 
 .link-content {

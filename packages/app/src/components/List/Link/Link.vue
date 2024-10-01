@@ -53,11 +53,11 @@
 
 <script>
 import { formatDistance, differenceInDays } from 'date-fns'
-import LinkIcon from './LinkIcon'
-import RippleHoverOverlay from '../utils/RippleHoverOverlay.vue'
-import doneMp3 from '@/assets/sounds/done.mp3'
+import LinkIcon from './LinkIcon.vue'
+import RippleHoverOverlay from '../../utils/RippleHoverOverlay.vue'
+import doneMp3 from '../../../assets/sounds/done.mp3'
 import { mapGetters } from 'vuex'
-import { delay } from '../../modules/utilities'
+import { delay } from '../../../modules/utilities'
 import { Howl } from 'howler'
 
 const doneSound = new Howl({

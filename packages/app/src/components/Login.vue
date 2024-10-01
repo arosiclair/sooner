@@ -49,6 +49,7 @@
           :label="submitLabel"
           :on-submit="submit"
           :loading="loading"
+          loading-text="Logging in..."
           class="mb-4"
         />
         <a

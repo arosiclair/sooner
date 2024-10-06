@@ -10,6 +10,10 @@
     color: #28b5f4;
     background-color: #0000000f;
     cursor: pointer;
+
+    @media (prefers-color-scheme: dark) {
+        background-color: #ffffff1a;
+    }
 }
 
 .paper-bg {
@@ -18,7 +22,7 @@
     @media (prefers-color-scheme: dark) {
         background-color: #424242;
         color: #fff;
-      }
+    }
 }
 
 .btn-lg {

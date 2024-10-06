@@ -198,6 +198,14 @@ a {
 
   .material-icons {
     color: #212121;
+
+    @media (prefers-color-scheme: dark) {
+      color: #fff;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
   }
 }
 
@@ -208,6 +216,12 @@ a {
     color: #ffffff;
     background-color: #2121210f;
   }
+
+  & > a, & .material-icons {
+    @media (prefers-color-scheme: dark) {
+      color: #212121;
+    }
+  }
 }
 
 .expiration-alert {
@@ -216,6 +230,12 @@ a {
   .material-icons.actionable:hover {
     color: #ffffff;
     background-color: #2121211a;
+  }
+
+  & > a, & .material-icons {
+    @media (prefers-color-scheme: dark) {
+      color: #212121;
+    }
   }
 }
 </style>

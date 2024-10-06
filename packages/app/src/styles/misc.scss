@@ -1,36 +1,40 @@
 .material-icons {
-    color: #c7c7c7;
-    font-size: 30px;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
+  color: #c7c7c7;
+  font-size: 30px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .material-icons.actionable:hover {
-    color: #28b5f4;
-    background-color: #0000000f;
-    cursor: pointer;
+  color: #28b5f4;
+  background-color: #0000000f;
+  cursor: pointer;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #ffffff1a;
+  }
 }
 
 .paper-bg {
-    background-color: #fff;
+  background-color: #fff;
 
-    @media (prefers-color-scheme: dark) {
-        background-color: #424242;
-        color: #fff;
-      }
+  @media (prefers-color-scheme: dark) {
+    background-color: #424242;
+    color: #fff;
+  }
 }
 
 .btn-lg {
-    width: 100%;
-    border: none;
+  width: 100%;
+  border: none;
 
-    transition: 150ms ease-in-out;
+  transition: 150ms ease-in-out;
 }
 .btn-lg:focus {
-    outline: none;
+  outline: none;
 }
 .btn-lg:hover {
   /* Bootstrap shadow class */
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }

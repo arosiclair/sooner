@@ -4,8 +4,8 @@
     "authors": "Andrew Rosiclair",
     "version": "1.0.0",
     "engines": {
-      "node": "~22.19.0",
-      "npm": "~10.9.3"
+      "node": "~22.14.0",
+      "npm": "~10.9.2"
     },
     "dependencies": {
         "bson": "^4.3.0",

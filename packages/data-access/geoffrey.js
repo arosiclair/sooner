@@ -15,7 +15,7 @@ let geoffrey
   for (let i = 0; i < numRetries; i++) {
     console.log('[geoffrey] attempting connection...')
     try {
-      client = await mongoClient.connect(process.env.MONGODB_URL, { useUnifiedTopology: true })
+      client = await mongoClient.connect(process.env.MONGODB_URL)
       break
     } catch (error) {
       console.warn('[geoffrey] failed to connect', error)

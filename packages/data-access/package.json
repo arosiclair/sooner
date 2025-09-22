@@ -8,8 +8,8 @@
       "npm": "~10.9.2"
     },
     "dependencies": {
-        "bson": "^4.3.0",
-        "mongodb": "^3.6.2",
+        "bson": "~6.10.4",
+        "mongodb": "~6.20.0",
         "password-hash": "^1.2.2",
         "uuid": "^8.3.2"
     }

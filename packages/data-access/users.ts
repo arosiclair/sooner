@@ -1,25 +1,26 @@
-const geoffrey = require('./geoffrey')
-const passwordHasher = require('password-hash')
-const flattenObject = require('./utils/flatten-object')
+import geoffrey from './geoffrey'
+import passwordHasher from 'password-hash'
+import flattenObject from './utils/flatten-object'
+import { toObjectId } from './utils/object-id'
 
-async function getUserById (userId) {
+function getUserById (userId: string) {
   if (!userId) return null
 
   try {
-    return geoffrey.getUsers().findOne({ _id: userId })
+    return geoffrey.getUsers().findOne({ _id: toObjectId(userId) })
   } catch (error) {
     console.error(error)
     return null
   }
 }
 
-async function getUserByEmail (email) {
+function getUserByEmail (email: string) {
   if (!email) return null
 
   return geoffrey.getUsers().findOne({ email: email.toLowerCase() })
 }
 
-async function getUserbyEmailAndPass (email, password) {
+async function getUserbyEmailAndPass (email: string, password: string) {
   if (!email || !password) return null
 
   const user = await getUserByEmail(email)
@@ -28,7 +29,7 @@ async function getUserbyEmailAndPass (email, password) {
   }
 }
 
-async function getUserPrefs (userId) {
+async function getUserPrefs (userId: string) {
   const user = await getUserById(userId)
   if (user) {
     return user.prefs
@@ -40,7 +41,7 @@ const defaultUserPrefs = {
   linkOrder: 'asc',
   doneSound: true
 }
-async function addUser (name, email, password, prefs = defaultUserPrefs) {
+async function addUser (name: string, email: string, password: string, prefs = defaultUserPrefs) {
   const newUser = {
     name,
     email: email.toLowerCase(),
@@ -57,20 +58,20 @@ async function addUser (name, email, password, prefs = defaultUserPrefs) {
   return result.insertedId
 }
 
-async function updateUser (userId, changes) {
+async function updateUser (userId: string, changes: Record<string, unknown>) {
   if (!changes) return false
 
   const updateObj = flattenObject(changes)
   try {
-    const result = await geoffrey.getUsers().findOneAndUpdate({ _id: userId }, { '$set': updateObj }, { returnOriginal: false })
-    return result.value
+    const result = await geoffrey.getUsers().findOneAndUpdate({ _id: toObjectId(userId) }, { '$set': updateObj }, { returnDocument: 'after' })
+    return result
   } catch (error) {
     console.error('updateUser() - ' + error)
     return null
   }
 }
 
-function updatePassword (userId, newPassword) {
+function updatePassword (userId: string, newPassword: string) {
   if (!userId || !newPassword) return false
 
   const hashedPass = passwordHasher.generate(newPassword, { algorithm: 'SHA256' })
